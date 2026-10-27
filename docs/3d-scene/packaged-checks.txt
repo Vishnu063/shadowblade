@@ -1,0 +1,15 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: 3D scene uses an isolated save slot
+PASS: Kael uses the 21-bone weighted skeleton
+PASS: Hero is grounded at the preview checkpoint
+PASS: Skinned hero can cast through the real gameplay API
+PASS: Cast clip changes deform-bone pose
+PASS: Pause freezes skinned animation
+PASS: Movement works with the new mesh
+PASS: Skinned hero physically jumps
+PASS: Sword hit reaches the rebuilt Warden
+PASS: 3D scene has no image background
+PASS: Leaving restores the campaign save path
+PASS: Preview never changes the campaign save bytes
+VERTICAL SLICE RESULTS: 12/12 passed

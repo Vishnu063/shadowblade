@@ -374,6 +374,7 @@ func show_title() -> void:
 	if has_save:
 		button("Continue journey", func(): start_game(false))
 	button("New journey", confirm_new if has_save else func(): start_game(true))
+	button("New 3D art preview",func(): get_tree().change_scene_to_file("res://scenes/willowbrook_3d.tscn"))
 	button("Settings", show_settings)
 	paragraph("Move A/D • Jump Space • Sword J • Magic K\nTouch: separate movement and action buttons\nOriginal fantasy adventure • Offline • No login")
 

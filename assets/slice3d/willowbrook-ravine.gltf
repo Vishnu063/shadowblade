@@ -1,0 +1,856 @@
+{
+  "asset": {
+    "generator": "Khronos glTF Blender I/O v4.2.57",
+    "version": "2.0"
+  },
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Willowbrook 3D ravine",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "mesh": 0,
+      "name": "Fractured cliff",
+      "scale": [
+        1,
+        0.8999999761581421,
+        1.7999999523162842
+      ],
+      "translation": [
+        0,
+        -0.8973407745361328,
+        0
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "Ravine layered stone",
+      "normalTexture": {
+        "index": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 1
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": 2
+        }
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "Forest bank moss",
+      "normalTexture": {
+        "index": 3
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 4
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": 5
+        }
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "Ancient oak bark",
+      "normalTexture": {
+        "index": 6
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 7
+        },
+        "metallicFactor": 0,
+        "metallicRoughnessTexture": {
+          "index": 8
+        }
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "Leaf 0",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.02500000037252903,
+          0.10000000149011612,
+          0.014000000432133675,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.75
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "Leaf 1",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.054999999701976776,
+          0.17000000178813934,
+          0.02500000037252903,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.75
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "Leaf 2",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.11999999731779099,
+          0.23999999463558197,
+          0.03700000047683716,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.75
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "WaterfallStream",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.23999999463558197,
+          0.47999998927116394,
+          0.5,
+          1
+        ],
+        "metallicFactor": 0.10000000149011612,
+        "roughnessFactor": 0.2800000011920929
+      }
+    },
+    {
+      "doubleSided": true,
+      "name": "Brass",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.47999998927116394,
+          0.30000001192092896,
+          0.09000000357627869,
+          1
+        ],
+        "metallicFactor": 0.6499999761581421,
+        "roughnessFactor": 0.4000000059604645
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Icosphere",
+      "primitives": [
+        {
+          "attributes": {
+            "POSITION": 0,
+            "NORMAL": 1,
+            "TEXCOORD_0": 2
+          },
+          "indices": 3,
+          "material": 0
+        },
+        {
+          "attributes": {
+            "POSITION": 4,
+            "NORMAL": 5,
+            "TEXCOORD_0": 6
+          },
+          "indices": 7,
+          "material": 1
+        },
+        {
+          "attributes": {
+            "POSITION": 8,
+            "NORMAL": 9,
+            "TEXCOORD_0": 10
+          },
+          "indices": 11,
+          "material": 2
+        },
+        {
+          "attributes": {
+            "POSITION": 12,
+            "NORMAL": 13,
+            "TEXCOORD_0": 14
+          },
+          "indices": 15,
+          "material": 3
+        },
+        {
+          "attributes": {
+            "POSITION": 16,
+            "NORMAL": 17,
+            "TEXCOORD_0": 18
+          },
+          "indices": 19,
+          "material": 4
+        },
+        {
+          "attributes": {
+            "POSITION": 20,
+            "NORMAL": 21,
+            "TEXCOORD_0": 22
+          },
+          "indices": 23,
+          "material": 5
+        },
+        {
+          "attributes": {
+            "POSITION": 24,
+            "NORMAL": 25,
+            "TEXCOORD_0": 26
+          },
+          "indices": 27,
+          "material": 6
+        },
+        {
+          "attributes": {
+            "POSITION": 28,
+            "NORMAL": 29,
+            "TEXCOORD_0": 30
+          },
+          "indices": 31,
+          "material": 7
+        }
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    },
+    {
+      "sampler": 0,
+      "source": 3
+    },
+    {
+      "sampler": 0,
+      "source": 4
+    },
+    {
+      "sampler": 0,
+      "source": 5
+    },
+    {
+      "sampler": 0,
+      "source": 6
+    },
+    {
+      "sampler": 0,
+      "source": 7
+    },
+    {
+      "sampler": 0,
+      "source": 8
+    }
+  ],
+  "images": [
+    {
+      "bufferView": 4,
+      "mimeType": "image/png",
+      "name": "Ravine layered stone normal"
+    },
+    {
+      "bufferView": 5,
+      "mimeType": "image/png",
+      "name": "Ravine layered stone albedo"
+    },
+    {
+      "bufferView": 6,
+      "mimeType": "image/png",
+      "name": "Ravine layered stone roughness"
+    },
+    {
+      "bufferView": 11,
+      "mimeType": "image/png",
+      "name": "Forest bank moss normal"
+    },
+    {
+      "bufferView": 12,
+      "mimeType": "image/png",
+      "name": "Forest bank moss albedo"
+    },
+    {
+      "bufferView": 13,
+      "mimeType": "image/png",
+      "name": "Forest bank moss roughness"
+    },
+    {
+      "bufferView": 18,
+      "mimeType": "image/png",
+      "name": "Ancient oak bark normal"
+    },
+    {
+      "bufferView": 19,
+      "mimeType": "image/png",
+      "name": "Ancient oak bark albedo"
+    },
+    {
+      "bufferView": 20,
+      "mimeType": "image/png",
+      "name": "Ancient oak bark roughness"
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 37651,
+      "max": [
+        27.845470428466797,
+        11.833450317382812,
+        1.0796780586242676
+      ],
+      "min": [
+        -10.391454696655273,
+        -1.945261836051941,
+        -13.535300254821777
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 37651,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 37651,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5123,
+      "count": 48522,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 7,
+      "componentType": 5126,
+      "count": 65289,
+      "max": [
+        18.156192779541016,
+        8.03132438659668,
+        1.0559107065200806
+      ],
+      "min": [
+        0,
+        0.7559366226196289,
+        -9.848806381225586
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 8,
+      "componentType": 5126,
+      "count": 65289,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 9,
+      "componentType": 5126,
+      "count": 65289,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 10,
+      "componentType": 5123,
+      "count": 68556,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 14,
+      "componentType": 5126,
+      "count": 3518,
+      "max": [
+        19.443252563476562,
+        6.432344913482666,
+        1.5730605125427246
+      ],
+      "min": [
+        -1.0301098823547363,
+        0.9558441042900085,
+        -3.224144697189331
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 15,
+      "componentType": 5126,
+      "count": 3518,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 16,
+      "componentType": 5126,
+      "count": 3518,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 17,
+      "componentType": 5123,
+      "count": 11016,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 21,
+      "componentType": 5126,
+      "count": 59620,
+      "max": [
+        20.273536682128906,
+        7.026247501373291,
+        2.0479319095611572
+      ],
+      "min": [
+        -1.1741191148757935,
+        1.1351739168167114,
+        -2.9542059898376465
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 22,
+      "componentType": 5126,
+      "count": 59620,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 23,
+      "componentType": 5126,
+      "count": 59620,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 24,
+      "componentType": 5123,
+      "count": 74568,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 25,
+      "componentType": 5126,
+      "count": 59438,
+      "max": [
+        18.23214340209961,
+        7.1569600105285645,
+        1.9120723009109497
+      ],
+      "min": [
+        -1.8719990253448486,
+        1.1351739168167114,
+        -3.52958345413208
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 26,
+      "componentType": 5126,
+      "count": 59438,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 27,
+      "componentType": 5126,
+      "count": 59438,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 28,
+      "componentType": 5123,
+      "count": 74568,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 29,
+      "componentType": 5126,
+      "count": 59096,
+      "max": [
+        19.956937789916992,
+        7.045240879058838,
+        1.6140739917755127
+      ],
+      "min": [
+        -0.6440584063529968,
+        1.1351739168167114,
+        -3.6976773738861084
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 30,
+      "componentType": 5126,
+      "count": 59096,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 31,
+      "componentType": 5126,
+      "count": 59096,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 32,
+      "componentType": 5123,
+      "count": 73944,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 33,
+      "componentType": 5126,
+      "count": 240,
+      "max": [
+        9.729969024658203,
+        9.10815715789795,
+        -7.114185333251953
+      ],
+      "min": [
+        8.530644416809082,
+        0.2192676067352295,
+        -7.305466651916504
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 34,
+      "componentType": 5126,
+      "count": 240,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 35,
+      "componentType": 5126,
+      "count": 240,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 36,
+      "componentType": 5123,
+      "count": 696,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 37,
+      "componentType": 5126,
+      "count": 13390,
+      "max": [
+        11.179889678955078,
+        1.2848231792449951,
+        0.8508982062339783
+      ],
+      "min": [
+        1.136101484298706,
+        1.2648231983184814,
+        -0.9335035085678101
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 38,
+      "componentType": 5126,
+      "count": 13390,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 39,
+      "componentType": 5126,
+      "count": 13390,
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 40,
+      "componentType": 5123,
+      "count": 56160,
+      "type": "SCALAR"
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 451812,
+      "byteOffset": 0,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 451812,
+      "byteOffset": 451812,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 301208,
+      "byteOffset": 903624,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 97044,
+      "byteOffset": 1204832,
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 294576,
+      "byteOffset": 1301876
+    },
+    {
+      "buffer": 0,
+      "byteLength": 300193,
+      "byteOffset": 1596452
+    },
+    {
+      "buffer": 0,
+      "byteLength": 299360,
+      "byteOffset": 1896648
+    },
+    {
+      "buffer": 0,
+      "byteLength": 783468,
+      "byteOffset": 2196008,
+      "target": 34962
+    },
+    {
+      "buffer": 1,
+      "byteLength": 783468,
+      "byteOffset": 0,
+      "target": 34962
+    },
+    {
+      "buffer": 1,
+      "byteLength": 522312,
+      "byteOffset": 783468,
+      "target": 34962
+    },
+    {
+      "buffer": 1,
+      "byteLength": 137112,
+      "byteOffset": 1305780,
+      "target": 34963
+    },
+    {
+      "buffer": 1,
+      "byteLength": 294460,
+      "byteOffset": 1442892
+    },
+    {
+      "buffer": 1,
+      "byteLength": 271435,
+      "byteOffset": 1737352
+    },
+    {
+      "buffer": 1,
+      "byteLength": 278955,
+      "byteOffset": 2008788
+    },
+    {
+      "buffer": 1,
+      "byteLength": 42216,
+      "byteOffset": 2287744,
+      "target": 34962
+    },
+    {
+      "buffer": 1,
+      "byteLength": 42216,
+      "byteOffset": 2329960,
+      "target": 34962
+    },
+    {
+      "buffer": 1,
+      "byteLength": 28144,
+      "byteOffset": 2372176,
+      "target": 34962
+    },
+    {
+      "buffer": 1,
+      "byteLength": 22032,
+      "byteOffset": 2400320,
+      "target": 34963
+    },
+    {
+      "buffer": 1,
+      "byteLength": 402685,
+      "byteOffset": 2422352
+    },
+    {
+      "buffer": 2,
+      "byteLength": 265421,
+      "byteOffset": 0
+    },
+    {
+      "buffer": 2,
+      "byteLength": 300472,
+      "byteOffset": 265424
+    },
+    {
+      "buffer": 2,
+      "byteLength": 715440,
+      "byteOffset": 565896,
+      "target": 34962
+    },
+    {
+      "buffer": 2,
+      "byteLength": 715440,
+      "byteOffset": 1281336,
+      "target": 34962
+    },
+    {
+      "buffer": 2,
+      "byteLength": 476960,
+      "byteOffset": 1996776,
+      "target": 34962
+    },
+    {
+      "buffer": 2,
+      "byteLength": 149136,
+      "byteOffset": 2473736,
+      "target": 34963
+    },
+    {
+      "buffer": 3,
+      "byteLength": 713256,
+      "byteOffset": 0,
+      "target": 34962
+    },
+    {
+      "buffer": 3,
+      "byteLength": 713256,
+      "byteOffset": 713256,
+      "target": 34962
+    },
+    {
+      "buffer": 3,
+      "byteLength": 475504,
+      "byteOffset": 1426512,
+      "target": 34962
+    },
+    {
+      "buffer": 3,
+      "byteLength": 149136,
+      "byteOffset": 1902016,
+      "target": 34963
+    },
+    {
+      "buffer": 3,
+      "byteLength": 709152,
+      "byteOffset": 2051152,
+      "target": 34962
+    },
+    {
+      "buffer": 4,
+      "byteLength": 709152,
+      "byteOffset": 0,
+      "target": 34962
+    },
+    {
+      "buffer": 4,
+      "byteLength": 472768,
+      "byteOffset": 709152,
+      "target": 34962
+    },
+    {
+      "buffer": 4,
+      "byteLength": 147888,
+      "byteOffset": 1181920,
+      "target": 34963
+    },
+    {
+      "buffer": 4,
+      "byteLength": 2880,
+      "byteOffset": 1329808,
+      "target": 34962
+    },
+    {
+      "buffer": 4,
+      "byteLength": 2880,
+      "byteOffset": 1332688,
+      "target": 34962
+    },
+    {
+      "buffer": 4,
+      "byteLength": 1920,
+      "byteOffset": 1335568,
+      "target": 34962
+    },
+    {
+      "buffer": 4,
+      "byteLength": 1392,
+      "byteOffset": 1337488,
+      "target": 34963
+    },
+    {
+      "buffer": 4,
+      "byteLength": 160680,
+      "byteOffset": 1338880,
+      "target": 34962
+    },
+    {
+      "buffer": 4,
+      "byteLength": 160680,
+      "byteOffset": 1499560,
+      "target": 34962
+    },
+    {
+      "buffer": 4,
+      "byteLength": 107120,
+      "byteOffset": 1660240,
+      "target": 34962
+    },
+    {
+      "buffer": 4,
+      "byteLength": 112320,
+      "byteOffset": 1767360,
+      "target": 34963
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987
+    }
+  ],
+  "buffers": [
+    {
+      "uri": "willowbrook-ravine-buffer-0.bin",
+      "byteLength": 2979476
+    },
+    {
+      "uri": "willowbrook-ravine-buffer-1.bin",
+      "byteLength": 2825037
+    },
+    {
+      "uri": "willowbrook-ravine-buffer-2.bin",
+      "byteLength": 2622872
+    },
+    {
+      "uri": "willowbrook-ravine-buffer-3.bin",
+      "byteLength": 2760304
+    },
+    {
+      "uri": "willowbrook-ravine-buffer-4.bin",
+      "byteLength": 1879680
+    }
+  ]
+}

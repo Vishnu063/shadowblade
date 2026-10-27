@@ -30,6 +30,8 @@ func _ready() -> void:
 	var model_path = "res://assets/models/" + {"melee": "thornling", "wisp": "veil_moth", "boss": "hollow_warden"}[kind] + ".tscn"
 	if kind == "boss" and world.region_index < 6:
 		model_path = "res://assets/forest/"+["hollow-warden-v2","cinder-sentinel","frostbound-keeper","gale-harrier","tempest-colossus","void-herald"][world.region_index]+".glb"
+	if kind == "boss" and world.has_meta("guardian_3d"):
+		model_path = "res://assets/slice3d/hollow-warden-sculpted.glb"
 	model = load("res://assets/forest/veil_moth.glb" if kind == "wisp" else model_path).instantiate()
 	add_child(model)
 	warning = Art.label(self, Vector3(0, 1.9 if kind == "boss" else 1.2, 0), "")
@@ -91,14 +93,18 @@ func _physics_process(delta: float) -> void:
 		timer = 0.5
 	anim_time += delta
 	model.scale = Vector3(facing, 1, 1) * (1.07 if phase == "warn" else 1.0)
+	if kind == "boss" and world.has_meta("guardian_3d"):
+		model.scale.x = absf(model.scale.x)
+		model.rotation.y = lerp_angle(model.rotation.y,facing*.4,delta*5)
 	model.rotation.z = sin(anim_time * 15) * 0.12 if hit_cooldown > 0 else 0.0
 	if kind == "wisp":
 		model.find_child("LeftWing").rotation.y = sin(anim_time * 10) * 0.5
 		model.find_child("RightWing").rotation.y = -sin(anim_time * 10) * 0.5
 	elif kind == "boss":
 		var lift = -0.7 if phase == "warn" else (0.6 if phase == "strike" else 0.0)
-		model.get_node("LeftArm").rotation.z = lift
-		model.get_node("RightArm").rotation.z = -lift
+		var blend = minf(1,delta*10) if world.has_meta("guardian_3d") else 1.0
+		model.get_node("LeftArm").rotation.z = lerp_angle(model.get_node("LeftArm").rotation.z,lift,blend)
+		model.get_node("RightArm").rotation.z = lerp_angle(model.get_node("RightArm").rotation.z,-lift,blend)
 	else:
 		for i in 4:
 			var side = -1 if i < 2 else 1

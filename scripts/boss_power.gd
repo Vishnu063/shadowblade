@@ -46,6 +46,8 @@ func _ready() -> void:
 		else:
 			var orb = Art.orb(visual,Vector3(sin(angle)*.6,.3+i*.18,0),.16,COLORS[power],1)
 			orb.scale = Vector3(.6,2.0,.6) if power == 1 else Vector3(1,1,1)
+	if world.has_meta("guardian_3d") and power == 0:
+		load("res://scripts/slice_effects.gd").roots(visual)
 	visual.visible = false
 func _physics_process(delta: float) -> void:
 	if not is_instance_valid(world) or not is_instance_valid(caster) or not caster.alive:

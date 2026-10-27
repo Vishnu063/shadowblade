@@ -1,6 +1,7 @@
 extends CharacterBody3D
 const Art = preload("res://scripts/shapes.gd")
 const HeroEcho = preload("res://scripts/hero_echo.gd")
+const SkinnedMotion = preload("res://scripts/skinned_motion.gd")
 const HeroMotion = preload("res://scripts/hero_motion.gd")
 const Campaign = preload("res://scripts/campaign.gd")
 @export var move_speed = 6.0
@@ -56,13 +57,13 @@ func _ready() -> void:
 	shape.height = 1.6
 	col.shape = shape
 	add_child(col)
-	body_art = preload("res://assets/forest/kael-v3.glb").instantiate()
+	body_art = (load("res://assets/slice3d/kael-guardian-skinned.glb") if world.has_meta("guardian_3d") else preload("res://assets/forest/kael-v3.glb")).instantiate()
 	add_child(body_art)
 	legs = [body_art.find_child("LeftLeg"), body_art.find_child("RightLeg")]
 	left_arm = body_art.find_child("LeftArm")
 	right_arm = body_art.find_child("SwordArm")
 	sword = body_art.find_child("Sword")
-	motion = HeroMotion.new(body_art)
+	motion = SkinnedMotion.new(body_art) if world.has_meta("guardian_3d") else HeroMotion.new(body_art)
 	shield_visual = MeshInstance3D.new()
 	var shield_mesh = SphereMesh.new()
 	shield_mesh.radius = .92

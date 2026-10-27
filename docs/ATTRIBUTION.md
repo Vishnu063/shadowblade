@@ -26,3 +26,7 @@ The Willowbrook stage also uses two transparent built-in imagegen assets, `asset
 ## Guardian and regional boss revision
 
 The built-in image generator created the guardian hero, movement/power reference sheets and six-villain/world board in `docs/art/`. Their role and prompts are documented in [guardian-art.md](guardian-art.md). They are concept references, excluded from the APK. `art/build_kael_v3.py` and `art/build_villains.py` author original Blender 4.2.0 geometry and material variation; the exported GLBs live in `assets/forest/`. No downloaded models or stock textures were introduced. Kael uses rigid hierarchical AnimationPlayer clips. Regional bosses now have their own meshes; legacy Lord Vaelor and NPC art remain. All new spell meshes and the Dawn Gate are authored in project code.
+
+## First fully 3D Willowbrook scene
+
+`art/build_guardian_slice.py` authors the 3D clearing, guardian clothing/armour, weighted skeleton, Warden, surface maps and exported assets under `assets/slice3d/`. Kael's head topology is adapted from MakeHuman's CC0 graphical base mesh; the cropped asset, source/hash and upstream license explanation are retained under `art/source/makehuman/`. This is an exception to older original-only asset notes: the new head foundation is third-party CC0 artwork. No MakeHuman application code is used. The environment glTF uses exact-buffer repackaging through `art/split_gltf_buffers.py`; the scene loads all five `.bin` files locally. No remote service is needed at runtime. [Scene scope and evidence](3d-scene/README.md).

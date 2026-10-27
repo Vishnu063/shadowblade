@@ -279,8 +279,8 @@ func _draw() -> void:
 			draw_colored_polygon(PackedVector2Array([center + Vector2(3, -28), center + Vector2(-11, -10), center + Vector2(-1, -10), center + Vector2(-4, 6), center + Vector2(12, -15), center + Vector2(3, -15)]), Color("76dbed") if world.player.magic >= world.player.spell_cost() else Color("73858a"))
 		var width = font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
 		text_at(center + Vector2(-width / 2, 24 if action in ["attack", "jump", "magic"] else 6), label, 15)
-	if world.player.position.x > 43 and not Progress.data.boss:
-		var boss = world.enemies[3]
+	if world.player.position.x > 43 and not Progress.data.boss and not world.enemies.is_empty():
+		var boss = world.enemies[-1]
 		text_at(Vector2(s.x / 2 - 105, y + 53), Campaign.BOSSES[world.region_index].to_upper(), 17, Color("e5c7a5"))
 		draw_rect(Rect2(s.x / 2 - 135, y + 65, 270, 6), Color("263a3b"))
 		draw_rect(Rect2(s.x / 2 - 135, y + 65, 270 * maxf(boss.health, 0) / boss.max_health, 6), Color("d3ae77"))

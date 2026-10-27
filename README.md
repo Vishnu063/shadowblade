@@ -4,6 +4,12 @@ An original offline Android action adventure, built with Godot 4.6.3 / GDScript.
 
 **Status:** complete playable campaign candidate. Graphics remain below the approved concept. Phone performance, physical multitouch and a full human playtest remain unverified. This is not a store-ready release.
 
+## New fully 3D Willowbrook art preview
+
+[Watch the new video](https://chatgpt.com/library?file_id=libfile_9095ed3efcf8819185064b9d884f782a&account_id=personal) · [Current images, source and play instructions](docs/3d-scene/README.md)
+
+Choose **New 3D art preview** on the title screen. This optional clearing has a weighted Kael, rebuilt Warden and 3D forest geometry with a perspective camera. It preserves the campaign save and resets its preview progress each run. It remains below the concept detail. The other regions retain their previous art; the existing Android APK predates this new scene. All 284 automated assertions pass; phone runtime performance is unverified.
+
 ## Guardian and six regional villains
 
 Kael now has guardian armor and runtime animation for movement, jumping, landing, three sword swings, six casts, hit recoil and a brief defeat echo. Six regional bosses have distinct original models and telegraphed signature powers. The final Dawn Gate opens after Lord Vaelor and can teleport back to restored Willowbrook.
