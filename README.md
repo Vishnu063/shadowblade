@@ -8,7 +8,7 @@ A Godot 4.6.3 / GDScript prototype of **Willowbrook**, the first region of an or
 
 | Approved concept (not gameplay) | Current engine gameplay capture |
 | --- | --- |
-| ![Concept](docs/art/willowbrook-concept.png) | ![Forest](docs/forest.png) |
+| ![Concept](docs/art/willowbrook-concept.png) | ![Forest](docs/screenshots/forest.png) |
 
 ## Play
 
@@ -55,13 +55,15 @@ The current screenshots include a further presentation-only pass: layered mounta
 
 This remains below the approved concept. Kael, legacy NPCs, animation, waterfall shaping, canopy richness, and material painting still need substantial art work. The existing Android APK predates this scenery pass; it has **not** been rebuilt or device-tested in this checkout.
 
-## Actual gameplay captures
+## Current gameplay captures
+
+Only the latest committed screenshots are displayed below. Obsolete comparison images were removed from this branch; the approved concept remains in `docs/art/`.
 
 These are engine-rendered screenshots of this prototype using Mesa llvmpipe on Linux. They are **not concept art** or images of the absent reference sample. The capture script stages positions in the real scene.
 
-![Willowbrook village, Kael and touch HUD](docs/willowbrook.png)
-![Forest route, Arcane Bolt and crystal puzzle](docs/forest.png)
-![Power selection with five locked abilities](docs/powers.png)
+![Willowbrook village, Kael and touch HUD](docs/screenshots/willowbrook.png)
+![Forest route, Arcane Bolt and crystal puzzle](docs/screenshots/forest.png)
+![Power selection with five locked abilities](docs/screenshots/powers.png)
 
 ## Validate
 

@@ -9,7 +9,7 @@ func settle(count: int = 15) -> void:
 
 func capture(file: String) -> void:
 	var image = get_viewport().get_texture().get_image()
-	var result = image.save_png("res://docs/" + file + ".png")
+	var result = image.save_png("res://docs/screenshots/" + file + ".png")
 	print("CAPTURE ", file, ": ", error_string(result))
 
 func _ready() -> void:

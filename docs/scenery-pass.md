@@ -15,11 +15,11 @@ This is an incremental presentation pass on top of `53a05ea`, not final art appr
 
 Before this pass:
 
-![Previous Blender forest](forest-blender-baseline.png)
+Earlier captures are available in Git history.
 
 Current engine capture:
 
-![Current forest](forest.png)
+![Current forest](screenshots/forest.png)
 
 The capture script stages the player's position in the real playable scene. It is not a human playtest. The half-heart loss visible in the forest capture comes from the live encounter during capture; no artificial health or HUD changes were introduced.
 
