@@ -67,21 +67,28 @@ func _ready() -> void:
 func build_environment() -> void:
 	var environment = WorldEnvironment.new()
 	var env = Environment.new()
-	env.background_mode = Environment.BG_COLOR
+	env.background_mode = Environment.BG_SKY
+	var sky = Sky.new()
+	var sky_material = ProceduralSkyMaterial.new()
+	sky_material.sky_top_color = Color("508dc3")
+	sky_material.sky_horizon_color = Color("bad0d6")
+	sky_material.ground_horizon_color = Color("839fa0")
+	sky.sky_material = sky_material
+	env.sky = sky
 	env.background_color = Color("88b7d6")
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	env.ambient_light_color = Color("adcec4")
-	env.ambient_light_energy = 0.42
+	env.ambient_light_energy = 0.24
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	env.fog_enabled = true
-	env.fog_light_color = Color("72958a")
-	env.fog_density = 0.008
+	env.fog_light_color = Color("90b1cd")
+	env.fog_density = 0.0025
 	environment.environment = env
 	add_child(environment)
 	sun = DirectionalLight3D.new()
-	sun.rotation_degrees = Vector3(-48, -32, 0)
+	sun.rotation_degrees = Vector3(-38, -35, 0)
 	sun.light_color = Color("fff1d0")
-	sun.light_energy = 1.0
+	sun.light_energy = 1.3
 	sun.shadow_enabled = true
 	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL
 	sun.directional_shadow_max_distance = 48

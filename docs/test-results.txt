@@ -38,8 +38,6 @@ PASS: Control size button updates layout scale
 PASS: Frame limit and quality buttons apply renderer settings
 PASS: Changed settings persist through disk reload
 GAMEPLAY RESULTS: 37/37 passed
-WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
-   at: cleanup (core/object/object.cpp:2663)
 Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
 
 PASS: Lyra gives the main quest and pauses for dialogue

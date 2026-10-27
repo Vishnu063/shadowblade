@@ -19,3 +19,7 @@ For a fresh SDK install, obtain the official tools and verify them, then run SDK
 Run `python tools/export_android.py` to import, configure the local editor's SDK/JDK paths, generate or reuse a private local test key outside Git, export, verify signatures and check alignment. It never prints passwords or stores them in tracked presets. Local test signing files are under `/workspace/tooling/signing/`; preserve them privately to update an installed test app with the same signature. Release signing/store publication is separate.
 
 ADB 37 insists on `/home/agent/.android` for its profile; creating/initializing that directory needed the sandbox's narrow approval. SDK manager's `ANDROID_USER_HOME` did not redirect ADB. A new task may need that same allowed local initialization for device queries. It is not needed to claim a connected device: this instance's list was empty. No emulator or KVM acceleration is available.
+
+## Blender forest source
+
+The representative forest revision was authored with Blender 4.3.2 (`/usr/bin/blender`). Rebuild its GLBs with `blender -b --python art/forest_blender.py`, then Godot editor import. `art/source/forest.blend` contains editable scene sources and embedded original material images. Its folder has `.gdignore` to avoid importing both authoring and exported files. Blender is optional to run the game because GLB outputs are committed. The older `art/build_models.gd` generates only the retained legacy assets, not the new forest models. No new network service or private asset credentials are required.

@@ -6,3 +6,9 @@
 - **Approved concept:** user-supplied, AI-generated `docs/art/willowbrook-concept.png`, introduced at remote commit `1381f09`; instructions at `docs/art/README.md`. Used as art direction only, excluded from the APK, clearly separate from gameplay screenshots. No independent license or ownership claim is made for the supplied reference.
 - **Godot 4.6.3:** MIT engine and bundled third-party components/default font. Retain the engine's [license and third-party notices](https://godotengine.org/license/) in distributions. No project-wide source-code distribution license has been selected by the owner.
 - **Gameplay images:** real Godot renderer output from `tests/capture.gd`, with staged positions in the playable scene. They are not concept images.
+
+## Representative forest revision
+
+`art/forest_blender.py` is the original asset source for this revision; `art/source/forest.blend` contains editable Blender scenes. Authored and exported with **Blender 4.3.2** into `assets/forest/*.glb`: Kael, rounded stone, branching oak/individual leaves, fern, worn arch, timber cottage, and winged enemy. Embedded material grain is generated mathematically by the script, not copied from the concept or a texture library. No external models, photographs, stock textures, or additional third-party asset licenses were introduced. Blender is GPL software; the original exported artwork is not made GPL merely by use of Blender. Project asset distribution licensing remains the owner's decision.
+
+Rebuild with `blender -b --python art/forest_blender.py`, then run Godot editor import. The native source folder has `.gdignore` so Godot does not also import the authoring file. `art/build_models.gd` remains the legacy generator; it does **not** replace the new GLB models. Legacy NPCs, boss and distant castle are still visibly different and are not represented as finished forest art. Water and mist are original engine effects; audio remains temporary.

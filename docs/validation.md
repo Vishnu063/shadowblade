@@ -32,3 +32,7 @@ Logs: `test-results.txt`, `rendered-test-results.txt`, `rendered-safety-results.
 ## Remaining validation
 
 Install and play on a named Android phone: physical multitouch, release/cancel, app switching, safe areas, pause/back behavior, full route/boss, save/restart and thermal/frame-time profiling at both quality settings. Crash/power-loss durability and actual process termination are not proven by scene-reload tests. Human combat/camera/animation tuning and visual approval against the richer concept remain pending. The other five regions have not been added.
+
+## Blender forest visual-review revision
+
+The same 86 gameplay assertions pass after swapping the forest assets and adding limb posing; terrain colliders, AI, combat timings, quest/save rules and controls are preserved. Current rendered logs are replaced with the revision's actual runs. Visual review is documented separately in `forest-revision.md` and `visual-review.html`; assertions are not proof of artistic quality. Current captures include an explicitly labeled close-up in addition to the gameplay camera. No full human interactive playtest or Android measurement was performed for this art revision. A fresh `adb devices -l` returned an empty device list.

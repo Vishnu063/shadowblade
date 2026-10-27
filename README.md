@@ -2,9 +2,13 @@
 
 A Godot 4.6.3 / GDScript prototype of **Willowbrook**, the first region of an original offline, landscape action adventure. Kael moves along a fixed side-scrolling plane inside a real 3D scene.
 
-Willowbrook now uses original reusable low-poly 3D models, a blue scarf and luminous sword for Kael, procedural animation, mossy ledges, timber cottages, ruins, layered trees, flowing water and a distant castle. The approved [concept](docs/art/README.md) guides composition and controls; it is not used as a game background. This is a lower-detail interpretation, not a claim of visual parity or final art approval.
+**Visual approval is pending.** This milestone replaces the representative forest's primitive art with Blender-authored assets. It preserves existing gameplay and focuses on one forest section, not expansion of villages. It does **not** establish parity with the approved concept.
 
-**Android test APK:** `build/Shadowblade-Willowbrook-debug.apk` (about 55 MiB), generated and signature/alignment verified. It has **not been installed or run on Android**. [Installation, checksum and export instructions](docs/android.md).
+[Side-by-side visual review](docs/visual-review.html) · [Changes and remaining gaps](docs/forest-revision.md) · [Blender asset credits](docs/ATTRIBUTION.md)
+
+| Approved concept (not gameplay) | Current engine gameplay capture |
+| --- | --- |
+| ![Concept](docs/art/willowbrook-concept.png) | ![Forest](docs/forest.png) |
 
 ## Play
 
@@ -78,10 +82,12 @@ The original **56 checks** were 37 regressions, 15 scripted journey assertions, 
 
 - Actual Android installation, hardware multitouch, app background/resume, cutouts, memory/thermal behavior and performance remain **unverified**. No device or emulator is available. No 60 FPS claim is made.
 - Agent-driven OS mouse/keyboard interaction in the normal Linux application exercised menus and the power wheel. A complete hands-on route/boss playtest remains pending; the complete journey evidence is automated.
-- The original model set and procedural animations are the first art pass. NPCs share the humanoid rig; bespoke NPC designs, refined animation and denser foliage/detail remain visual work. Synthesized cues are temporary; music/voice are absent.
+- The forest now uses Blender models with modeled clothing/face, individual leaves, embedded material variation and additional procedural poses. NPCs and the distant castle remain legacy art; bespoke animation, richer materials/foliage and final visual approval remain pending. Synthesized cues are temporary; music/voice are absent.
 - Reset the crystal by interacting near it after solving, before activating the far-side checkpoint. The game refuses resets that could close a gate around the player or remove a completed quest. Magic regenerates on the stable ledge.
 - Only Willowbrook and Arcane Bolt are playable. The other five regions, powers and final fortress remain pending until Willowbrook has device and visual approval.
 
 [Asset sources and credits](docs/ATTRIBUTION.md) · [Environment prerequisites](docs/environment.md) · [Design brief](docs/design-brief.md)
 
 History preserves prototype `6031a4c` and the separate reference history through `1381f09`. They are joined with a normal merge, without rewriting either history. The prepared changes are delivered to `main`; the delivery commit is reported in the task result.
+
+The current forest review APK is available locally at `build/Shadowblade-Willowbrook-debug.apk`; see [APK verification and installation](docs/android.md). It is not checked into Git and has not been run on Android.

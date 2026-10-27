@@ -29,6 +29,7 @@ var safe_position = Vector3(2, 1, 0)
 var body_art: Node3D
 var legs: Array[Node3D] = []
 var stride = 0.0
+var pose_clock = 0.0
 var sword: Node3D
 var left_arm: Node3D
 var right_arm: Node3D
@@ -45,12 +46,12 @@ func _ready() -> void:
 	shape.height = 1.6
 	col.shape = shape
 	add_child(col)
-	body_art = preload("res://assets/models/kael.tscn").instantiate()
+	body_art = preload("res://assets/forest/kael.glb").instantiate()
 	add_child(body_art)
-	legs = [body_art.get_node("LeftLeg"), body_art.get_node("RightLeg")]
-	left_arm = body_art.get_node("LeftArm")
-	right_arm = body_art.get_node("SwordArm")
-	sword = body_art.get_node("Sword")
+	legs = [body_art.find_child("LeftLeg"), body_art.find_child("RightLeg")]
+	left_arm = body_art.find_child("LeftArm")
+	right_arm = body_art.find_child("SwordArm")
+	sword = body_art.find_child("Sword")
 
 func request_jump() -> void:
 	jump_buffer = jump_buffer_time
@@ -90,13 +91,18 @@ func _physics_process(delta: float) -> void:
 		landing_bounce = 0.12
 	landing_bounce = maxf(0, landing_bounce - delta)
 	last_grounded = is_on_floor()
-	body_art.position.y = -sin(landing_bounce / 0.12 * PI) * 0.08
+	pose_clock += delta
+	body_art.position.y = sin(pose_clock * 2.2) * 0.007 - sin(landing_bounce / 0.12 * PI) * 0.08
 	stride += delta * absf(velocity.x) * 2.5
 	for i in legs.size():
 		legs[i].rotation.z = sin(stride + i * PI) * minf(absf(velocity.x) * 0.08, 0.5) if is_on_floor() else (0.35 if i == 0 else -0.35)
+	for i in legs.size():
+		var knee = legs[i].find_child("Knee")
+		if knee != null:
+			knee.rotation.z = maxf(0, sin(stride + i * PI + 0.8)) * minf(absf(velocity.x) * 0.10, 0.65) if is_on_floor() else 0.45
 	left_arm.rotation.z = -sin(stride) * minf(absf(velocity.x) * 0.07, 0.45)
 	right_arm.rotation.z = sword.rotation.z * 0.45 if attack_time > 0 else sin(stride) * 0.1
-	body_art.get_node("Scarf").rotation.z = sin(stride * 0.4) * 0.12
+	body_art.find_child("Scarf").rotation.z = sin(stride * 0.4) * 0.12
 	body_art.rotation.z = -velocity.x * 0.008
 	body_art.scale.x = facing
 	body_art.visible = invulnerable == 0 or fmod(invulnerable, 0.12) > 0.04

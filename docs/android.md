@@ -1,8 +1,8 @@
 # Android test APK
 
-Built file: `build/Shadowblade-Willowbrook-debug.apk` (57,226,274 bytes, about 55 MiB). SHA-256: `1a35d51aec44165b6318bcf7c0063949286781a8d001c4269fe43d1eec43809c`.
+Built file: `build/Shadowblade-Willowbrook-debug.apk` (58,872,283 bytes). SHA-256: `f5f797fda5cf6a246d3e950736c42b98606676b2794e55e1b8ffe37fa31e9640`.
 
-Built with Godot 4.6.3, OpenJDK 21.0.12.1 and Android build-tools 36.0.0. Signature schemes v2/v3 verify; zip alignment passes including 16 KiB native-library alignment. Manifest: `com.shadowblade.lastguardian`, version `0.2.0-willowbrook` / code 2, minimum API 24 (Android 7.0), target API 36 (Android 16), arm64-v8a and x86_64. Compatibility/OpenGL ES is configured; its actual Android renderer has not been observed. No permissions are requested. Concept, docs, test scenes and signing files are excluded.
+Built with Godot 4.6.3, OpenJDK 21.0.12.1 and Android build-tools 36.0.0. Signature schemes v2/v3 verify; zip alignment passes including 16 KiB native-library alignment. Manifest: `com.shadowblade.lastguardian`, version `0.3.0-forest-review` / code 3, minimum API 24 (Android 7.0), target API 36 (Android 16), arm64-v8a and x86_64. Compatibility/OpenGL ES is configured; its actual Android renderer has not been observed. No permissions are requested. Concept, docs, test scenes and signing files are excluded.
 
 **Not installed or run on Android.** ADB 37.0.1 reported no attached device. No emulator is installed. Device name, Android version, actual renderer and measured performance are unavailable. APK verification does not establish runtime compatibility.
 

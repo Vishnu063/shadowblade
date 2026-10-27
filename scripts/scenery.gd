@@ -4,10 +4,57 @@ const Art = preload("res://scripts/shapes.gd")
 static var stone_material: StandardMaterial3D
 
 static func model(parent: Node3D, id: String, pos: Vector3, scale_value: Vector3 = Vector3.ONE) -> Node3D:
-	var visual: Node3D = load("res://assets/models/" + id + ".tscn").instantiate()
+	var replacements = {"fern": "fern", "alder": "oak", "cottage": "cottage", "ruin_arch": "ruin"}
+	var path = "res://assets/forest/" + replacements[id] + ".glb" if replacements.has(id) else "res://assets/models/" + id + ".tscn"
+	var visual: Node3D = load(path).instantiate()
 	parent.add_child(visual)
 	visual.position = pos
 	visual.scale = scale_value
+	if id == "alder":
+		for geometry in visual.find_children("*", "MeshInstance3D", true, false):
+			geometry.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	if id == "waterfall":
+		for child in visual.get_children():
+			if child is MeshInstance3D and child.name not in ["Flow", "Pool"]:
+				child.visible = false
+		visual.get_node("Pool").material_override = visual.get_node("Pool").material_override.duplicate()
+		visual.get_node("Pool").material_override.set_shader_parameter("horizontal", true)
+		for side in [-1, 1]:
+			for i in 7:
+				var rock = load("res://assets/forest/stone.glb").instantiate()
+				visual.add_child(rock)
+				rock.position = Vector3(side * (2.8 + sin(i * 3.2 + side) * .16), i * .72, -.35)
+				rock.scale = Vector3(3.4 + sin(i * 2.3) * .2, 3.0, 2.3)
+				rock.rotation = Vector3(.12 * sin(i), i * 1.17, sin(i * 1.9 + side) * .22)
+		var particles = CPUParticles3D.new()
+		particles.amount = 16
+		particles.lifetime = 2.2
+		particles.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
+		particles.emission_box_extents = Vector3(.9,.1,.1)
+		particles.direction = Vector3.UP
+		particles.spread = 35
+		particles.gravity = Vector3(0,.06,0)
+		particles.initial_velocity_min = .25
+		particles.initial_velocity_max = .55
+		particles.scale_amount_min = .65
+		particles.scale_amount_max = 1.4
+		var quad = QuadMesh.new()
+		quad.size = Vector2(1,1)
+		var texture = GradientTexture2D.new()
+		texture.fill = GradientTexture2D.FILL_RADIAL
+		texture.fill_from = Vector2(.5,.5)
+		texture.fill_to = Vector2(1,.5)
+		texture.gradient = Gradient.new()
+		texture.gradient.colors = PackedColorArray([Color(1,1,1,.13),Color(1,1,1,0)])
+		var material = StandardMaterial3D.new()
+		material.albedo_texture = texture
+		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		material.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		quad.material = material
+		particles.mesh = quad
+		visual.add_child(particles)
+		particles.position = Vector3(0,.25,.6)
 	return visual
 
 static func triangle(st: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, color: Color) -> void:
@@ -48,62 +95,72 @@ static func backdrop(parent: Node3D) -> void:
 			triangle(st, Vector3(x, -9, z), Vector3(x + 7, y2, z), Vector3(x, y1, z), color)
 		var visual = surface(parent, st)
 		visual.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	for i in 14:
+	for i in 8:
 		if i in [6, 7, 8, 9]:
 			continue
-		var tree = model(parent, "alder", Vector3(-18 + i * 6.7, -0.6, -12 - (i % 3)), Vector3.ONE * (1.3 + (i % 3) * 0.18))
+		var tree = model(parent, "alder", Vector3(-14 + i * 10.2, -0.6, -12 - (i % 3)), Vector3.ONE * (1.3 + (i % 3) * 0.18))
 		tree.rotation_degrees.y = i * 47
-	for i in 13:
+	for i in 9:
 		if i in [5, 6, 7, 8]:
 			continue
-		var tree = model(parent, "alder", Vector3(-12 + i * 6.3, -0.2, -5.8 - (i % 2) * 1.6), Vector3.ONE * (0.78 + (i % 3) * 0.13))
+		var tree = model(parent, "alder", Vector3(-12 + i * 9.0, -0.2, -5.8 - (i % 2) * 1.6), Vector3.ONE * (0.78 + (i % 3) * 0.13))
 		tree.rotation_degrees.y = i * 31
 	for x in [17, 34, 49, 59]:
 		model(parent, "ruin_arch", Vector3(x, -0.2, -4.5), Vector3.ONE * (1.1 if x == 49 else 1))
-	for i in 19:
-		model(parent, "fir", Vector3(-9 + i * 3.8, -1.1, -10 - (i % 3)), Vector3.ONE * (0.75 + (i % 4) * 0.13))
+	for i in 9:
+		model(parent, "alder", Vector3(-9 + i * 9.0, -2.0, -14 - (i % 3)), Vector3.ONE * (0.55 + (i % 4) * 0.06))
+	for x in [19, 39]:
+		var framing_tree = model(parent, "alder", Vector3(x, -.2, -3.7), Vector3.ONE * 1.1)
+		for geometry in framing_tree.find_children("*", "MeshInstance3D", true, false):
+			geometry.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+	for i in 32:
+		model(parent, "fern", Vector3(-5 + i * 2.1, 0, -.9), Vector3.ONE * (.8 + (i % 3) * .15))
 	model(parent, "castle", Vector3(35, -3.5, -24), Vector3.ONE * 0.65)
 	model(parent, "waterfall", Vector3(28.5, 0, -3.2))
 
 static func terrain(parent: Node3D, x: float, y: float, width: float, height: float) -> void:
 	var body = Art.solid(parent, Vector3(x, y - height / 2, 0), Vector3(width, height, 3), Color("465b56"))
 	body.get_child(0).visible = false
-	var depth = maxf(height, 1.8) if y == 0 else height
+	var source = load("res://assets/forest/stone.glb").instantiate()
+	var rock_mesh: Mesh = source.find_children("*", "MeshInstance3D", true, false)[0].mesh
+	var rocks = MultiMesh.new()
+	rocks.transform_format = MultiMesh.TRANSFORM_3D
+	rocks.mesh = rock_mesh
+	rocks.use_colors = true
+	var count = maxi(2, int(ceil(width / 0.7)))
+	var layers = 2 if y == 0 else 1
+	rocks.instance_count = count * layers
+	var step = width / count
+	for row in layers:
+		for i in count:
+			var scale_value = Vector3(step * (1.55 + .16 * sin(i * 5.1)), (1.0 + .08 * sin(i * 2.3)) if y == 0 else height / .72, 0.9)
+			var basis = Basis(Vector3.UP, sin(i * 2.7 + row) * 0.12).scaled(scale_value)
+			var pos = Vector3(x - width / 2 + (i + .5 + sin(i * 4.7 + row) * .12) * step, y - (.34 if y == 0 else height / 2) - row * .43 + sin(i * 3.3) * .015, 1.0)
+			rocks.set_instance_transform(row * count + i, Transform3D(basis, pos))
+			var shade = .86 + sin(i * 3.4 + row) * .12
+			rocks.set_instance_color(row * count + i, Color(shade,shade,shade,1))
+	var rock_instances = MultiMeshInstance3D.new()
+	rock_instances.multimesh = rocks
+	parent.add_child(rock_instances)
+	source.free()
 	var st = SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var count = maxi(2, int(width / 2.1))
+	# Exact collision-aligned paving surface; irregular stones form the fascia below it.
 	for i in count:
-		var left = x - width / 2 + float(i) / count * width
-		var right = x - width / 2 + float(i + 1) / count * width
-		var bottom = y - depth + sin(i * 3.7) * 0.14
-		var mid_y = y - depth * (0.32 + 0.06 * sin(i * 4.1))
-		var mid = Vector3(lerpf(left, right, 0.48), mid_y, 1.59 + sin(i * 8.0) * 0.08)
-		var a = Vector3(left, y - 0.13, 1.5)
-		var b = Vector3(right, y - 0.13, 1.5)
-		var c = Vector3(right, bottom, 1.4)
-		var d = Vector3(left, bottom, 1.4)
-		triangle(st, a, mid, b, Color("778581").lightened(sin(i * 3.1) * 0.08))
-		triangle(st, b, mid, c, Color("617375"))
-		triangle(st, c, mid, d, Color("485d63"))
-		triangle(st, d, mid, a, Color("63787a"))
-		# Keep the bright top edge exactly aligned with the physical platform.
-		triangle(st, Vector3(left, y, 1.53), Vector3(right, y, -1.5), Vector3(left, y, -1.5), Color("65894e"))
-		triangle(st, Vector3(left, y, 1.53), Vector3(right, y, 1.53), Vector3(right, y, -1.5), Color("65894e"))
-		var notch = y - 0.14 - (i % 3) * 0.035
-		triangle(st, Vector3(left, y + 0.015, 1.54), Vector3(left, notch, 1.56), Vector3(right, notch - 0.04, 1.56), Color("799e5a"))
-		triangle(st, Vector3(left, y + 0.015, 1.54), Vector3(right, notch - 0.04, 1.56), Vector3(right, y + 0.015, 1.54), Color("799e5a"))
+		var left = x - width / 2 + i * step
+		var right = left + step
+		triangle(st, Vector3(left,y,1.5),Vector3(right,y,-1.5),Vector3(left,y,-1.5),Color("72825a"))
+		triangle(st, Vector3(left,y,1.5),Vector3(right,y,1.5),Vector3(right,y,-1.5),Color("72825a"))
+		for j in 12:
+			var gx = left + step * (j + 0.5) / 12
+			var h = 0.06 + absf(sin(i * 27.3 + j * 9.2)) * 0.12
+			var z = 1.15 + sin(j * 7.1) * 0.15
+			triangle(st,Vector3(gx-.025,y,z),Vector3(gx+.025,y,z),Vector3(gx-.04,y+h,z),Color("4c722e"))
 		if i % 2 == 0:
-			for leaf in 5:
-				var vx = left + 0.15 + sin(leaf * 1.7) * 0.07
-				var vy = y - 0.15 - leaf * 0.13
-				triangle(st, Vector3(vx, vy, 1.64), Vector3(vx - 0.14, vy + 0.04, 1.64), Vector3(vx - 0.04, vy - 0.15, 1.64), Color("527849"))
-		# Sparse foreground blades and flowers are baked into this mesh.
-		for j in 3:
-			var gx = lerpf(left, right, 0.2 + j * 0.24)
-			var h = 0.10 + (i % 3) * 0.045
-			triangle(st, Vector3(gx - 0.04, y, 1.1), Vector3(gx + 0.03, y, 1.1), Vector3(gx - 0.08, y + h, 1.1), Color("7f9d69"))
-			if i % 4 == 0 and j == 1:
-				triangle(st, Vector3(gx - 0.05, y + h, 1.13), Vector3(gx + 0.05, y + h, 1.13), Vector3(gx, y + h + 0.08, 1.13), Color("e0c686"))
+			for leaf in 9:
+				var vx = left + 0.17 + sin(leaf * 1.4) * 0.06
+				var vy = y - leaf * 0.085
+				triangle(st,Vector3(vx,vy,1.51),Vector3(vx-.09,vy+.025,1.53),Vector3(vx-.03,vy-.10,1.53),Color("466d29"))
 	surface(parent, st)
 
 static func rune(parent: Node3D, pos: Vector3, color: Color) -> MeshInstance3D:

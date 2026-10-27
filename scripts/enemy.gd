@@ -24,7 +24,7 @@ func _ready() -> void:
 	col.shape = shape
 	add_child(col)
 	var model_path = "res://assets/models/" + {"melee": "thornling", "wisp": "veil_moth", "boss": "hollow_warden"}[kind] + ".tscn"
-	model = load(model_path).instantiate()
+	model = load("res://assets/forest/veil_moth.glb" if kind == "wisp" else model_path).instantiate()
 	add_child(model)
 	warning = Art.label(self, Vector3(0, 1.9 if kind == "boss" else 1.2, 0), "")
 
@@ -70,8 +70,8 @@ func _physics_process(delta: float) -> void:
 	model.scale = Vector3(facing, 1, 1) * (1.07 if phase == "warn" else 1.0)
 	model.rotation.z = sin(anim_time * 15) * 0.12 if hit_cooldown > 0 else 0.0
 	if kind == "wisp":
-		model.get_node("LeftWing").rotation.y = sin(anim_time * 10) * 0.5
-		model.get_node("RightWing").rotation.y = -sin(anim_time * 10) * 0.5
+		model.find_child("LeftWing").rotation.y = sin(anim_time * 10) * 0.5
+		model.find_child("RightWing").rotation.y = -sin(anim_time * 10) * 0.5
 	elif kind == "boss":
 		var lift = -0.7 if phase == "warn" else (0.6 if phase == "strike" else 0.0)
 		model.get_node("LeftArm").rotation.z = lift

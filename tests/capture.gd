@@ -21,7 +21,7 @@ func _ready() -> void:
 	capture("title")
 	world.start_game(true)
 	world.controls.status_time = 0
-	await settle(70)
+	await settle(12)
 	world.player.invulnerable = 0
 	await settle(2)
 	capture("willowbrook")
@@ -33,6 +33,16 @@ func _ready() -> void:
 	world.player.cast()
 	await settle(3)
 	capture("forest")
+	world.playing = false
+	world.controls.visible = false
+	world.camera.size = 3.0
+	world.camera.position = world.player.position + Vector3(0, 2.4, 17)
+	await settle(2)
+	capture("kael-detail")
+	world.camera.size = 10.5
+	world.controls.visible = true
+	world.playing = true
+	await settle(5)
 	world.controls.pointer_down(7, world.controls.buttons.magic.get_center())
 	await get_tree().create_timer(0.4).timeout
 	await settle(2)
