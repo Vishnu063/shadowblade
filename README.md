@@ -4,6 +4,16 @@ An original offline Android action adventure, built with Godot 4.6.3 / GDScript.
 
 **Status:** complete playable campaign candidate. Graphics remain below the approved concept. Phone performance, physical multitouch and a full human playtest remain unverified. This is not a store-ready release.
 
+## Guardian and six regional villains
+
+Kael now has guardian armor and runtime animation for movement, jumping, landing, three sword swings, six casts, hit recoil and a brief defeat echo. Six regional bosses have distinct original models and telegraphed signature powers. The final Dawn Gate opens after Lord Vaelor and can teleport back to restored Willowbrook.
+
+[Watch the actual engine preview](https://chatgpt.com/library?file_id=libfile_96c190c0a4fc81919beb0b140c9ad75f&account_id=personal) · [Download Android test APK](https://chatgpt.com/library?file_id=libfile_e99e3d8e8268819199bf713dbd1d3e1b&account_id=personal)
+
+[Six villains and their worlds — concept art](docs/art/six-villains-worlds-concept.png) · [Actual models, powers and art notes](docs/guardian-art.md) · [Current hero in engine](docs/screenshots/hero-studio.png) · [Final doorway in engine](docs/screenshots/dawn-gate.png)
+
+The high-detail concept board is a visual target. Runtime meshes, materials and motion remain much simpler. The six regions retain the shared route framework; this update does not make six bespoke level layouts.
+
 ## Current gameplay images
 
 Willowbrook now uses an image background derived from the approved concept, with no baked-in hero, monster or HUD. Kael is an updated moving 3D model. Willowbrook’s mossy ledges and foreground plants use transparent image dressing over the original 3D collision surfaces. Kael, enemies and interactions remain live 3D; other regions keep their themed backdrops. The camera is slightly closer for character readability. [Art source and prompt](art/background-prompt.md).
@@ -66,10 +76,10 @@ Import `project.godot` in the standard Godot 4.6.3 editor and press F5. No .NET 
 
 One validated offline slot stores separate chapter checkpoints, quests, relics, seals, discovered villages, selected power and settings. Original Willowbrook version-one saves migrate without discarding progress. Corrupt primary saves can recover from a previous valid backup. Uninstalling may remove local progress; no cloud save is used.
 
-`./tools/check.sh` runs the original regression, journey, exploration and input-safety suites plus full-campaign and power-mechanics suites. [Current evidence](docs/campaign-validation.md). **228 assertions pass:** 86 original, 121 campaign and 21 power checks. Eleven renderer captures and a signed/alignment-verified ARM64 APK were produced. Synthetic input and headless simulation do not establish Android hardware behavior or artistic quality.
+`./tools/check.sh` runs the original regression, journey, exploration and input-safety suites plus full-campaign and power-mechanics suites. [Current evidence](docs/campaign-validation.md). **272 assertions pass:** 86 original, 121 campaign, 21 power and 44 hero/boss/portal checks. Eleven renderer captures and a signed/alignment-verified ARM64 APK were produced. Synthetic input and headless simulation do not establish Android hardware behavior or artistic quality.
 
 ## Remaining release work
 
-Character animation, painted materials, rich vegetation, cliff/waterfall composition, legacy NPC/boss art and sound need more polish to approach the concept. Music and voice are absent. Android app switching, physical multitouch, safe areas, frame-time, memory/thermal behavior and human tuning need a real phone. No 60 FPS claim is made.
+Further character animation polish, painted materials, rich vegetation, cliff/waterfall composition, legacy NPC/final-boss art and sound need more polish to approach the concept. Music and voice are absent. Android app switching, physical multitouch, safe areas, frame-time, memory/thermal behavior and human tuning need a real phone. No 60 FPS claim is made.
 
 [Asset sources](docs/ATTRIBUTION.md) · [Environment](docs/environment.md) · [Original brief](docs/design-brief.md)

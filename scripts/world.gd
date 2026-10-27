@@ -8,6 +8,7 @@ const Enemy = preload("res://scripts/enemy.gd")
 const Bolt = preload("res://scripts/bolt.gd")
 const Controls = preload("res://scripts/controls.gd")
 const Scenery = preload("res://scripts/scenery.gd")
+const EndPortal = preload("res://scripts/end_portal.gd")
 const StageArt = preload("res://scripts/stage_art.gd")
 var stage_frame: Node3D
 var reference_background: MeshInstance3D
@@ -158,6 +159,11 @@ func build_route() -> void:
 
 	Art.label(self,Vector3(59,2.5,0),Campaign.NAMES[region_index].to_upper()+"\nThe eastern trail",Color("e5c79c"))
 	RegionArt.landmark(self,region_index)
+	if region_index == 6:
+		var portal = EndPortal.new()
+		portal.world = self
+		add_child(portal)
+		portal.position = Vector3(58,0,.3)
 
 func add_enemy(x: float, kind: String) -> void:
 	var enemy = Enemy.new()
@@ -224,7 +230,7 @@ func start_game(fresh: bool = false) -> void:
 	for enemy in enemies:
 		enemy.reset_encounter()
 	for child in get_children():
-		if child.get_script() in [Bolt,MagicEffect]:
+		if child.get_script() in [Bolt,MagicEffect] or child.has_meta("encounter_effect"):
 			child.queue_free()
 	apply_progress()
 	camera.position.x = player.position.x + 2
@@ -276,7 +282,7 @@ func respawn() -> void:
 	for enemy in enemies:
 		enemy.reset_encounter()
 	for child in get_children():
-		if child.get_script() in [Bolt,MagicEffect]:
+		if child.get_script() in [Bolt,MagicEffect] or child.has_meta("encounter_effect"):
 			child.queue_free()
 	clear_temporary_magic()
 	controls.notify_text("Returned to your waystone. Powers and quest progress preserved.")
@@ -427,12 +433,17 @@ func show_completion() -> void:
 	else:
 		paragraph(Campaign.BOSSES[region_index]+" is free. Your quest and checkpoint are saved. Next: "+Campaign.NAMES[region_index+1])
 		button("Continue to "+Campaign.NAMES[region_index+1],func(): travel_to(region_index+1))
+	if region_index == 6: button("Enter Dawn Gate • Willowbrook",use_final_portal)
 	button("Return to village",func():
 		rest(2.0)
 		player.restore_at(Vector3(2,1,0))
 		resume())
 	button("World map",show_travel)
 	button("Title",show_title)
+
+func use_final_portal() -> bool:
+	if region_index != 6 or not Progress.data.boss: return false
+	return travel_to(0)
 
 func show_settings() -> void:
 	clear_menu("Settings", "settings")
@@ -537,9 +548,12 @@ func show_travel() -> void:
 	var next = int(Progress.data.campaign.unlocked)+1
 	if next <= 6 and Progress.data.campaign.completed.has(next-1): button("New trail • "+Campaign.NAMES[next],func(): travel_to(next))
 	button("Back",open_pause)
-func effect(origin: Vector3,power: int,radius: float = 1.0,destination: Variant = null) -> void:
+func effect(origin: Vector3,power: int,radius: float = 1.0,destination: Variant = null,style: String = "") -> void:
 	var node = MagicEffect.new()
 	node.world = self
+	node.power = power
+	node.direction = player.facing
+	node.style = style
 	node.color = Campaign.COLORS[power]
 	node.radius = radius
 	node.position = origin

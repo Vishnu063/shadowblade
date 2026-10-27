@@ -1,0 +1,47 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Movement drives the run clip
+PASS: Sword animation preserves combat window
+PASS: Pause freezes the animation timeline
+PASS: Respawn clears action and slow state
+PASS: Distinct model in region 0
+PASS: Region 0 warning cannot deal early damage
+PASS: Region 0 active power hits once
+PASS: Region 0 power cannot hit twice
+PASS: Region 0 power respects pause
+PASS: Region 0 respawn clears hostile power
+PASS: Distinct model in region 1
+PASS: Region 1 warning cannot deal early damage
+PASS: Region 1 active power hits once
+PASS: Region 1 power cannot hit twice
+PASS: Region 1 power respects pause
+PASS: Region 1 respawn clears hostile power
+PASS: Distinct model in region 2
+PASS: Region 2 warning cannot deal early damage
+PASS: Region 2 active power hits once
+PASS: Region 2 power cannot hit twice
+PASS: Region 2 power respects pause
+PASS: Region 2 respawn clears hostile power
+PASS: Distinct model in region 3
+PASS: Region 3 warning cannot deal early damage
+PASS: Region 3 active power hits once
+PASS: Region 3 power cannot hit twice
+PASS: Region 3 power respects pause
+PASS: Region 3 respawn clears hostile power
+PASS: Distinct model in region 4
+PASS: Region 4 warning cannot deal early damage
+PASS: Region 4 active power hits once
+PASS: Region 4 power cannot hit twice
+PASS: Region 4 power respects pause
+PASS: Region 4 respawn clears hostile power
+PASS: Distinct model in region 5
+PASS: Region 5 warning cannot deal early damage
+PASS: Region 5 active power hits once
+PASS: Region 5 power cannot hit twice
+PASS: Region 5 power respects pause
+PASS: Region 5 respawn clears hostile power
+PASS: Final teleport doorway stays sealed before victory
+PASS: Sealed portal cannot teleport before final victory
+PASS: Final victory opens the teleport doorway
+PASS: Final portal returns to restored Willowbrook without losing progress
+HERO/BOSS RESULTS: 44/44 passed

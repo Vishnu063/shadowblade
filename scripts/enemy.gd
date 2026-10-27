@@ -1,4 +1,5 @@
 extends CharacterBody3D
+const BossPower = preload("res://scripts/boss_power.gd")
 const Art = preload("res://scripts/shapes.gd")
 var world: Node3D
 var kind = "melee"
@@ -27,6 +28,8 @@ func _ready() -> void:
 	col.shape = shape
 	add_child(col)
 	var model_path = "res://assets/models/" + {"melee": "thornling", "wisp": "veil_moth", "boss": "hollow_warden"}[kind] + ".tscn"
+	if kind == "boss" and world.region_index < 6:
+		model_path = "res://assets/forest/"+["hollow-warden-v2","cinder-sentinel","frostbound-keeper","gale-harrier","tempest-colossus","void-herald"][world.region_index]+".glb"
 	model = load("res://assets/forest/veil_moth.glb" if kind == "wisp" else model_path).instantiate()
 	add_child(model)
 	warning = Art.label(self, Vector3(0, 1.9 if kind == "boss" else 1.2, 0), "")
@@ -58,12 +61,22 @@ func _physics_process(delta: float) -> void:
 		if timer <= 0:
 			phase = "warn"
 			timer = (.65 if world.region_index == 6 and health < max_health/2 else .8) if kind == "boss" else .65
-			warning.text = "!  SHOCKWAVE" if kind == "boss" else "!"
+			warning.text = ("!  "+BossPower.TITLES[world.region_index] if world.region_index < 6 else "!  SHOCKWAVE") if kind == "boss" else "!"
+			if kind == "boss" and world.region_index < 6:
+				var spell = BossPower.new()
+				spell.world = world
+				spell.caster = self
+				spell.power = world.region_index
+				spell.warning_time = timer
+				spell.direction = facing
+				spell.position = Vector3(clampf(world.player.position.x,45,55),.15,0)
+				if world.region_index == 3: spell.position.x = position.x
+				world.add_child(spell)
 	elif phase == "warn" and timer <= 0:
 		phase = "strike"
 		timer = 0.18
 		warning.text = ""
-		if kind in ["wisp", "boss"]:
+		if kind == "wisp" or (kind == "boss" and world.region_index == 6):
 			world.spawn_bolt(position + Vector3(facing * 0.9, 0, 0), facing, false)
 			if kind == "boss" and world.region_index >= 4 and health < max_health/2:
 				world.spawn_bolt(position+Vector3(-facing*.9,.5,0),-facing,false)

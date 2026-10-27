@@ -9,6 +9,10 @@ func _ready() -> void:
 	Art.orb(self, Vector3.ZERO, 0.16 if friendly else 0.23,
 		Color("53d9fa") if friendly else Color("e7a068"), 1)
 
+	if friendly:
+		for i in 4:
+			Art.orb(self,Vector3(-direction*(i+1)*.14,0,0),.1-i*.018,Color("53bcea"),.7)
+
 func _physics_process(delta: float) -> void:
 	if not world.playing:
 		return

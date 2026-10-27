@@ -1,0 +1,7 @@
+Godot 4.6.3; 0.6.0-guardians; ARM64 debug APK
+Signature verified: v2 and v3
+16 KiB zipalign check: passed (export_android.py)
+ZIP CRC: passed
+Size: 38603371 bytes
+SHA256: 48bfd173a9abdeee4e31307ba8973310b51d62a815e5f699865653a66ac1d810
+No Android phone or emulator runtime test performed.

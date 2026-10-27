@@ -15,3 +15,11 @@ The tests use separate save slots. Some headless runs retain an ObjectDB cleanup
 All 228 assertions pass again after replacing Willowbrook’s visual platform dressing and character model: [current checks](stage-checks.txt). Platform collision dimensions are unchanged. The stage images are decorative layers; physics, enemies and the updated Kael remain live game objects. The closer camera does not change movement or combat values.
 
 Eleven current renderer captures were regenerated: [render log](stage-render.txt). The Kael close-up temporarily hides enemies and labels for visual inspection; normal gameplay captures retain them. The ARM64 APK passed direct signature, 16 KiB alignment and ZIP CRC checks: [verification](stage-apk-verification.txt). No phone/device performance or human playtest was performed.
+
+## Guardian, six villains and final teleport revision
+
+All **272 assertions pass**: the existing 228 plus 44 animation, boss power and final portal checks. [Full original suites](guardian-checks.txt) · [New focused checks](guardian-boss-checks.txt). Natural campaign combat still defeats all seven encounters without changing boss health. New tests cover run/sword state, animation pause, reset state, six unique model loads, no early warning damage, one hit per attack, pause and respawn cleanup, locked final door, victory unlock and return to Willowbrook with progress intact.
+
+The studio preview contains 313 frames rendered by Godot Compatibility/Mesa llvmpipe at a fixed 15 FPS, encoded as a 20.87-second MP4. It stages the real rig, six power effects, six villain models and final doorway on a neutral background. It is not a playthrough, a phone benchmark or proof of concept-art parity. Eleven gameplay/menu/region screenshots were regenerated. [Preview log](guardian-preview.txt) · [Gameplay render log](guardian-render.txt).
+
+The version 0.6.0-guardians ARM64 debug APK was rebuilt and its signature, 16 KiB alignment and ZIP CRC verified. [APK verification](guardian-apk-verification.txt). Real Android installation, performance, physical multitouch and human gameplay tuning remain untested.

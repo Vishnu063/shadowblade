@@ -1,5 +1,7 @@
 extends CharacterBody3D
 const Art = preload("res://scripts/shapes.gd")
+const HeroEcho = preload("res://scripts/hero_echo.gd")
+const HeroMotion = preload("res://scripts/hero_motion.gd")
 const Campaign = preload("res://scripts/campaign.gd")
 @export var move_speed = 6.0
 @export var jump_speed = 10.2
@@ -42,6 +44,8 @@ var shield_hits = 0
 var shield_visual: MeshInstance3D
 var last_grounded = true
 var landing_bounce = 0.0
+var motion: RefCounted
+var slow_time = 0.0
 
 func _ready() -> void:
 	collision_layer = 2
@@ -52,12 +56,13 @@ func _ready() -> void:
 	shape.height = 1.6
 	col.shape = shape
 	add_child(col)
-	body_art = preload("res://assets/forest/kael-v2.glb").instantiate()
+	body_art = preload("res://assets/forest/kael-v3.glb").instantiate()
 	add_child(body_art)
 	legs = [body_art.find_child("LeftLeg"), body_art.find_child("RightLeg")]
 	left_arm = body_art.find_child("LeftArm")
 	right_arm = body_art.find_child("SwordArm")
 	sword = body_art.find_child("Sword")
+	motion = HeroMotion.new(body_art)
 	shield_visual = MeshInstance3D.new()
 	var shield_mesh = SphereMesh.new()
 	shield_mesh.radius = .92
@@ -78,6 +83,7 @@ func request_jump() -> void:
 func _physics_process(delta: float) -> void:
 	if world == null or not world.playing:
 		return
+	slow_time = maxf(0,slow_time-delta)
 	shield_time = maxf(0,shield_time-delta)
 	shield_visual.visible = shield_time > 0 and shield_hits > 0
 	dash_time = maxf(0,dash_time-delta)
@@ -91,7 +97,7 @@ func _physics_process(delta: float) -> void:
 	var direction: float = world.controls.axis()
 	if direction != 0:
 		facing = signf(direction)
-	velocity.x = move_toward(velocity.x, direction * move_speed, 45 * delta)
+	velocity.x = move_toward(velocity.x, direction * move_speed * (.55 if slow_time > 0 else 1.0), 45 * delta)
 	velocity.z = 0
 	position.z = 0
 	if is_on_floor():
@@ -114,29 +120,13 @@ func _physics_process(delta: float) -> void:
 		velocity.y = 0
 	move_and_slide()
 	if dash_time > 0 and is_on_wall(): dash_time = 0
-	if is_on_floor() and not last_grounded:
-		landing_bounce = 0.12
-	landing_bounce = maxf(0, landing_bounce - delta)
-	last_grounded = is_on_floor()
-	pose_clock += delta
-	body_art.position.y = sin(pose_clock * 2.2) * 0.007 - sin(landing_bounce / 0.12 * PI) * 0.08
-	stride += delta * absf(velocity.x) * 2.5
-	for i in legs.size():
-		legs[i].rotation.z = sin(stride + i * PI) * minf(absf(velocity.x) * 0.08, 0.5) if is_on_floor() else (0.35 if i == 0 else -0.35)
-	for i in legs.size():
-		var knee = legs[i].find_child("Knee")
-		if knee != null:
-			knee.rotation.z = maxf(0, sin(stride + i * PI + 0.8)) * minf(absf(velocity.x) * 0.10, 0.65) if is_on_floor() else 0.45
-	left_arm.rotation.z = -sin(stride) * minf(absf(velocity.x) * 0.07, 0.45)
-	right_arm.rotation.z = sword.rotation.z * 0.45 if attack_time > 0 else sin(stride) * 0.1
-	body_art.find_child("Scarf").rotation.z = sin(stride * 0.4) * 0.12
+	motion.update(delta,self)
 	body_art.rotation.z = -velocity.x * 0.008
 	body_art.rotation.y = .65*facing
 	body_art.scale.x = facing
 	body_art.visible = invulnerable == 0 or fmod(invulnerable, 0.12) > 0.04
 	if attack_time > 0:
 		attack_time -= delta
-		sword.rotation.z = sin(attack_time * 22) * 1.3
 		if attack_time < 0.20:
 			for enemy in world.enemies:
 				if enemy.alive and not enemy in hit_targets and absf(enemy.position.y - position.y) < 1.7:
@@ -147,8 +137,6 @@ func _physics_process(delta: float) -> void:
 						if not hit.is_empty() and hit.collider == enemy:
 							enemy.take_hit(2 if combo == 3 else 1)
 							hit_targets.append(enemy)
-	else:
-		sword.rotation.z = -0.5
 	if position.y < -5:
 		fall()
 
@@ -170,6 +158,8 @@ func attack() -> bool:
 	attack_time = 0.3
 	attack_cooldown = 0.34
 	hit_targets.clear()
+	motion.trigger("slash_%d" % combo,.3)
+	world.effect(position+Vector3(facing*.65,0,.2),0,.9,null,"slash")
 	world.tone(260 + combo * 80, 0.07)
 	return true
 
@@ -185,6 +175,7 @@ func cast() -> bool:
 	if cast_cooldown > 0 or magic < cost or not world.playing: return false
 	if index == 3 and dash_used: return false
 	if not world.cast_power(index): return false
+	motion.trigger("dash" if index == 3 else "cast_%d" % index,.2 if index == 3 else .42)
 	magic -= cost
 	regen_wait = regen_delay
 	cast_cooldown = Campaign.COOLDOWNS[index]
@@ -199,11 +190,17 @@ func damage(amount: int, bypass_shield: bool = false) -> bool:
 		invulnerable = .35
 		world.tone(900,.08)
 		return false
+	motion.trigger("hit",.22)
 	health = maxi(0, health - amount)
 	invulnerable = invulnerability_time
 	world.hit_flash = 0.25
 	world.tone(110, 0.15)
 	if health == 0:
+		var echo = HeroEcho.new()
+		echo.world = world
+		echo.facing = facing
+		echo.position = position
+		world.add_child(echo)
 		world.respawn()
 	return true
 
@@ -233,3 +230,5 @@ func restore_at(pos: Vector3) -> void:
 	shield_hits = 0
 	shield_visual.visible = false
 	jump_buffer = 0
+	slow_time = 0
+	motion.reset()
