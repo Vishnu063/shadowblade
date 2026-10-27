@@ -36,7 +36,7 @@ func _init(body: Node3D) -> void:
 		var swing = -1.0 if i == 1 else 1.0
 		clip(library,"slash_%d" % (i+1),.3,[{"b":-.8*swing,"eb":.5,"s":-.5*swing,"a":.3}, {"b":1.1*swing,"eb":-.25,"s":.9*swing,"l":-.15,"r":.18}, {}])
 	for i in [0,1,2,4,5]:
-		clip(library,"cast_%d" % i,.42,[{"a":-.5,"ea":.9,"b":-.2}, {"a":-1.3 if i != 5 else -.7,"ea":-.25,"l":-.15,"r":.18,"b":.3,"c":.25,"h":-.06 if i == 2 else 0.0}, {}])
+		clip(library,"cast_%d" % i,.42,[{"a":-.5,"ea":.9,"b":-.2}, {"a":(1.3 if body.has_meta("image_character") else -1.3) if i != 5 else .7,"ea":-.25,"l":-.15,"r":.18,"b":.3,"c":.25,"h":-.06 if i == 2 else 0.0}, {}])
 	clip(library,"dash",.2,[{"l":.85,"r":-.7,"kl":.8,"kr":1,"a":.6,"b":.5,"c":.5,"h":-.08}])
 	clip(library,"hit",.22,[{"a":.65,"b":-.6,"kl":.4,"kr":.3,"h":-.07}, {}])
 	clip(library,"defeat",.75,[{}, {"h":-.35,"l":-.5,"r":.25,"kl":1.4,"kr":1.2,"a":.5,"b":.7}, {"h":-.65,"l":-.7,"r":.35,"kl":1.7,"kr":1.4,"a":.8,"b":.9}])
@@ -80,3 +80,4 @@ func update(delta: float,hero: CharacterBody3D) -> void:
 	if player.current_animation != desired: player.play(desired,.07)
 	player.speed_scale = clampf(absf(hero.velocity.x)/6.0,.5,1.8) if desired == "run" else 1.0
 	player.advance(delta)
+	if actor.has_method("secondary_motion"): actor.secondary_motion(delta,hero.velocity.x)

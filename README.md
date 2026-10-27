@@ -4,43 +4,19 @@ An original offline Android action adventure, built with Godot 4.6.3 / GDScript.
 
 **Status:** complete playable campaign candidate. Graphics remain below the approved concept. Phone performance, physical multitouch and a full human playtest remain unverified. This is not a store-ready release.
 
-## New fully 3D Willowbrook art preview
+## Current art: moving painted images
 
-[Watch the new video](https://chatgpt.com/library?file_id=libfile_9095ed3efcf8819185064b9d884f782a&account_id=personal) · [Current images, source and play instructions](docs/3d-scene/README.md)
+[Watch the new 33-second image-animation video](https://chatgpt.com/library?file_id=libfile_7b004cac82308191a4803b851a5578e8&account_id=personal)
 
-Choose **New 3D art preview** on the title screen. This optional clearing has a weighted Kael, rebuilt Warden and 3D forest geometry with a perspective camera. It preserves the campaign save and resets its preview progress each run. It remains below the concept detail. The other regions retain their previous art; the existing Android APK predates this new scene. All 284 automated assertions pass; phone runtime performance is unverified.
+Kael and the six regional villains now use animated painted image parts. Their faces, clothing, armour and weapons follow the approved image designs. Running, jumping, sword attacks, casts, recoil and villain powers run in the actual game engine.
 
-## Guardian and six regional villains
+![Image-based hero and villain](docs/image-characters/hero-and-warden.png)
 
-Kael now has guardian armor and runtime animation for movement, jumping, landing, three sword swings, six casts, hit recoil and a brief defeat echo. Six regional bosses have distinct original models and telegraphed signature powers. The final Dawn Gate opens after Lord Vaelor and can teleport back to restored Willowbrook.
+[Current artwork, prompts, animation notes and play instructions](docs/image-characters/README.md)
 
-[Watch the actual engine preview](https://chatgpt.com/library?file_id=libfile_96c190c0a4fc81919beb0b140c9ad75f&account_id=personal) · [Download Android test APK](https://chatgpt.com/library?file_id=libfile_e99e3d8e8268819199bf713dbd1d3e1b&account_id=personal)
+Choose **Image character preview** on the title screen and **Choose a villain** to try all six. Campaign controls and progression remain intact. Preview progress resets each run and leaves the campaign save unchanged. The existing APK predates this revision; Android testing and a new build remain pending.
 
-[Six villains and their worlds — concept art](docs/art/six-villains-worlds-concept.png) · [Actual models, powers and art notes](docs/guardian-art.md) · [Current hero in engine](docs/screenshots/hero-studio.png) · [Final doorway in engine](docs/screenshots/dawn-gate.png)
-
-The high-detail concept board is a visual target. Runtime meshes, materials and motion remain much simpler. The six regions retain the shared route framework; this update does not make six bespoke level layouts.
-
-## Current gameplay images
-
-Willowbrook now uses an image background derived from the approved concept, with no baked-in hero, monster or HUD. Kael is an updated moving 3D model. Willowbrook’s mossy ledges and foreground plants use transparent image dressing over the original 3D collision surfaces. Kael, enemies and interactions remain live 3D; other regions keep their themed backdrops. The camera is slightly closer for character readability. [Art source and prompt](art/background-prompt.md).
-
-![Current Willowbrook](docs/screenshots/willowbrook.png)
-![Current forest](docs/screenshots/forest.png)
-
-[Kael close-up](docs/screenshots/kael-detail.png) · [Power wheel](docs/screenshots/powers.png) · [Visual comparison](docs/visual-review.html)
-
-These are actual engine captures with staged positions, not concept art or proof of a human playthrough. Obsolete comparison images were removed from this branch; the approved [concept](docs/art/willowbrook-concept.png) remains separate. The current regional gallery is linked below.
-
-## Regional screenshots
-
-| Region | Current engine image |
-| --- | --- |
-| Emberhearth | [View](docs/screenshots/emberhearth.png) |
-| Frosthaven | [View](docs/screenshots/frosthaven.png) |
-| Windrest | [View](docs/screenshots/windrest.png) |
-| Stormwatch | [View](docs/screenshots/stormwatch.png) |
-| Duskveil | [View](docs/screenshots/duskveil.png) |
-| Final fortress | [View](docs/screenshots/fortress.png) |
+The previous 3D art experiment is paused and archived in source. It is no longer the active menu option and its art is excluded from Android export. Minor enemies, NPCs and other regional scenery retain their previous art; Vaelor temporarily reuses the Void Herald image rig.
 
 ## Campaign
 
@@ -82,7 +58,7 @@ Import `project.godot` in the standard Godot 4.6.3 editor and press F5. No .NET 
 
 One validated offline slot stores separate chapter checkpoints, quests, relics, seals, discovered villages, selected power and settings. Original Willowbrook version-one saves migrate without discarding progress. Corrupt primary saves can recover from a previous valid backup. Uninstalling may remove local progress; no cloud save is used.
 
-`./tools/check.sh` runs the original regression, journey, exploration and input-safety suites plus full-campaign and power-mechanics suites. [Current evidence](docs/campaign-validation.md). **272 assertions pass:** 86 original, 121 campaign, 21 power and 44 hero/boss/portal checks. Eleven renderer captures and a signed/alignment-verified ARM64 APK were produced. Synthetic input and headless simulation do not establish Android hardware behavior or artistic quality.
+`./tools/check.sh` runs the original regression, journey, exploration and input-safety suites plus full-campaign and power-mechanics suites. [Current evidence](docs/campaign-validation.md). **285 assertions pass:** 86 original, 121 campaign, 21 power, 44 hero/boss/portal and 13 image-character checks. Eleven renderer captures and a signed/alignment-verified ARM64 APK were produced. Synthetic input and headless simulation do not establish Android hardware behavior or artistic quality.
 
 ## Remaining release work
 

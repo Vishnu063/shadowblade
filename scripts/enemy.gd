@@ -1,4 +1,5 @@
 extends CharacterBody3D
+const ImagePuppet = preload("res://scripts/image_puppet.gd")
 const BossPower = preload("res://scripts/boss_power.gd")
 const Art = preload("res://scripts/shapes.gd")
 var world: Node3D
@@ -32,7 +33,7 @@ func _ready() -> void:
 		model_path = "res://assets/forest/"+["hollow-warden-v2","cinder-sentinel","frostbound-keeper","gale-harrier","tempest-colossus","void-herald"][world.region_index]+".glb"
 	if kind == "boss" and world.has_meta("guardian_3d"):
 		model_path = "res://assets/slice3d/hollow-warden-sculpted.glb"
-	model = load("res://assets/forest/veil_moth.glb" if kind == "wisp" else model_path).instantiate()
+	model = ImagePuppet.warden(mini(world.region_index,5)) if kind == "boss" and not world.has_meta("guardian_3d") else load("res://assets/forest/veil_moth.glb" if kind == "wisp" else model_path).instantiate()
 	add_child(model)
 	warning = Art.label(self, Vector3(0, 1.9 if kind == "boss" else 1.2, 0), "")
 
@@ -92,7 +93,7 @@ func _physics_process(delta: float) -> void:
 		phase = "approach"
 		timer = 0.5
 	anim_time += delta
-	model.scale = Vector3(facing, 1, 1) * (1.07 if phase == "warn" else 1.0)
+	model.scale = Vector3(-facing if model.has_meta("image_character") else facing, 1, 1) * (1.07 if phase == "warn" else 1.0)
 	if kind == "boss" and world.has_meta("guardian_3d"):
 		model.scale.x = absf(model.scale.x)
 		model.rotation.y = lerp_angle(model.rotation.y,facing*.4,delta*5)
@@ -102,13 +103,14 @@ func _physics_process(delta: float) -> void:
 		model.find_child("RightWing").rotation.y = -sin(anim_time * 10) * 0.5
 	elif kind == "boss":
 		var lift = -0.7 if phase == "warn" else (0.6 if phase == "strike" else 0.0)
-		var blend = minf(1,delta*10) if world.has_meta("guardian_3d") else 1.0
+		var blend = minf(1,delta*10) if world.has_meta("guardian_3d") or model.has_meta("image_character") else 1.0
 		model.get_node("LeftArm").rotation.z = lerp_angle(model.get_node("LeftArm").rotation.z,lift,blend)
 		model.get_node("RightArm").rotation.z = lerp_angle(model.get_node("RightArm").rotation.z,-lift,blend)
 	else:
 		for i in 4:
 			var side = -1 if i < 2 else 1
 			model.get_node("Leg%d%d" % [side, i % 2]).rotation.z = sin(anim_time * 9 + i * PI / 2) * minf(absf(velocity.x) * 0.2, 0.3)
+	if model.has_meta("image_character"): model.animate_boss(delta,phase,velocity.x,anim_time)
 	move_and_slide()
 	# Encounters stay in their authored route rather than pursuing into the village.
 	position.x = clampf(position.x, maxf(10.0, home.x - 4), home.x + 4)

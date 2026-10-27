@@ -1,4 +1,5 @@
 extends CharacterBody3D
+const ImagePuppet = preload("res://scripts/image_puppet.gd")
 const Art = preload("res://scripts/shapes.gd")
 const HeroEcho = preload("res://scripts/hero_echo.gd")
 const SkinnedMotion = preload("res://scripts/skinned_motion.gd")
@@ -42,7 +43,7 @@ var dash_time = 0.0
 var dash_used = false
 var shield_time = 0.0
 var shield_hits = 0
-var shield_visual: MeshInstance3D
+var shield_visual: Node3D
 var last_grounded = true
 var landing_bounce = 0.0
 var motion: RefCounted
@@ -57,25 +58,29 @@ func _ready() -> void:
 	shape.height = 1.6
 	col.shape = shape
 	add_child(col)
-	body_art = (load("res://assets/slice3d/kael-guardian-skinned.glb") if world.has_meta("guardian_3d") else preload("res://assets/forest/kael-v3.glb")).instantiate()
+	body_art = load("res://assets/slice3d/kael-guardian-skinned.glb").instantiate() if world.has_meta("guardian_3d") else ImagePuppet.hero()
 	add_child(body_art)
 	legs = [body_art.find_child("LeftLeg"), body_art.find_child("RightLeg")]
 	left_arm = body_art.find_child("LeftArm")
 	right_arm = body_art.find_child("SwordArm")
 	sword = body_art.find_child("Sword")
 	motion = SkinnedMotion.new(body_art) if world.has_meta("guardian_3d") else HeroMotion.new(body_art)
-	shield_visual = MeshInstance3D.new()
-	var shield_mesh = SphereMesh.new()
-	shield_mesh.radius = .92
-	shield_mesh.height = 2.1
-	shield_mesh.radial_segments = 20
-	shield_mesh.rings = 10
-	shield_visual.mesh = shield_mesh
-	var material = Art.material(Color(1,.77,.3,.16),.5)
-	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	shield_visual.material_override = material
-	shield_visual.visible = false
+	if world.has_meta("guardian_3d"):
+		var mesh_visual=MeshInstance3D.new()
+		var shield_mesh=SphereMesh.new()
+		shield_mesh.radius=.92
+		shield_mesh.height=2.1
+		shield_mesh.radial_segments=20
+		shield_mesh.rings=10
+		mesh_visual.mesh=shield_mesh
+		var material=Art.material(Color(1,.77,.3,.16),.5)
+		material.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA
+		material.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED
+		mesh_visual.material_override=material
+		shield_visual=mesh_visual
+	else:
+		shield_visual=ImagePuppet.guardian()
+	shield_visual.visible=false
 	add_child(shield_visual)
 
 func request_jump() -> void:
@@ -123,7 +128,7 @@ func _physics_process(delta: float) -> void:
 	if dash_time > 0 and is_on_wall(): dash_time = 0
 	motion.update(delta,self)
 	body_art.rotation.z = -velocity.x * 0.008
-	body_art.rotation.y = .65*facing
+	body_art.rotation.y = 0.0 if body_art.has_meta("image_character") else .65*facing
 	body_art.scale.x = facing
 	body_art.visible = invulnerable == 0 or fmod(invulnerable, 0.12) > 0.04
 	if attack_time > 0:

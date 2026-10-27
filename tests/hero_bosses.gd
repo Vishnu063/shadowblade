@@ -36,7 +36,7 @@ func _ready() -> void:
 			world.travel_to(region)
 		await step(2)
 		var boss = world.enemies[3]
-		check(boss.model.scene_file_path.ends_with(["hollow-warden-v2","cinder-sentinel","frostbound-keeper","gale-harrier","tempest-colossus","void-herald"][region]+".glb"),"Distinct model in region %d" % region)
+		check(boss.model.has_meta("image_character") and boss.model.get_meta("image_kind")==["warden","cinder","frost","gale","tempest","void"][region],"Distinct painted character in region %d" % region)
 		world.player.restore_at(Vector3(48,.85,0))
 		world.player.invulnerable = 0
 		var spell = BossPower.new()

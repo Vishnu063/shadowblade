@@ -30,24 +30,36 @@ func _ready() -> void:
 	var caption = Art.label(self,Vector3(0,.35,0),TITLES[power],COLORS[power])
 	caption.font_size = 22
 	caption.pixel_size = .006
-	for i in (7 if power in [0,2] else 5):
-		var angle = i*TAU/7
-		if power in [0,2]:
-			var spike = MeshInstance3D.new()
-			var mesh = CylinderMesh.new()
-			mesh.top_radius = 0
-			mesh.bottom_radius = .09 if power == 0 else .14
-			mesh.height = .8 if power == 0 else 1.15
-			mesh.radial_segments = 5
-			spike.mesh = mesh
-			spike.material_override = Art.material(COLORS[power],.5)
-			visual.add_child(spike)
-			spike.position = Vector3(cos(angle)*.65,.4,sin(angle)*.25)
+	if not world.has_meta("guardian_3d"):
+		var puppet=load("res://scripts/image_puppet.gd")
+		var texture=puppet.textures(puppet.BOSS_KINDS[power])[11]
+		if power==0:
+			for i in 3:
+				var root=puppet.piece(visual,texture,.52,1.15,Vector2(.5,.98),float(i)*.02)
+				root.position.x+=(i-1)*.42
+				root.flip_h=i%2==1
 		else:
-			var orb = Art.orb(visual,Vector3(sin(angle)*.6,.3+i*.18,0),.16,COLORS[power],1)
-			orb.scale = Vector3(.6,2.0,.6) if power == 1 else Vector3(1,1,1)
-	if world.has_meta("guardian_3d") and power == 0:
-		load("res://scripts/slice_effects.gd").roots(visual)
+			var width=[1.2,1.8,1.65,1.4,.95,2.0][power]
+			var height=[1.2,1.65,1.5,1.6,4.0,1.85][power]
+			puppet.piece(visual,texture,width,height,Vector2(.5,.98))
+	else:
+		for i in (7 if power in [0,2] else 5):
+			var angle=i*TAU/7
+			if power in [0,2]:
+				var spike=MeshInstance3D.new()
+				var mesh=CylinderMesh.new()
+				mesh.top_radius=0
+				mesh.bottom_radius=.09 if power==0 else .14
+				mesh.height=.8 if power==0 else 1.15
+				mesh.radial_segments=5
+				spike.mesh=mesh
+				spike.material_override=Art.material(COLORS[power],.5)
+				visual.add_child(spike)
+				spike.position=Vector3(cos(angle)*.65,.4,sin(angle)*.25)
+			else:
+				var orb=Art.orb(visual,Vector3(sin(angle)*.6,.3+i*.18,0),.16,COLORS[power],1)
+				orb.scale=Vector3(.6,2,.6) if power==1 else Vector3.ONE
+		if power==0:load("res://scripts/slice_effects.gd").roots(visual)
 	visual.visible = false
 func _physics_process(delta: float) -> void:
 	if not is_instance_valid(world) or not is_instance_valid(caster) or not caster.alive:
@@ -62,11 +74,11 @@ func _physics_process(delta: float) -> void:
 	marker.visible = false
 	visual.scale.y = minf(1,(elapsed-warning_time)*12)
 	if power == 3: position.x += direction*7*delta
-	if power == 4:
+	if power == 4 and world.has_meta("guardian_3d"):
 		visual.scale = Vector3(.3,3.5,.3)
 	elif power == 5:
-		visual.rotation.z += delta*4
-		visual.scale.x = 1.6
+		visual.rotation.z += delta*4 if world.has_meta("guardian_3d") else delta*.18
+		visual.scale.x = 1.6 if world.has_meta("guardian_3d") else 1.0
 	var hero = world.player
 	var distance: Vector3 = hero.global_position-global_position
 	var range_x = 1.2 if power == 5 else .85

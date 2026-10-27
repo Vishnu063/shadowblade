@@ -1,0 +1,204 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+Unable to open Android 'build-tools' directory.
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (3 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1msavepack[22m | Started Packing (102 steps)[39m[0m
+[   1% ] [90m[1msavepack[22m | Storing File: res://scripts/skinned_motion.gdc[39m[0m
+[   2% ] [90m[1msavepack[22m | Storing File: res://scripts/stage_art.gdc[39m[0m
+[   3% ] [90m[1msavepack[22m | Storing File: res://scripts/slice_effects.gdc[39m[0m
+[   4% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/willowbrook-reference.png-aad1362d6ea66d89d350ff78f0bd747b.ctex[39m[0m
+[   4% ] [90m[1msavepack[22m | Storing File: res://assets/backgrounds/willowbrook-reference.png.import[39m[0m
+[   5% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/cinder-sentinel.glb-437a09c7b31aa7b5a24137c976935d7c.scn[39m[0m
+[   5% ] [90m[1msavepack[22m | Storing File: res://assets/forest/cinder-sentinel.glb.import[39m[0m
+[   6% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/cottage.glb-69aa61048fa922227032a2f71a9d98b6.scn[39m[0m
+[   6% ] [90m[1msavepack[22m | Storing File: res://assets/forest/cottage.glb.import[39m[0m
+[   7% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/cottage_Aged timber grain.png-613e2b922428964933c0855b06255afd.ctex[39m[0m
+[   7% ] [90m[1msavepack[22m | Storing File: res://assets/forest/cottage_Aged timber grain.png.import[39m[0m
+[   8% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/fern.glb-24be7a242c88a87642dc7109aaee0f66.scn[39m[0m
+[   8% ] [90m[1msavepack[22m | Storing File: res://assets/forest/fern.glb.import[39m[0m
+[   9% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/fern_Damp moss grain.png-321c6d5a51c9418ee8dc32bc2675a2ad.ctex[39m[0m
+[   9% ] [90m[1msavepack[22m | Storing File: res://assets/forest/fern_Damp moss grain.png.import[39m[0m
+[  10% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/frostbound-keeper.glb-c2109236ead8fe844e0ae7982129cc73.scn[39m[0m
+[  10% ] [90m[1msavepack[22m | Storing File: res://assets/forest/frostbound-keeper.glb.import[39m[0m
+[  11% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/gale-harrier.glb-e5f1da16cbde9af4af0b3db02654c8e7.scn[39m[0m
+[  11% ] [90m[1msavepack[22m | Storing File: res://assets/forest/gale-harrier.glb.import[39m[0m
+[  12% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/hollow-warden-v2.glb-a7e69d096d6ffe51e1b1b9bd2ffba0ce.scn[39m[0m
+[  12% ] [90m[1msavepack[22m | Storing File: res://assets/forest/hollow-warden-v2.glb.import[39m[0m
+[  13% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/hollow-warden-v2_Aged timber grain.png-a538693c5a21782f259ef85256a5145e.ctex[39m[0m
+[  13% ] [90m[1msavepack[22m | Storing File: res://assets/forest/hollow-warden-v2_Aged timber grain.png.import[39m[0m
+[  14% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/hollow-warden-v2_Damp moss grain.png-4b297172e09ed6559cab59876ce38b4f.ctex[39m[0m
+[  14% ] [90m[1msavepack[22m | Storing File: res://assets/forest/hollow-warden-v2_Damp moss grain.png.import[39m[0m
+[  15% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/hollow-warden-v2_Oak bark grain.png-22507804fbbc82f93042ba4359662cb7.ctex[39m[0m
+[  15% ] [90m[1msavepack[22m | Storing File: res://assets/forest/hollow-warden-v2_Oak bark grain.png.import[39m[0m
+[  16% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/hollow-warden-v2_Weathered limestone grain.png-e2371b799944e78b5ce857e3bc17f35b.ctex[39m[0m
+[  16% ] [90m[1msavepack[22m | Storing File: res://assets/forest/hollow-warden-v2_Weathered limestone grain.png.import[39m[0m
+[  17% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/kael-v2.glb-5be61f6f7c39c9f20601e52cdedb0fd8.scn[39m[0m
+[  17% ] [90m[1msavepack[22m | Storing File: res://assets/forest/kael-v2.glb.import[39m[0m
+[  18% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/kael-v2_Indigo wool grain.png-14f6c4b84900db13f82d1ca99efbe68d.ctex[39m[0m
+[  18% ] [90m[1msavepack[22m | Storing File: res://assets/forest/kael-v2_Indigo wool grain.png.import[39m[0m
+[  19% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/kael-v2_Oiled leather grain.png-cc1eef46dfbb80330f99b2117e888ae6.ctex[39m[0m
+[  19% ] [90m[1msavepack[22m | Storing File: res://assets/forest/kael-v2_Oiled leather grain.png.import[39m[0m
+[  20% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/kael-v2_Woven linen grain.png-2e11105af8b92df41bff04f4e1f33149.ctex[39m[0m
+[  20% ] [90m[1msavepack[22m | Storing File: res://assets/forest/kael-v2_Woven linen grain.png.import[39m[0m
+[  21% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/kael-v3.glb-7cb50eb62cf49de633298dd51c37d99a.scn[39m[0m
+[  21% ] [90m[1msavepack[22m | Storing File: res://assets/forest/kael-v3.glb.import[39m[0m
+[  22% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/kael-v3_Indigo wool grain.png-920e1d2313c821d5b00e507558276f12.ctex[39m[0m
+[  22% ] [90m[1msavepack[22m | Storing File: res://assets/forest/kael-v3_Indigo wool grain.png.import[39m[0m
+[  23% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/kael-v3_Oiled leather grain.png-d7a1a9d0037e12b3ed984bc6d9aa8e5d.ctex[39m[0m
+[  23% ] [90m[1msavepack[22m | Storing File: res://assets/forest/kael-v3_Oiled leather grain.png.import[39m[0m
+[  24% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/kael-v3_Woven linen grain.png-6695aaef75248a29fef8155451365ef6.ctex[39m[0m
+[  24% ] [90m[1msavepack[22m | Storing File: res://assets/forest/kael-v3_Woven linen grain.png.import[39m[0m
+[  25% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/kael.glb-b9338c44feb1927b71168abb98e6ad7c.scn[39m[0m
+[  25% ] [90m[1msavepack[22m | Storing File: res://assets/forest/kael.glb.import[39m[0m
+[  26% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/kael_Indigo wool grain.png-c0dcb6c41160c3e553a512190f95d87c.ctex[39m[0m
+[  26% ] [90m[1msavepack[22m | Storing File: res://assets/forest/kael_Indigo wool grain.png.import[39m[0m
+[  27% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/kael_Oiled leather grain.png-03698bc7b2439cd27d7cc2bf7d3211fd.ctex[39m[0m
+[  27% ] [90m[1msavepack[22m | Storing File: res://assets/forest/kael_Oiled leather grain.png.import[39m[0m
+[  28% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/kael_Woven linen grain.png-812095f26cf4f0a4c75b5564225ea462.ctex[39m[0m
+[  28% ] [90m[1msavepack[22m | Storing File: res://assets/forest/kael_Woven linen grain.png.import[39m[0m
+[  29% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/oak.glb-f0c0aeb71c90bc7c7f2fec08c1e37453.scn[39m[0m
+[  29% ] [90m[1msavepack[22m | Storing File: res://assets/forest/oak.glb.import[39m[0m
+[  30% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/oak_Oak bark grain.png-99f01ac3191912b62c6b4757e5b7ca8a.ctex[39m[0m
+[  30% ] [90m[1msavepack[22m | Storing File: res://assets/forest/oak_Oak bark grain.png.import[39m[0m
+[  31% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/ruin.glb-4cbc101df8435016253a0b99cc9e1ced.scn[39m[0m
+[  31% ] [90m[1msavepack[22m | Storing File: res://assets/forest/ruin.glb.import[39m[0m
+[  32% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/ruin_Damp moss grain.png-f450d457963148943e97a16eb9c197fe.ctex[39m[0m
+[  32% ] [90m[1msavepack[22m | Storing File: res://assets/forest/ruin_Damp moss grain.png.import[39m[0m
+[  33% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/ruin_Weathered limestone grain.png-cfa85c832679f580746da6dc018adb71.ctex[39m[0m
+[  33% ] [90m[1msavepack[22m | Storing File: res://assets/forest/ruin_Weathered limestone grain.png.import[39m[0m
+[  34% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/stone.glb-d7ca78a184d82857f73056c61754177c.scn[39m[0m
+[  34% ] [90m[1msavepack[22m | Storing File: res://assets/forest/stone.glb.import[39m[0m
+[  35% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/stone_Weathered limestone grain.png-6ffe5a0b687bfcbfbf2561b048339f09.ctex[39m[0m
+[  35% ] [90m[1msavepack[22m | Storing File: res://assets/forest/stone_Weathered limestone grain.png.import[39m[0m
+[  36% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/tempest-colossus.glb-a3565c18e9620ca456e802397f7e467e.scn[39m[0m
+[  36% ] [90m[1msavepack[22m | Storing File: res://assets/forest/tempest-colossus.glb.import[39m[0m
+[  37% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/veil_moth.glb-794038aa58300c1fa293f04dd64e599c.scn[39m[0m
+[  37% ] [90m[1msavepack[22m | Storing File: res://assets/forest/veil_moth.glb.import[39m[0m
+[  38% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/void-herald.glb-3522d997c36721c6164aa7e4ca67cab3.scn[39m[0m
+[  38% ] [90m[1msavepack[22m | Storing File: res://assets/forest/void-herald.glb.import[39m[0m
+[  39% ] [90m[1msavepack[22m | Storing File: res://assets/image_characters/cinder-parts.json[39m[0m
+[  40% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/cinder-parts.png-46bab9f1f09b399243379e95e467799c.ctex[39m[0m
+[  40% ] [90m[1msavepack[22m | Storing File: res://assets/image_characters/cinder-parts.png.import[39m[0m
+[  41% ] [90m[1msavepack[22m | Storing File: res://assets/image_characters/frost-parts.json[39m[0m
+[  42% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/frost-parts.png-407a847c6594fa4a3dcc4b0c6cb95699.ctex[39m[0m
+[  42% ] [90m[1msavepack[22m | Storing File: res://assets/image_characters/frost-parts.png.import[39m[0m
+[  43% ] [90m[1msavepack[22m | Storing File: res://assets/image_characters/gale-parts.json[39m[0m
+[  44% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/gale-parts.png-0f8ba8e3f2ca9639a5ad97bbb2eb1474.ctex[39m[0m
+[  44% ] [90m[1msavepack[22m | Storing File: res://assets/image_characters/gale-parts.png.import[39m[0m
+[  45% ] [90m[1msavepack[22m | Storing File: res://assets/image_characters/kael-parts.json[39m[0m
+[  46% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/kael-parts.png-c0c6f1d9cd573395be00191f0a4595b1.ctex[39m[0m
+[  46% ] [90m[1msavepack[22m | Storing File: res://assets/image_characters/kael-parts.png.import[39m[0m
+[  47% ] [90m[1msavepack[22m | Storing File: res://assets/image_characters/tempest-parts.json[39m[0m
+[  48% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/tempest-parts.png-0eb4064a0af0de53ce9469a83381e7e4.ctex[39m[0m
+[  48% ] [90m[1msavepack[22m | Storing File: res://assets/image_characters/tempest-parts.png.import[39m[0m
+[  49% ] [90m[1msavepack[22m | Storing File: res://assets/image_characters/void-parts.json[39m[0m
+[  50% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/void-parts.png-a42fe621c4e2023b6f9f58382f73fbdd.ctex[39m[0m
+[  50% ] [90m[1msavepack[22m | Storing File: res://assets/image_characters/void-parts.png.import[39m[0m
+[  51% ] [90m[1msavepack[22m | Storing File: res://assets/image_characters/warden-parts.json[39m[0m
+[  52% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/warden-parts.png-142ff2e4bc4e5317c342bb639fa3fb37.ctex[39m[0m
+[  52% ] [90m[1msavepack[22m | Storing File: res://assets/image_characters/warden-parts.png.import[39m[0m
+[  53% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-f862ea74d82cd9a7035f220a3dd82d76-alder.scn[39m[0m
+[  54% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-c8f93e352f112dae22a00e3a71a85003-castle.scn[39m[0m
+[  55% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-1e376648b4456fd76a0295c7885cc6d4-cottage.scn[39m[0m
+[  56% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-288cb04ac21d52a69fd29ed20445be05-fir.scn[39m[0m
+[  57% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-211283be4ab801787be0ed390ee2295a-hollow_warden.scn[39m[0m
+[  58% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-949845b9665b83665ded4cd9dcac04df-kael.scn[39m[0m
+[  59% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-211ad197277072821702c310ff79a10a-lyra.scn[39m[0m
+[  60% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-d5ba62dc28f11f993a793f1fd04ce55a-mira.scn[39m[0m
+[  61% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-8e1960bc5251f9349c57bdc9ace49a26-orin.scn[39m[0m
+[  62% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-7401128bcffb94c2090427b3844f0239-ruin_arch.scn[39m[0m
+[  63% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-a48aba9f3dddf4e2c016b92e25d8b977-thornling.scn[39m[0m
+[  64% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-04d96807906a0b2d69218db793b9fd97-veil_moth.scn[39m[0m
+[  65% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-1d36aa0481f37e23d3ea4c4477d4499d-waterfall.scn[39m[0m
+[  66% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-cb37f3a1a896f2200f6ac01d4aaa4f63-waystone.scn[39m[0m
+[  67% ] [90m[1msavepack[22m | Storing File: res://assets/shaders/forest_stone.gdshader[39m[0m
+[  68% ] [90m[1msavepack[22m | Storing File: res://assets/shaders/painted_glow.gdshader[39m[0m
+[  69% ] [90m[1msavepack[22m | Storing File: res://assets/shaders/reference_background.gdshader[39m[0m
+[  70% ] [90m[1msavepack[22m | Storing File: res://assets/shaders/slice_foliage.gdshader[39m[0m
+[  71% ] [90m[1msavepack[22m | Storing File: res://assets/shaders/slice_river.gdshader[39m[0m
+[  72% ] [90m[1msavepack[22m | Storing File: res://assets/shaders/slice_stone.gdshader[39m[0m
+[  73% ] [90m[1msavepack[22m | Storing File: res://assets/shaders/slice_waterfall.gdshader[39m[0m
+[  74% ] [90m[1msavepack[22m | Storing File: res://assets/shaders/water.gdshader[39m[0m
+[  75% ] [90m[1msavepack[22m | Storing File: res://scripts/hero_motion.gdc[39m[0m
+[  76% ] [90m[1msavepack[22m | Storing File: res://scripts/enemy.gdc[39m[0m
+[  77% ] [90m[1msavepack[22m | Storing File: res://scripts/region_art.gdc[39m[0m
+[  78% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-3ad5c15c4f3250da0cc7c1af1770d85f-main.scn[39m[0m
+[  79% ] [90m[1msavepack[22m | Storing File: res://scripts/scenery.gdc[39m[0m
+[  80% ] [90m[1msavepack[22m | Storing File: res://scripts/progress.gdc[39m[0m
+[  81% ] [90m[1msavepack[22m | Storing File: res://.godot/exported/133200997/export-74f2d0ee013d58f511bf1374a2361f51-image_preview.scn[39m[0m
+[  82% ] [90m[1msavepack[22m | Storing File: res://scripts/forest_detail.gdc[39m[0m
+[  83% ] [90m[1msavepack[22m | Storing File: res://scripts/image_preview.gdc[39m[0m
+[  84% ] [90m[1msavepack[22m | Storing File: res://scripts/boss_power.gdc[39m[0m
+[  85% ] [90m[1msavepack[22m | Storing File: res://scripts/end_portal.gdc[39m[0m
+[  86% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/icon.svg-56083ea2a1f1a4f1e49773bdc6d7826c.ctex[39m[0m
+[  86% ] [90m[1msavepack[22m | Storing File: res://assets/icon.svg.import[39m[0m
+[  87% ] [90m[1msavepack[22m | Storing File: res://scripts/shapes.gdc[39m[0m
+[  88% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/forest-foliage.png-2c5e2c72be982d79f840c1736b0d58e6.ctex[39m[0m
+[  88% ] [90m[1msavepack[22m | Storing File: res://assets/stage/forest-foliage.png.import[39m[0m
+[  89% ] [90m[1msavepack[22m | Storing File: res://scripts/campaign.gdc[39m[0m
+[  90% ] [90m[1msavepack[22m | Storing File: res://scripts/world.gdc[39m[0m
+[  91% ] [90m[1msavepack[22m | Storing File: res://.godot/imported/forest-platform.png-a446cb3bd9a92e06e4f03f7abb275df7.ctex[39m[0m
+[  91% ] [90m[1msavepack[22m | Storing File: res://assets/stage/forest-platform.png.import[39m[0m
+[  92% ] [90m[1msavepack[22m | Storing File: res://scripts/magic_effect.gdc[39m[0m
+[  93% ] [90m[1msavepack[22m | Storing File: res://scripts/image_puppet.gdc[39m[0m
+[  94% ] [90m[1msavepack[22m | Storing File: res://scripts/bolt.gdc[39m[0m
+[  95% ] [90m[1msavepack[22m | Storing File: res://scripts/hero_echo.gdc[39m[0m
+[  96% ] [90m[1msavepack[22m | Storing File: res://scripts/controls.gdc[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/player.gdc[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/skinned_motion.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/stage_art.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/slice_effects.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://assets/models/alder.tscn.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://assets/models/castle.tscn.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://assets/models/cottage.tscn.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://assets/models/fir.tscn.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://assets/models/hollow_warden.tscn.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://assets/models/kael.tscn.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://assets/models/lyra.tscn.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://assets/models/mira.tscn.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://assets/models/orin.tscn.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://assets/models/ruin_arch.tscn.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://assets/models/thornling.tscn.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://assets/models/veil_moth.tscn.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://assets/models/waterfall.tscn.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://assets/models/waystone.tscn.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/hero_motion.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/enemy.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/region_art.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scenes/main.tscn.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/scenery.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/progress.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scenes/image_preview.tscn.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/forest_detail.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/image_preview.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/boss_power.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/end_portal.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/shapes.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/campaign.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/world.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/magic_effect.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/image_puppet.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/bolt.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/hero_echo.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/controls.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://scripts/player.gd.remap[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://.godot/global_script_class_cache.cfg[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://assets/icon.svg[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://.godot/uid_cache.bin[39m[0m
+[  97% ] [90m[1msavepack[22m | Storing File: res://project.binary[39m[0m
+[92m[ DONE ][39m [1msavepack[22m
+[0m

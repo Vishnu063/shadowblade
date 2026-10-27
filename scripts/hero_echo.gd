@@ -7,10 +7,10 @@ var elapsed = 0.0
 var body: Node3D
 var motion: RefCounted
 func _ready() -> void:
-	body = (load("res://assets/slice3d/kael-guardian-skinned.glb") if world.has_meta("guardian_3d") else preload("res://assets/forest/kael-v3.glb")).instantiate()
+	body = load("res://assets/slice3d/kael-guardian-skinned.glb").instantiate() if world.has_meta("guardian_3d") else load("res://scripts/image_puppet.gd").hero()
 	add_child(body)
 	body.scale.x = facing
-	body.rotation.y = .65*facing
+	body.rotation.y = .65*facing if world.has_meta("guardian_3d") else 0.0
 	motion = load("res://scripts/skinned_motion.gd").new(body) if world.has_meta("guardian_3d") else Motion.new(body)
 	motion.player.play("defeat")
 	motion.player.advance(0)

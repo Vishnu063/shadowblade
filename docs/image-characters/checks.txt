@@ -1,0 +1,315 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Title opens without starting combat
+PASS: Player settles on physical village terrain
+PASS: Three full hearts and shared 100 magic at start
+PASS: Three simultaneous touch events move, jump and attack
+PASS: Sliding finger off movement releases it
+PASS: All touch ownership clears on release
+PASS: Magic hold pauses and cancels pending tap
+PASS: Locked wheel slot cannot cast or spend magic
+PASS: Magic tap casts once on release
+PASS: Empty magic blocks spells while sword remains available
+PASS: Magic recovers while alive and stationary
+PASS: Normal damage is half a heart
+PASS: Invulnerability blocks repeated damage
+PASS: Sword active window applies exactly one hit to a target
+PASS: Projectile strikes crystal and opens physical seal
+PASS: Lethal damage respawns at stable checkpoint
+PASS: Death preserves puzzle progress and powers
+PASS: Pit costs half a heart and returns to safe ground
+PASS: Physical projectile defeats mini-boss and completes quest
+PASS: Boss progression and reward happen once
+PASS: Current progress saves successfully
+PASS: Local save reload preserves quest, inventory and boss
+PASS: Repeated save retains valid backup
+PASS: Corrupt primary save recovers previous valid backup
+PASS: Invalid checkpoint data is rejected
+PASS: Unsafe saved control sizes are rejected
+PASS: Focus interruption pauses and clears held input
+PASS: Resume requires fresh movement input
+PASS: Journal pauses encounters
+PASS: Spell rays stop at solid barriers
+PASS: Sword cannot damage an enemy through a solid seal
+PASS: Coyote time permits a jump just beyond the ledge
+PASS: Buffered jump fires on landing
+PASS: Settings buttons toggle sound and camera shake
+PASS: Control size button updates layout scale
+PASS: Frame limit and quality buttons apply renderer settings
+PASS: Changed settings persist through disk reload
+GAMEPLAY RESULTS: 37/37 passed
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Lyra gives the main quest and pauses for dialogue
+PASS: Kael walks from Willowbrook to the forest gap
+PASS: Held jump crosses the authored gap and lands safely
+PASS: Forest route reaches the first waystone
+PASS: Waystone saves a stable route checkpoint
+PASS: Route reaches the crystal ledge
+PASS: Jump reaches the crystal puzzle platform
+PASS: Casting from the ledge opens the seal
+PASS: Opened seal allows reaching the boss checkpoint
+PASS: Boss checkpoint restores resources and saves
+PASS: Normal sword and bolt combat defeats the Warden
+PASS: Complete route and boss without a forced respawn
+PASS: Kael reaches the eastern trail after the boss
+PASS: Eastern trail opens the milestone completion screen
+PASS: A newly instantiated game restores the saved completed journey
+JOURNEY FAILURES: 0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Jump reaches first optional ruin ledge
+PASS: Second ledge is reachable without new powers
+PASS: High-route sun shard is collected through player proximity
+PASS: Merchant restores magic after the optional quest
+EXPLORATION FAILURES: 0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Four concurrent touches move, jump, sword and cast
+PASS: Release outside without a drag releases all actions
+PASS: Magic release outside without drag cancels the cast
+PASS: Sliding off and back onto magic cannot revive a canceled tap
+PASS: Canceled tap never casts
+PASS: Canceled movement touch releases ownership
+PASS: Emulated mouse does not duplicate a touch gesture
+PASS: Holding the magic owner opens wheel without casting
+PASS: A different finger cannot move the wheel selection
+PASS: A second magic finger cannot close the first finger's wheel
+PASS: Canceled wheel resumes safely and clears movement without casting
+PASS: Release outside the power wheel cancels selection
+PASS: Releasing one keyboard alias preserves the other held key
+PASS: Final keyboard alias release stops movement
+PASS: Keyboard release cannot steal a touch-owned magic gesture
+PASS: Application-paused notification clears pending inputs and opens pause
+PASS: Application resume does not silently resume combat
+PASS: Late releases after resume cannot cast or stick movement
+PASS: Focus loss preserves settings instead of replacing it with gameplay pause
+PASS: Backgrounding the title cannot create a Resume-to-old-game action
+PASS: Android back notification pauses a wheel without accidental cast/resume
+PASS: Crystal reset closes seal only with player and checkpoint on the safe side
+PASS: Empty magic recovers on stable puzzle ledge without consumables
+PASS: Recovered magic reopens reset puzzle using an actual bolt
+PASS: Gate cannot close around the far-side player or checkpoint
+PASS: Puzzle reset cannot remove a completed boss quest
+PASS: Save schema rejects contradictory boss and quest progress
+PASS: Save schema rejects a checkpoint behind a closed seal
+PASS: New Journey resets crystal and encounters together
+PASS: Pit recovery point is not replaced by a partly supported ledge position
+INPUT/SAFETY RESULTS: 30/30 passed
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Undiscovered chapters cannot be skipped
+PASS: Version-one Willowbrook save remains readable
+PASS: Old save migrates to campaign schema
+PASS: Valid chapter state
+PASS: Powers unlock in order before the regional boss
+PASS: Guide gives regional quest
+PASS: Walk from village to gap
+PASS: Regional gap physically traversable
+PASS: Reach waystone
+PASS: Regional checkpoint saves
+PASS: Reach mechanism ledge
+PASS: Required regional power opens physical seal
+PASS: Opened gate permits reaching boss checkpoint
+PASS: Normal combat defeats Hollow Warden
+PASS: Victory persists once
+PASS: Chapter and powers survive JSON reload
+PASS: Reach regional exit
+PASS: Exit presents next chapter or ending
+PASS: Travel unlocks Emberhearth
+PASS: Valid chapter state
+PASS: Powers unlock in order before the regional boss
+PASS: Guide gives regional quest
+PASS: Walk from village to gap
+PASS: Regional gap physically traversable
+PASS: Reach waystone
+PASS: Regional checkpoint saves
+PASS: Reach mechanism ledge
+PASS: Required regional power opens physical seal
+PASS: Opened gate permits reaching boss checkpoint
+PASS: Normal combat defeats Cinder Sentinel
+PASS: Victory persists once
+PASS: Chapter and powers survive JSON reload
+PASS: Reach regional exit
+PASS: Exit presents next chapter or ending
+PASS: Travel unlocks Frosthaven
+PASS: Valid chapter state
+PASS: Powers unlock in order before the regional boss
+PASS: Guide gives regional quest
+PASS: Walk from village to gap
+PASS: Regional gap physically traversable
+PASS: Reach waystone
+PASS: Regional checkpoint saves
+PASS: Reach mechanism ledge
+PASS: Required regional power opens physical seal
+PASS: Opened gate permits reaching boss checkpoint
+PASS: Normal combat defeats Frostbound Keeper
+PASS: Victory persists once
+PASS: Chapter and powers survive JSON reload
+PASS: Reach regional exit
+PASS: Exit presents next chapter or ending
+PASS: Travel unlocks Windrest
+PASS: Valid chapter state
+PASS: Powers unlock in order before the regional boss
+PASS: Guide gives regional quest
+PASS: Walk from village to gap
+PASS: Regional gap physically traversable
+PASS: Reach waystone
+PASS: Regional checkpoint saves
+PASS: Reach mechanism ledge
+PASS: Required regional power opens physical seal
+PASS: Opened gate permits reaching boss checkpoint
+PASS: Normal combat defeats Gale Harrier
+PASS: Victory persists once
+PASS: Chapter and powers survive JSON reload
+PASS: Reach regional exit
+PASS: Exit presents next chapter or ending
+PASS: Travel unlocks Stormwatch
+PASS: Valid chapter state
+PASS: Powers unlock in order before the regional boss
+PASS: Guide gives regional quest
+PASS: Walk from village to gap
+PASS: Regional gap physically traversable
+PASS: Reach waystone
+PASS: Regional checkpoint saves
+PASS: Reach mechanism ledge
+PASS: Required regional power opens physical seal
+PASS: Opened gate permits reaching boss checkpoint
+PASS: Normal combat defeats Tempest Colossus
+PASS: Victory persists once
+PASS: Chapter and powers survive JSON reload
+PASS: Reach regional exit
+PASS: Exit presents next chapter or ending
+PASS: Travel unlocks Duskveil
+PASS: Valid chapter state
+PASS: Powers unlock in order before the regional boss
+PASS: Guide gives regional quest
+PASS: Walk from village to gap
+PASS: Regional gap physically traversable
+PASS: Reach waystone
+PASS: Regional checkpoint saves
+PASS: Reach mechanism ledge
+PASS: Required regional power opens physical seal
+PASS: Opened gate permits reaching boss checkpoint
+PASS: Normal combat defeats Void Herald
+PASS: Victory persists once
+PASS: Chapter and powers survive JSON reload
+PASS: Reach regional exit
+PASS: Exit presents next chapter or ending
+PASS: Travel unlocks Shadow Fortress
+PASS: Valid chapter state
+PASS: Powers unlock in order before the regional boss
+PASS: Guide gives regional quest
+PASS: Walk from village to gap
+PASS: Regional gap physically traversable
+PASS: Reach waystone
+PASS: Regional checkpoint saves
+PASS: Reach mechanism ledge
+PASS: Required regional power opens physical seal
+PASS: Opened gate permits reaching boss checkpoint
+PASS: Normal combat defeats Lord Vaelor
+PASS: Victory persists once
+PASS: Chapter and powers survive JSON reload
+PASS: Reach regional exit
+PASS: Exit presents next chapter or ending
+PASS: All six villages and final fortress completed
+PASS: Exactly six villages and powers discovered
+PASS: Return travel to Willowbrook works after ending
+PASS: Return travel preserves Willowbrook victory
+PASS: Return to fortress preserves destinations
+PASS: Final boss and seals survive travel
+PASS: Invalid campaign saves rejected
+CAMPAIGN RESULTS: 121/121 passed
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Locked powers cannot be selected
+PASS: Six powers selectable after discovery
+PASS: Flame consumes 20 magic
+PASS: Flame damages visible nearby enemy
+PASS: Frost freezes ordinary enemy
+PASS: Frozen enemy cannot move or attack
+PASS: Frost creates a physical ice bridge
+PASS: Temporary ice cannot become permanent recovery point
+PASS: Ice expiry returns occupant to solid ground
+PASS: Air dash costs 15 magic
+PASS: Second air dash blocked without spending magic
+PASS: Dash cannot tunnel through a solid wall
+PASS: Lightning chains through three targets
+PASS: Lightning cannot cross a solid wall
+PASS: Guardian absorbs exactly two hits
+PASS: Damage resumes after shield charges exhaust
+PASS: Shield cannot cancel pit damage
+PASS: Insufficient magic never casts or spends partial cost
+PASS: Selected power survives disk reload
+PASS: Pause freezes shield duration
+PASS: Respawn clears temporary spells
+POWER RESULTS: 21/21 passed
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Movement drives the run clip
+PASS: Sword animation preserves combat window
+PASS: Pause freezes the animation timeline
+PASS: Respawn clears action and slow state
+PASS: Distinct painted character in region 0
+PASS: Region 0 warning cannot deal early damage
+PASS: Region 0 active power hits once
+PASS: Region 0 power cannot hit twice
+PASS: Region 0 power respects pause
+PASS: Region 0 respawn clears hostile power
+PASS: Distinct painted character in region 1
+PASS: Region 1 warning cannot deal early damage
+PASS: Region 1 active power hits once
+PASS: Region 1 power cannot hit twice
+PASS: Region 1 power respects pause
+PASS: Region 1 respawn clears hostile power
+PASS: Distinct painted character in region 2
+PASS: Region 2 warning cannot deal early damage
+PASS: Region 2 active power hits once
+PASS: Region 2 power cannot hit twice
+PASS: Region 2 power respects pause
+PASS: Region 2 respawn clears hostile power
+PASS: Distinct painted character in region 3
+PASS: Region 3 warning cannot deal early damage
+PASS: Region 3 active power hits once
+PASS: Region 3 power cannot hit twice
+PASS: Region 3 power respects pause
+PASS: Region 3 respawn clears hostile power
+PASS: Distinct painted character in region 4
+PASS: Region 4 warning cannot deal early damage
+PASS: Region 4 active power hits once
+PASS: Region 4 power cannot hit twice
+PASS: Region 4 power respects pause
+PASS: Region 4 respawn clears hostile power
+PASS: Distinct painted character in region 5
+PASS: Region 5 warning cannot deal early damage
+PASS: Region 5 active power hits once
+PASS: Region 5 power cannot hit twice
+PASS: Region 5 power respects pause
+PASS: Region 5 respawn clears hostile power
+PASS: Final teleport doorway stays sealed before victory
+PASS: Sealed portal cannot teleport before final victory
+PASS: Final victory opens the teleport doorway
+PASS: Final portal returns to restored Willowbrook without losing progress
+HERO/BOSS RESULTS: 44/44 passed
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Hero and Warden use painted image rigs
+PASS: Characters contain no 3D character meshes
+PASS: Body parts are separately drawable and animatable
+PASS: Both transparent part sheets load
+PASS: Painted hero stands on the actual platform
+PASS: Run animation follows real movement
+PASS: Left movement flips the artwork without turning it edge-on
+PASS: Image hero physically jumps
+PASS: Animated sword hits the image villain
+PASS: Image hero casts through the existing gameplay API
+PASS: Pause freezes image-part animation
+PASS: Checkpoint recovery resets image animation state
+PASS: Image preview preserves campaign save bytes and restores its path
+IMAGE CHARACTER RESULTS: 13/13 passed
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)

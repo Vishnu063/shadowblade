@@ -10,7 +10,7 @@ var elapsed = 0.0
 var power = 0
 var direction = 1.0
 var style = ""
-var visuals: Array[MeshInstance3D] = []
+var visuals: Array[GeometryInstance3D] = []
 var lifetime = .5
 func mesh_node(mesh: Mesh,pos: Vector3 = Vector3.ZERO) -> MeshInstance3D:
 	var visual = MeshInstance3D.new()
@@ -33,6 +33,24 @@ func ribbon(points: Array,width: float) -> void:
 		for point in [a-side,a+side,b+side,a-side,b+side,b-side]: st.add_vertex(point)
 	mesh_node(st.commit())
 func _ready() -> void:
+	if not world.has_meta("guardian_3d") and style!="slash":
+		var puppet=load("res://scripts/image_puppet.gd")
+		if beam:
+			var end=target-global_position
+			var sprite=puppet.piece(self,puppet.textures("tempest")[11],.4,maxf(.1,end.length()),Vector2(.5,.5))
+			sprite.position=end*.5
+			sprite.rotation.z=atan2(end.y,end.x)+PI/2
+			visuals.append(sprite)
+			lifetime=.3
+		elif power==5:
+			add_child(puppet.guardian())
+		else:
+			var kind="kael" if power==0 else puppet.BOSS_KINDS[power]
+			var texture=puppet.textures(kind)[15 if power==0 else 11]
+			var sprite=puppet.piece(self,texture,[.9,2.5,2.4,2.1,.8][power],[.9,1.7,1.5,1.4,2.5][power],Vector2(.5,.5))
+			visuals.append(sprite)
+			if power==3:lifetime=.24
+		return
 	if style == "slash":
 		lifetime = .23
 		var points = []
