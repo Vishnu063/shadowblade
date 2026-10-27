@@ -11,7 +11,18 @@ An original offline Android action adventure, built with Godot 4.6.3 / GDScript.
 
 [Kael close-up](docs/screenshots/kael-detail.png) · [Power wheel](docs/screenshots/powers.png) · [Visual comparison](docs/visual-review.html)
 
-These are actual engine captures with staged positions, not concept art or proof of a human playthrough. Obsolete comparison images were removed from this branch; the approved [concept](docs/art/willowbrook-concept.png) remains separate. A refreshed full-region gallery will be added after capture verification.
+These are actual engine captures with staged positions, not concept art or proof of a human playthrough. Obsolete comparison images were removed from this branch; the approved [concept](docs/art/willowbrook-concept.png) remains separate. The current regional gallery is linked below.
+
+## Regional screenshots
+
+| Region | Current engine image |
+| --- | --- |
+| Emberhearth | [View](docs/screenshots/emberhearth.png) |
+| Frosthaven | [View](docs/screenshots/frosthaven.png) |
+| Windrest | [View](docs/screenshots/windrest.png) |
+| Stormwatch | [View](docs/screenshots/stormwatch.png) |
+| Duskveil | [View](docs/screenshots/duskveil.png) |
+| Final fortress | [View](docs/screenshots/fortress.png) |
 
 ## Campaign
 
@@ -53,7 +64,7 @@ Import `project.godot` in the standard Godot 4.6.3 editor and press F5. No .NET 
 
 One validated offline slot stores separate chapter checkpoints, quests, relics, seals, discovered villages, selected power and settings. Original Willowbrook version-one saves migrate without discarding progress. Corrupt primary saves can recover from a previous valid backup. Uninstalling may remove local progress; no cloud save is used.
 
-`./tools/check.sh` runs the original regression, journey, exploration and input-safety suites plus full-campaign and power-mechanics suites. [Current evidence](docs/campaign-validation.md). Synthetic input and headless simulation do not establish Android hardware behavior or artistic quality.
+`./tools/check.sh` runs the original regression, journey, exploration and input-safety suites plus full-campaign and power-mechanics suites. [Current evidence](docs/campaign-validation.md). **228 assertions pass:** 86 original, 121 campaign and 21 power checks. Eleven renderer captures and a signed/alignment-verified ARM64 APK were produced. Synthetic input and headless simulation do not establish Android hardware behavior or artistic quality.
 
 ## Remaining release work
 

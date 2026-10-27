@@ -1,19 +1,23 @@
-# Android test APK
+# Android campaign test build
 
-Built file: `build/Shadowblade-Willowbrook-debug.apk` (58,872,283 bytes). SHA-256: `f5f797fda5cf6a246d3e950736c42b98606676b2794e55e1b8ffe37fa31e9640`.
+Current artifact: `build/Shadowblade-Campaign-debug.apk`, version `0.4.0-campaign` (code 4), ARM64, package `com.shadowblade.lastguardian`. A downloadable copy was provided in chat. It is not committed as a large source file.
 
-Built with Godot 4.6.3, OpenJDK 21.0.12.1 and Android build-tools 36.0.0. Signature schemes v2/v3 verify; zip alignment passes including 16 KiB native-library alignment. Manifest: `com.shadowblade.lastguardian`, version `0.3.0-forest-review` / code 3, minimum API 24 (Android 7.0), target API 36 (Android 16), arm64-v8a and x86_64. Compatibility/OpenGL ES is configured; its actual Android renderer has not been observed. No permissions are requested. Concept, docs, test scenes and signing files are excluded.
+The APK includes all six villages/powers, final fortress/ending, separate regional saving and return travel. It was exported with Godot 4.6.3 and passed signature and 16 KiB alignment checks. It has **not** been installed or run on an Android phone/emulator. [Export evidence](campaign-export.txt) · [SHA-256](campaign-apk-sha256.txt).
 
-**Not installed or run on Android.** ADB 37.0.1 reported no attached device. No emulator is installed. Device name, Android version, actual renderer and measured performance are unavailable. APK verification does not establish runtime compatibility.
+## Install
 
-## Install on a test phone
+Download the APK onto an ARM64 Android phone and open it in the system installer. Android may ask you to authorize that installer to install the file. This is a test build, not a store release.
 
-1. Copy the APK to a compatible 64-bit phone and open it. Allow installation from that file source when Android asks, then open Shadowblade. Alternatively, enable USB debugging, authorize the computer and run `adb install -r build/Shadowblade-Willowbrook-debug.apk`.
-2. Use landscape orientation. Start a journey, talk to Lyra, cross the forest, open the crystal seal and defeat the Warden. Try simultaneous movement, jump, sword and magic; slide/release fingers; switch apps; resume; reload a save.
-3. Record phone model/chipset, Android version, renderer and measured frame times/memory/temperature under both quality settings. No FPS promise has been made.
-
-If an older test app was signed with a different key, Android may reject the update. Uninstalling removes local progress; preserve saves before choosing that action. The generated private test key stays outside Git and should be retained privately for future updates.
+The local test signing key is different from the key in the earlier Codex environment. An older installed test build may reject an in-place update. Uninstalling can delete its local progress; preserve any existing save before removing an older installation. No cloud backup is provided.
 
 ## Rebuild
 
-See [environment prerequisites](environment.md), then run `python tools/export_android.py`. The committed Android preset has no signing credentials. The tool uses matching installed templates and local SDK/JDK settings, with a private test key outside the repository. Build output is ignored by Git; the APK is an artifact in this workspace, not a binary claimed to be committed or uploaded to GitHub. It is not a store release.
+Install standard Godot 4.6.3 and matching Android export templates, JDK 17, official Android build-tools 36.0.0, platform-tools and platform android-36. Set `GODOT_BIN`, `JAVA_HOME` and `ANDROID_HOME` as appropriate. Run `python3 tools/export_android.py`.
+
+The exporter imports the project, generates/reuses a private local test key outside Git, exports and verifies the APK. Retain that private key securely if later test builds must update the same installation. Never commit signing credentials.
+
+SDK ZIPs were checksum-verified against Google's repository metadata. The official Godot export-template ZIP was CRC-checked during Android-template extraction. No SDK or signing key is checked into the game repository.
+
+## Required phone verification
+
+Test simultaneous movement/jump/attack, tap-versus-hold power selection, all powers, route completion, travel, save/restart, death, app switching, safe areas and both quality/frame-limit settings. Record the phone model, Android version, frame times, memory use and thermal behavior. No phone performance or 60 FPS claim is made.

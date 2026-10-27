@@ -9,6 +9,7 @@ func settle(count: int = 15) -> void:
 
 func capture(file: String) -> void:
 	var image = get_viewport().get_texture().get_image()
+	DirAccess.make_dir_recursive_absolute("res://docs/screenshots")
 	var result = image.save_png("res://docs/screenshots/" + file + ".png")
 	print("CAPTURE ", file, ": ", error_string(result))
 
@@ -48,6 +49,18 @@ func _ready() -> void:
 	await settle(2)
 	capture("powers")
 	world.controls.pointer_up(7, Vector2.ZERO)
+	for region in range(1,7):
+		Progress.data.crystal = true
+		Progress.data.quest = 2
+		world.boss_defeated()
+		world.travel_to(region)
+		Progress.data.quest = 1
+		world.player.restore_at(Vector3(26,.9,0))
+		world.player.invulnerable = 0
+		world.camera.position = Vector3(27,4.3,17)
+		world.controls.status_time = 0
+		await settle(12)
+		capture(["","emberhearth","frosthaven","windrest","stormwatch","duskveil","fortress"][region])
 	for suffix in ["", ".bak", ".tmp"]:
 		DirAccess.remove_absolute(Progress.save_path + suffix)
 	world.queue_free()
