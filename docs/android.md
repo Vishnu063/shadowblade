@@ -1,8 +1,8 @@
 # Android campaign test build
 
-Current artifact: `build/Shadowblade-Campaign-debug.apk`, version `0.4.0-campaign` (code 4), ARM64, package `com.shadowblade.lastguardian`. A downloadable copy was provided in chat. It is not committed as a large source file.
+Current artifact: `build/Shadowblade-Campaign-debug.apk`, version `0.5.0-reference-art` (code 5), ARM64, package `com.shadowblade.lastguardian`. A downloadable copy was provided in chat. It is not committed as a large source file.
 
-The APK includes all six villages/powers, final fortress/ending, separate regional saving and return travel. It was exported with Godot 4.6.3 and passed signature and 16 KiB alignment checks. It has **not** been installed or run on an Android phone/emulator. [Export evidence](campaign-export.txt) · [SHA-256](campaign-apk-sha256.txt).
+The APK includes all six villages/powers, final fortress/ending, separate regional saving and return travel. It was exported with Godot 4.6.3 and passed signature and 16 KiB alignment checks. It has **not** been installed or run on an Android phone/emulator. [Current verification](stage-apk-verification.txt) · [SHA-256](campaign-apk-sha256.txt).
 
 ## Install
 
@@ -21,3 +21,7 @@ SDK ZIPs were checksum-verified against Google's repository metadata. The offici
 ## Required phone verification
 
 Test simultaneous movement/jump/attack, tap-versus-hold power selection, all powers, route completion, travel, save/restart, death, app switching, safe areas and both quality/frame-limit settings. Record the phone model, Android version, frame times, memory use and thermal behavior. No phone performance or 60 FPS claim is made.
+
+## Current visual build
+
+Willowbrook uses the approved-style environment matte, transparent mossy ledge/foliage dressing and a replacement 3D Kael. The original platform collision boxes, movement, combat and saved progression are retained. The current test build uses the same local signing key as the immediately preceding campaign download, so it should support an in-place update of that build. The older Codex-environment test key remains different. Actual Android installation is still unverified.

@@ -6,6 +6,8 @@ An original offline Android action adventure, built with Godot 4.6.3 / GDScript.
 
 ## Current gameplay images
 
+Willowbrook now uses an image background derived from the approved concept, with no baked-in hero, monster or HUD. Kael is an updated moving 3D model. Willowbrook’s mossy ledges and foreground plants use transparent image dressing over the original 3D collision surfaces. Kael, enemies and interactions remain live 3D; other regions keep their themed backdrops. The camera is slightly closer for character readability. [Art source and prompt](art/background-prompt.md).
+
 ![Current Willowbrook](docs/screenshots/willowbrook.png)
 ![Current forest](docs/screenshots/forest.png)
 

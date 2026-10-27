@@ -16,3 +16,9 @@ Rebuild with `blender -b --python art/forest_blender.py`, then run Godot editor 
 ## Scenery refinement source
 
 `scripts/forest_detail.gd` builds deterministic mountain meshes, instanced conifers, ground leaves and flower clusters. `assets/shaders/forest_stone.gdshader` generates world-space grain, moss and strata mathematically. `scripts/scenery.gd` assembles the existing original Blender stones into terrain and unequal waterfall cliffs. No downloaded implementation assets or additional third-party licenses were introduced.
+
+## Reference-background and Kael visual revision
+
+`assets/backgrounds/willowbrook-reference.png` is an AI-generated environment matte edited from the approved concept using built-in imagegen; its prompt and role are documented in `art/background-prompt.md`. It contains no HUD or player/enemy sprites. `art/build_kael_v2.py` reuses this project's original modeling/material helpers to author `assets/forest/kael-v2.glb` and its generated material images in Blender 4.2.0. Existing collision shapes, animation pivots and gameplay rules are preserved. No external model or stock texture was added.
+
+The Willowbrook stage also uses two transparent built-in imagegen assets, `assets/stage/forest-platform.png` and `assets/stage/forest-foliage.png`, as decorative Sprite3D layers. Their source prompts and rendering role are in `art/background-prompt.md`. Original physics boxes remain unchanged; these image assets do not establish collision or three-dimensional geometry.

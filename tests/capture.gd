@@ -35,12 +35,16 @@ func _ready() -> void:
 	await settle(3)
 	capture("forest")
 	world.playing = false
+	world.started = false
+	for enemy in world.enemies: enemy.visible = false
 	world.controls.visible = false
 	world.camera.size = 3.0
 	world.camera.position = world.player.position + Vector3(0, 2.4, 17)
 	await settle(2)
 	capture("kael-detail")
-	world.camera.size = 10.5
+	world.camera.size = 9.0
+	world.started = true
+	for enemy in world.enemies: enemy.visible = enemy.alive
 	world.controls.visible = true
 	world.playing = true
 	await settle(5)

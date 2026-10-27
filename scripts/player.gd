@@ -52,7 +52,7 @@ func _ready() -> void:
 	shape.height = 1.6
 	col.shape = shape
 	add_child(col)
-	body_art = preload("res://assets/forest/kael.glb").instantiate()
+	body_art = preload("res://assets/forest/kael-v2.glb").instantiate()
 	add_child(body_art)
 	legs = [body_art.find_child("LeftLeg"), body_art.find_child("RightLeg")]
 	left_arm = body_art.find_child("LeftArm")
@@ -131,6 +131,7 @@ func _physics_process(delta: float) -> void:
 	right_arm.rotation.z = sword.rotation.z * 0.45 if attack_time > 0 else sin(stride) * 0.1
 	body_art.find_child("Scarf").rotation.z = sin(stride * 0.4) * 0.12
 	body_art.rotation.z = -velocity.x * 0.008
+	body_art.rotation.y = .65*facing
 	body_art.scale.x = facing
 	body_art.visible = invulnerable == 0 or fmod(invulnerable, 0.12) > 0.04
 	if attack_time > 0:

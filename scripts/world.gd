@@ -8,6 +8,11 @@ const Enemy = preload("res://scripts/enemy.gd")
 const Bolt = preload("res://scripts/bolt.gd")
 const Controls = preload("res://scripts/controls.gd")
 const Scenery = preload("res://scripts/scenery.gd")
+const StageArt = preload("res://scripts/stage_art.gd")
+var stage_frame: Node3D
+var reference_background: MeshInstance3D
+var background_size = Vector2.ZERO
+var background_aspect = 16.0/9.0
 var region_index = 0
 var ice_bridge: StaticBody3D
 var ice_time = 0.0
@@ -44,10 +49,12 @@ func _ready() -> void:
 	camera = Camera3D.new()
 	add_child(camera)
 	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
-	camera.size = 10.5
+	camera.size = 9.0
 	camera.position = Vector3(5, 5, 17)
 	camera.rotation_degrees.x = -8
 	camera.current = true
+	setup_reference_background()
+	stage_frame = StageArt.frame(camera)
 	var layer = CanvasLayer.new()
 	add_child(layer)
 	controls = Controls.new()
@@ -105,7 +112,8 @@ func build_environment() -> void:
 	RegionArt.backdrop(self,region_index)
 
 func terrain(x: float, y: float, width: float, height: float = 1.5) -> void:
-	Scenery.terrain(self, x, y, width, height)
+	if region_index == 0: StageArt.platform(self,x,y,width,height)
+	else: Scenery.terrain(self,x,y,width,height)
 
 func build_route() -> void:
 	terrain(3, 0, 26) # Village and first route: -10 to 16.
@@ -118,7 +126,7 @@ func build_route() -> void:
 	Art.solid(self, Vector3(-10, 3, 0), Vector3(1, 9, 3), Color("3d554d"))
 	Art.solid(self, Vector3(62, 3, 0), Vector3(1, 9, 3), Color("3d554d"))
 	for x in [-4, 1, 6]:
-		Scenery.model(self, "cottage", Vector3(x, 0, -2.8))
+		if region_index != 0: Scenery.model(self, "cottage", Vector3(x, 0, -2.8))
 	Art.box(self, Vector3(1, -0.15, -2.7), Vector3(20, 0.3, 3), Color("718c65"))
 	for spec in [[3.0, Campaign.GUIDES[region_index].to_upper()+" • GUIDE", "lyra"], [-2.0, "MIRA • REST", "mira"], [7.0, "ORIN • MERCHANT", "orin"]]:
 		var x: float = spec[0]
@@ -170,6 +178,7 @@ func spawn_bolt(pos: Vector3, direction: float, friendly: bool) -> Node3D:
 	return bolt
 
 func _process(delta: float) -> void:
+	update_reference_background()
 	if menu.visible:
 		menu.position = get_viewport().get_visible_rect().size / 2 - menu.size / 2
 	for label in npc_labels:
@@ -634,3 +643,33 @@ func update_spells(delta: float) -> void:
 	if region_index == 1 and hazard_cooldown == 0 and absf(player.position.x-40) < 1.1 and player.position.y < 1.2:
 		player.damage(1)
 		hazard_cooldown = .8
+
+func setup_reference_background() -> void:
+	reference_background = MeshInstance3D.new()
+	reference_background.name = "ApprovedForestBackdrop"
+	var quad = QuadMesh.new()
+	reference_background.mesh = quad
+	var material = ShaderMaterial.new()
+	material.shader = load("res://assets/shaders/reference_background.gdshader")
+	var texture: Texture2D = load("res://assets/backgrounds/willowbrook-reference.png")
+	background_aspect = float(texture.get_width())/texture.get_height()
+	material.set_shader_parameter("background_texture",texture)
+	reference_background.material_override = material
+	reference_background.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	camera.add_child(reference_background)
+	reference_background.position = Vector3(0,0,-70)
+	update_reference_background()
+
+func update_reference_background() -> void:
+	if not is_instance_valid(reference_background): return
+	reference_background.visible = region_index == 0
+	var viewport_size = get_viewport().get_visible_rect().size
+	var aspect = viewport_size.x/maxf(viewport_size.y,1)
+	if is_instance_valid(stage_frame):
+		stage_frame.visible = region_index == 0
+		StageArt.layout_frame(stage_frame,camera,aspect)
+	var height = camera.size*maxf(1.0,aspect/background_aspect)
+	var size = Vector2(height*background_aspect,height)*1.005
+	if size != background_size:
+		reference_background.mesh.size = size
+		background_size = size

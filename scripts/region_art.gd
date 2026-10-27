@@ -16,7 +16,8 @@ static func theme_terrain(parent: Node3D,index: int) -> void:
 	for geometry in parent.find_children("*","GeometryInstance3D",true,false):
 		if geometry.material_override is ShaderMaterial and geometry.material_override.shader == preload("res://assets/shaders/forest_stone.gdshader"): geometry.material_override = materials[index]
 static func backdrop(parent: Node3D,index: int) -> void:
-	if index in [0,5]:
+	if index == 0: return
+	if index == 5:
 		Scenery.backdrop(parent)
 		return
 	if index != 6: Detail.layers(parent)
