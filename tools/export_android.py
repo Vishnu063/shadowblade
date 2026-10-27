@@ -56,7 +56,7 @@ key = json.loads(credentials.read_text())
 env['GODOT_ANDROID_KEYSTORE_DEBUG_PATH'] = str(signing / 'debug.keystore')
 env['GODOT_ANDROID_KEYSTORE_DEBUG_USER'] = key['alias']
 env['GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD'] = key['password']
-output = ROOT / 'build/Shadowblade-Willowbrook-debug.apk'
+output = ROOT / 'build/Shadowblade-Campaign-debug.apk'
 output.parent.mkdir(exist_ok=True)
 subprocess.run([str(ROOT / 'tools/godot.sh'), '--headless', '--export-debug', 'Android', str(output)], env=env, check=True)
 subprocess.run([str(sdk / 'build-tools/36.0.0/apksigner'), 'verify', '--verbose', str(output)], env=env, check=True)

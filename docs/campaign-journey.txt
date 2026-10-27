@@ -1,0 +1,124 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Undiscovered chapters cannot be skipped
+PASS: Version-one Willowbrook save remains readable
+PASS: Old save migrates to campaign schema
+PASS: Valid chapter state
+PASS: Powers unlock in order before the regional boss
+PASS: Guide gives regional quest
+PASS: Walk from village to gap
+PASS: Regional gap physically traversable
+PASS: Reach waystone
+PASS: Regional checkpoint saves
+PASS: Reach mechanism ledge
+PASS: Required regional power opens physical seal
+PASS: Opened gate permits reaching boss checkpoint
+PASS: Normal combat defeats Hollow Warden
+PASS: Victory persists once
+PASS: Chapter and powers survive JSON reload
+PASS: Reach regional exit
+PASS: Exit presents next chapter or ending
+PASS: Travel unlocks Emberhearth
+PASS: Valid chapter state
+PASS: Powers unlock in order before the regional boss
+PASS: Guide gives regional quest
+PASS: Walk from village to gap
+PASS: Regional gap physically traversable
+PASS: Reach waystone
+PASS: Regional checkpoint saves
+PASS: Reach mechanism ledge
+PASS: Required regional power opens physical seal
+PASS: Opened gate permits reaching boss checkpoint
+PASS: Normal combat defeats Cinder Sentinel
+PASS: Victory persists once
+PASS: Chapter and powers survive JSON reload
+PASS: Reach regional exit
+PASS: Exit presents next chapter or ending
+PASS: Travel unlocks Frosthaven
+PASS: Valid chapter state
+PASS: Powers unlock in order before the regional boss
+PASS: Guide gives regional quest
+PASS: Walk from village to gap
+PASS: Regional gap physically traversable
+PASS: Reach waystone
+PASS: Regional checkpoint saves
+PASS: Reach mechanism ledge
+PASS: Required regional power opens physical seal
+PASS: Opened gate permits reaching boss checkpoint
+PASS: Normal combat defeats Frostbound Keeper
+PASS: Victory persists once
+PASS: Chapter and powers survive JSON reload
+PASS: Reach regional exit
+PASS: Exit presents next chapter or ending
+PASS: Travel unlocks Windrest
+PASS: Valid chapter state
+PASS: Powers unlock in order before the regional boss
+PASS: Guide gives regional quest
+PASS: Walk from village to gap
+PASS: Regional gap physically traversable
+PASS: Reach waystone
+PASS: Regional checkpoint saves
+PASS: Reach mechanism ledge
+PASS: Required regional power opens physical seal
+PASS: Opened gate permits reaching boss checkpoint
+PASS: Normal combat defeats Gale Harrier
+PASS: Victory persists once
+PASS: Chapter and powers survive JSON reload
+PASS: Reach regional exit
+PASS: Exit presents next chapter or ending
+PASS: Travel unlocks Stormwatch
+PASS: Valid chapter state
+PASS: Powers unlock in order before the regional boss
+PASS: Guide gives regional quest
+PASS: Walk from village to gap
+PASS: Regional gap physically traversable
+PASS: Reach waystone
+PASS: Regional checkpoint saves
+PASS: Reach mechanism ledge
+PASS: Required regional power opens physical seal
+PASS: Opened gate permits reaching boss checkpoint
+PASS: Normal combat defeats Tempest Colossus
+PASS: Victory persists once
+PASS: Chapter and powers survive JSON reload
+PASS: Reach regional exit
+PASS: Exit presents next chapter or ending
+PASS: Travel unlocks Duskveil
+PASS: Valid chapter state
+PASS: Powers unlock in order before the regional boss
+PASS: Guide gives regional quest
+PASS: Walk from village to gap
+PASS: Regional gap physically traversable
+PASS: Reach waystone
+PASS: Regional checkpoint saves
+PASS: Reach mechanism ledge
+PASS: Required regional power opens physical seal
+PASS: Opened gate permits reaching boss checkpoint
+PASS: Normal combat defeats Void Herald
+PASS: Victory persists once
+PASS: Chapter and powers survive JSON reload
+PASS: Reach regional exit
+PASS: Exit presents next chapter or ending
+PASS: Travel unlocks Shadow Fortress
+PASS: Valid chapter state
+PASS: Powers unlock in order before the regional boss
+PASS: Guide gives regional quest
+PASS: Walk from village to gap
+PASS: Regional gap physically traversable
+PASS: Reach waystone
+PASS: Regional checkpoint saves
+PASS: Reach mechanism ledge
+PASS: Required regional power opens physical seal
+PASS: Opened gate permits reaching boss checkpoint
+PASS: Normal combat defeats Lord Vaelor
+PASS: Victory persists once
+PASS: Chapter and powers survive JSON reload
+PASS: Reach regional exit
+PASS: Exit presents next chapter or ending
+PASS: All six villages and final fortress completed
+PASS: Exactly six villages and powers discovered
+PASS: Return travel to Willowbrook works after ending
+PASS: Return travel preserves Willowbrook victory
+PASS: Return to fortress preserves destinations
+PASS: Final boss and seals survive travel
+PASS: Invalid campaign saves rejected
+CAMPAIGN RESULTS: 121/121 passed

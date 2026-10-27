@@ -1,10 +1,18 @@
 extends Node3D
 const Art = preload("res://scripts/shapes.gd")
+const Campaign = preload("res://scripts/campaign.gd")
+const RegionArt = preload("res://scripts/region_art.gd")
+const MagicEffect = preload("res://scripts/magic_effect.gd")
 const Player = preload("res://scripts/player.gd")
 const Enemy = preload("res://scripts/enemy.gd")
 const Bolt = preload("res://scripts/bolt.gd")
 const Controls = preload("res://scripts/controls.gd")
 const Scenery = preload("res://scripts/scenery.gd")
+var region_index = 0
+var ice_bridge: StaticBody3D
+var ice_time = 0.0
+var reveal_time = 0.0
+var hazard_cooldown = 0.0
 var sun: DirectionalLight3D
 var npc_labels: Array[Label3D] = []
 var rune_clock = 0.0
@@ -61,6 +69,7 @@ func _ready() -> void:
 	audio = AudioStreamPlayer.new()
 	add_child(audio)
 	Progress.load_game()
+	if region_index != int(Progress.data.campaign.region): rebuild_region()
 	apply_settings()
 	show_title()
 
@@ -70,8 +79,8 @@ func build_environment() -> void:
 	env.background_mode = Environment.BG_SKY
 	var sky = Sky.new()
 	var sky_material = ProceduralSkyMaterial.new()
-	sky_material.sky_top_color = Color("3c80bb")
-	sky_material.sky_horizon_color = Color("c3d5d8")
+	sky_material.sky_top_color = [Color("3c80bb"),Color("382c39"),Color("598da9"),Color("62a6c3"),Color("514a71"),Color("373650"),Color("272139")][region_index]
+	sky_material.sky_horizon_color = [Color("c3d5d8"),Color("ba8a73"),Color("d5e7e9"),Color("d6e6df"),Color("a7a3bd"),Color("a091ae"),Color("766786")][region_index]
 	sky_material.ground_horizon_color = Color("657f88")
 	sky.sky_material = sky_material
 	env.sky = sky
@@ -87,31 +96,31 @@ func build_environment() -> void:
 	add_child(environment)
 	sun = DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-38, -35, 0)
-	sun.light_color = Color("fff1d0")
+	sun.light_color = [Color("fff1d0"),Color("ffb778"),Color("e1f3ff"),Color("d2f5e3"),Color("cbbaf4"),Color("f2d8b8"),Color("c9b4ea")][region_index]
 	sun.light_energy = 1.12
 	sun.shadow_enabled = true
 	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL
 	sun.directional_shadow_max_distance = 48
 	add_child(sun)
-	Scenery.backdrop(self)
+	RegionArt.backdrop(self,region_index)
 
 func terrain(x: float, y: float, width: float, height: float = 1.5) -> void:
 	Scenery.terrain(self, x, y, width, height)
 
 func build_route() -> void:
 	terrain(3, 0, 26) # Village and first route: -10 to 16.
-	terrain(27, 0, 16) # Landing: 19 to 35.
+	terrain(28.5,0,13) if region_index == 3 else terrain(27,0,16) # Windrest needs air dash.
 	terrain(48, 0, 26) # Boss route: 35 to 61.
 	terrain(12, 1.8, 3, 0.15)
 	terrain(14, 3.3, 2.5, 0.5)
-	terrain(21, 1.0, 3, 0.5)
+	if region_index != 3: terrain(21,1.0,3,.5)
 	terrain(31, 1.4, 3, 0.5)
 	Art.solid(self, Vector3(-10, 3, 0), Vector3(1, 9, 3), Color("3d554d"))
 	Art.solid(self, Vector3(62, 3, 0), Vector3(1, 9, 3), Color("3d554d"))
 	for x in [-4, 1, 6]:
 		Scenery.model(self, "cottage", Vector3(x, 0, -2.8))
 	Art.box(self, Vector3(1, -0.15, -2.7), Vector3(20, 0.3, 3), Color("718c65"))
-	for spec in [[3.0, "LYRA • GUIDE", "lyra"], [-2.0, "MIRA • REST", "mira"], [7.0, "ORIN • MERCHANT", "orin"]]:
+	for spec in [[3.0, Campaign.GUIDES[region_index].to_upper()+" • GUIDE", "lyra"], [-2.0, "MIRA • REST", "mira"], [7.0, "ORIN • MERCHANT", "orin"]]:
 		var x: float = spec[0]
 		Scenery.model(self, spec[2], Vector3(x, 0.8, -0.7))
 		npc_labels.append(Art.label(self, Vector3(x, 2.1, -0.7), spec[1], Color("e4d6ad")))
@@ -120,7 +129,7 @@ func build_route() -> void:
 		npc_labels.append(Art.label(self, Vector3(x, 2.2, 0), "WAYSTONE • USE", Color("9be8e9")))
 	Art.box(self, Vector3(9, 1.1, -0.8), Vector3(0.14, 2.2, 0.18), Color("695f49"))
 	Art.box(self, Vector3(9, 1.8, -0.8), Vector3(2.1, 0.55, 0.14), Color("7f7959"))
-	npc_labels.append(Art.label(self, Vector3(9, 1.83, -0.68), "FOREST  →", Color("e6ddbb")))
+	npc_labels.append(Art.label(self, Vector3(9, 1.83, -0.68), "TRAIL  →", Color("e6ddbb")))
 	var switch_body = Art.solid(self, Vector3(33, 2.2, 0), Vector3(0.6, 0.9, 0.6), Color("579fc9"))
 	switch_body.collision_layer = 16
 	switch_body.set_meta("crystal", true)
@@ -128,7 +137,7 @@ func build_route() -> void:
 	var rune = Scenery.rune(self, Vector3.ZERO, Color("78d8ed"))
 	crystal.mesh = rune.mesh
 	rune.queue_free()
-	npc_labels.append(Art.label(self, Vector3(32.5, 3.4, 0), "BOLT → CRYSTAL", Color("9de4ff")))
+	npc_labels.append(Art.label(self, Vector3(32.5, 3.4, 0), ["BOLT → CRYSTAL","FLAME → VINES","FROST → RUNE","DASH → VANE","CHAIN → CONDUCTOR","LIGHT → SEAL","FOUR SEALS"][region_index], Color("9de4ff")))
 	gate = Art.solid(self, Vector3(37, 2.5, 0), Vector3(0.55, 5, 3), Color("54799b"))
 	Scenery.model(self, "ruin_arch", Vector3(37, 0, -0.5), Vector3(0.3, 1.05, 1))
 	gate.get_child(0).material_override = Art.material(Color("559aa9"), 0.2)
@@ -139,7 +148,8 @@ func build_route() -> void:
 	add_enemy(42, "melee")
 	add_enemy(51, "boss")
 
-	Art.label(self, Vector3(59, 2.5, 0), "WILLOWBROOK\nA light returns", Color("e5c79c"))
+	Art.label(self,Vector3(59,2.5,0),Campaign.NAMES[region_index].to_upper()+"\nThe eastern trail",Color("e5c79c"))
+	RegionArt.landmark(self,region_index)
 
 func add_enemy(x: float, kind: String) -> void:
 	var enemy = Enemy.new()
@@ -166,6 +176,7 @@ func _process(delta: float) -> void:
 		label.visible = started and absf(player.position.x - label.position.x) < 5.5
 	if not playing:
 		return
+	update_spells(delta)
 	rune_clock += delta
 	secret.rotation.y = rune_clock
 	crystal.rotation.y = rune_clock * 0.6
@@ -175,11 +186,11 @@ func _process(delta: float) -> void:
 	camera.position = camera.position.lerp(target, 1 - exp(-5 * delta))
 	if hit_flash > 0 and Progress.data.settings.shake:
 		camera.position.y += sin(Time.get_ticks_msec() * 0.09) * hit_flash * 0.2
-	if not Progress.data.secret and player.position.distance_to(secret.position) < 0.9:
+	if not Progress.data.secret and secret.visible and player.position.distance_to(secret.position) < .9:
 		Progress.data.secret = true
 		secret.visible = false
 		persist()
-		controls.notify_text("Sun shard found! Bring it to Orin in Willowbrook.")
+		controls.notify_text(Campaign.SIDE_ITEMS[region_index]+" found! Visit the village merchant.")
 	if player.position.x > 57 and Progress.data.boss:
 		playing = false
 		show_completion()
@@ -194,6 +205,7 @@ func start_game(fresh: bool = false) -> void:
 		persist()
 	else:
 		Progress.load_game()
+	if region_index != int(Progress.data.campaign.region): rebuild_region()
 	started = true
 	playing = true
 	menu.visible = false
@@ -203,16 +215,16 @@ func start_game(fresh: bool = false) -> void:
 	for enemy in enemies:
 		enemy.reset_encounter()
 	for child in get_children():
-		if child.get_script() == Bolt:
+		if child.get_script() in [Bolt,MagicEffect]:
 			child.queue_free()
 	apply_progress()
 	camera.position.x = player.position.x + 2
-	controls.notify_text("Welcome to Willowbrook. Talk to Lyra to begin.")
+	controls.notify_text("Welcome to "+Campaign.NAMES[region_index]+". Talk to "+Campaign.GUIDES[region_index]+".")
 
 func apply_progress() -> void:
 	gate.visible = not Progress.data.crystal
 	gate.collision_layer = 0 if Progress.data.crystal else 1
-	secret.visible = not Progress.data.secret
+	secret.visible = not Progress.data.secret and (region_index != 5 or reveal_time > 0)
 	crystal.material_override = Art.material(Color("87e5ce") if Progress.data.crystal else Color("579fc9"), 1)
 
 func activate_crystal() -> void:
@@ -242,10 +254,11 @@ func boss_defeated() -> void:
 		return
 	Progress.data.boss = true
 	Progress.data.quest = 3
+	if not Progress.data.campaign.completed.has(region_index): Progress.data.campaign.completed.append(region_index)
 	boss_rewards += 1
 	player.magic = player.max_magic
 	persist()
-	controls.notify_text("The Hollow Warden falls. Return to Lyra, or follow the eastern trail.")
+	controls.notify_text(Campaign.BOSSES[region_index]+" falls. Follow the eastern trail.")
 
 func respawn() -> void:
 	session_deaths += 1
@@ -254,16 +267,17 @@ func respawn() -> void:
 	for enemy in enemies:
 		enemy.reset_encounter()
 	for child in get_children():
-		if child.get_script() == Bolt:
+		if child.get_script() in [Bolt,MagicEffect]:
 			child.queue_free()
+	clear_temporary_magic()
 	controls.notify_text("Returned to your waystone. Powers and quest progress preserved.")
 
 func objective() -> String:
 	match int(Progress.data.quest):
-		0: return "Talk to Lyra in the village [E / TALK]"
-		1: return "Forest path: cast Arcane Bolt at the blue crystal"
-		2: return "Beyond the seal: defeat the Hollow Warden"
-	return "Willowbrook restored • Return to Lyra or explore east"
+		0: return "Talk to "+Campaign.GUIDES[region_index]+" in "+Campaign.NAMES[region_index]
+		1: return Campaign.PUZZLES[region_index]
+		2: return "Beyond the seal: defeat "+Campaign.BOSSES[region_index]
+	return Campaign.NAMES[region_index]+" restored • Follow the eastern trail"
 
 func interact() -> void:
 	var x: float = player.position.x
@@ -271,14 +285,14 @@ func interact() -> void:
 		if Progress.data.quest == 0:
 			Progress.data.quest = 1
 			persist()
-			show_dialogue("Lyra • The forest is fading", "Kael, the Void has bound our forest guardian. You already carry Arcane Bolt. Follow the eastern trail, strike the blue crystal with magic, and free the Hollow Warden.\n\nSword: J • Jump: Space • Magic: tap K or hold for powers.")
+			show_dialogue(Campaign.GUIDES[region_index]+" • "+Campaign.NAMES[region_index],Campaign.STORIES[region_index]+"\n\nPower: "+Campaign.POWERS[mini(region_index,5)]+". Hold magic to select.")
 		elif Progress.data.boss:
-			show_dialogue("Lyra • A light returns", "You freed Willowbrook, Kael. Beyond the forest lies Emberhearth. Its chapter is still in development. Rest here before your next journey.")
+			show_dialogue(Campaign.GUIDES[region_index]+" • A light returns","You freed "+Campaign.NAMES[region_index]+". The eastern trail is open. Return travel is available in the world map.")
 		else:
-			show_dialogue("Lyra • Follow the blue light", "Magic returns if you wait. The crystal opens the forest seal. The Warden signals each strike — jump the amber shockwave, then close in with your sword.")
+			show_dialogue(Campaign.GUIDES[region_index]+" • Follow the trail",Campaign.PUZZLES[region_index]+". Magic recovers on safe ground. Watch the guardian’s warning before attacking.")
 	elif absf(x + 2) < 2:
 		rest(2.0)
-		show_dialogue("Mira • Rest point", "Your hearts and magic are restored. Your journey is saved here in Willowbrook.")
+		show_dialogue("Mira • Rest point", "Your hearts and magic are restored. Your journey is saved here in "+Campaign.NAMES[region_index]+".")
 	elif absf(x - 7) < 1.8:
 		show_merchant()
 	elif absf(x - 24) < 2:
@@ -292,7 +306,7 @@ func interact() -> void:
 				resume())
 			button("Keep it open", resume)
 		else:
-			controls.notify_text("Arcane Bolt opens the seal. Magic recovers here while you wait.")
+			controls.notify_text(Campaign.PUZZLES[region_index]+". Magic recovers while you wait.")
 	elif absf(x - 44) < 2:
 		rest(44.0)
 	else:
@@ -340,13 +354,13 @@ func button(text: String, callback: Callable) -> Button:
 
 func show_title() -> void:
 	clear_menu("SHADOWBLADE", "title")
-	paragraph("THE LAST GUARDIAN\nWillowbrook • Guardian of the Silverfall\n\nA forest in shadow. A blacksmith’s apprentice. A light that refuses to fade.")
+	paragraph("THE LAST GUARDIAN\nSix villages • Six powers • One last guardian\n\nA forest in shadow. A blacksmith’s apprentice. A light that refuses to fade.")
 	var has_save = not Progress.read_valid(Progress.save_path).is_empty() or not Progress.read_valid(Progress.save_path + ".bak").is_empty()
 	if has_save:
 		button("Continue journey", func(): start_game(false))
 	button("New journey", confirm_new if has_save else func(): start_game(true))
 	button("Settings", show_settings)
-	paragraph("Move A/D • Jump Space • Sword J • Magic K\nTouch: separate movement and action buttons\nOriginal Willowbrook art • Offline • No login")
+	paragraph("Move A/D • Jump Space • Sword J • Magic K\nTouch: separate movement and action buttons\nOriginal fantasy adventure • Offline • No login")
 
 func confirm_new() -> void:
 	clear_menu("Begin again?", "title")
@@ -365,22 +379,27 @@ func open_pause() -> void:
 	button("Resume", resume)
 	button("Quest journal", show_journal)
 	button("Settings", show_settings)
-	button("Travel to Willowbrook", func():
-		rest(2.0)
-		player.restore_at(Vector3(2, 1, 0))
-		resume())
+	button("Travel to Willowbrook",func():
+		if region_index == 0:
+			rest(2.0)
+			player.restore_at(Vector3(2,1,0))
+			resume()
+		else: travel_to(0))
+	button("World map / villages",show_travel)
 	button("Save and return to title", func():
 		persist()
 		show_title())
 
 func show_journal() -> void:
-	clear_menu("Kael’s journal", "pause")
-	paragraph("MAIN • " + objective() + "\n\nSIDE • " + ("Sun shard recovered. Speak to Orin for a free restoration." if Progress.data.secret else "Orin seeks a sun shard in the high ruins above the forest gap.") + "\n\nPOWER • Arcane Bolt (10 magic). Hold magic to inspect six powers.\n\nVILLAGE • Willowbrook discovered. Travel is available from Pause.")
-	button("Return", resume)
+	clear_menu("Kael’s journal","pause")
+	var powers = []
+	for id in Progress.data.powers: powers.append(Campaign.POWERS[int(id)])
+	paragraph("MAIN • "+objective()+"\n\nSIDE • "+Campaign.SIDE_ITEMS[region_index]+(" recovered. Visit the merchant." if Progress.data.secret else " hidden in the high ruins.")+"\n\nPOWERS • "+", ".join(powers)+"\n\nVILLAGES • "+", ".join(Progress.data.villages))
+	button("Return",resume)
 
 func show_merchant() -> void:
 	clear_menu("Orin • Relics and remedies", "pause")
-	paragraph("Find the sun shard above the forest gap. I will restore your magic whenever you visit.\n\n" + ("You found it! Restoration is yours, free of charge." if Progress.data.secret else "The high ledges hide something bright."))
+	paragraph("Find the "+Campaign.SIDE_ITEMS[region_index]+" above the gap. I will restore your magic whenever you visit.\n\n" + ("You found it! Restoration is yours, free of charge." if Progress.data.secret else "The high ledges hide something bright."))
 	if Progress.data.secret:
 		button("Restore magic", func():
 			player.magic = player.max_magic
@@ -393,13 +412,18 @@ func show_dialogue(title: String, text: String) -> void:
 	button("Continue", resume)
 
 func show_completion() -> void:
-	clear_menu("Willowbrook • A light returns", "pause")
-	paragraph("The Hollow Warden is free. Your checkpoint, crystal seal, sun shard and quest progress are saved.\n\nThis is the end of the first prototype. The other five regions and powers remain in development.")
-	button("Return to village", func():
+	clear_menu("Aetheria restored" if region_index == 6 else Campaign.NAMES[region_index]+" • A light returns","pause")
+	if region_index == 6:
+		paragraph("Lord Vaelor falls. The six villages kindle their lights together. Kael returns to the forge, carrying a blade that now protects rather than conquers.\n\nTHE END\nYour journey is saved. Return to discover the remaining relics.")
+	else:
+		paragraph(Campaign.BOSSES[region_index]+" is free. Your quest and checkpoint are saved. Next: "+Campaign.NAMES[region_index+1])
+		button("Continue to "+Campaign.NAMES[region_index+1],func(): travel_to(region_index+1))
+	button("Return to village",func():
 		rest(2.0)
-		player.restore_at(Vector3(2, 1, 0))
+		player.restore_at(Vector3(2,1,0))
 		resume())
-	button("Title", show_title)
+	button("World map",show_travel)
+	button("Title",show_title)
 
 func show_settings() -> void:
 	clear_menu("Settings", "settings")
@@ -469,3 +493,144 @@ func tone(hz: float, duration: float) -> void:
 func _exit_tree() -> void:
 	if is_instance_valid(audio):
 		audio.stop()
+
+func rebuild_region() -> void:
+	clear_temporary_magic()
+	region_index = int(Progress.data.campaign.region)
+	enemies.clear()
+	npc_labels.clear()
+	for child in get_children():
+		if child != player and child != camera and (child is Node3D or child is WorldEnvironment):
+			remove_child(child)
+			child.queue_free()
+	build_environment()
+	build_route()
+	apply_settings()
+func travel_to(index: int) -> bool:
+	if not Campaign.enter(index):
+		controls.notify_text("Restore the previous village before taking this trail.")
+		return false
+	controls.reset_input()
+	rebuild_region()
+	player.restore_at(Vector3(Progress.data.checkpoint,1,0))
+	apply_progress()
+	camera.position = Vector3(player.position.x+2,4.3,17)
+	resume()
+	persist()
+	controls.notify_text(Campaign.NAMES[index]+" discovered • "+Campaign.POWERS[mini(index,5)]+" ready")
+	return true
+func show_travel() -> void:
+	clear_menu("Aetheria • World map","pause")
+	paragraph("Restored: %d / 6 villages. Travel preserves each chapter." % mini(6,Progress.data.campaign.completed.size()))
+	for i in int(Progress.data.campaign.unlocked)+1:
+		var destination = i
+		button(Campaign.NAMES[i]+(" • restored" if Progress.data.campaign.completed.has(i) else " • explore"),func(): travel_to(destination))
+	var next = int(Progress.data.campaign.unlocked)+1
+	if next <= 6 and Progress.data.campaign.completed.has(next-1): button("New trail • "+Campaign.NAMES[next],func(): travel_to(next))
+	button("Back",open_pause)
+func effect(origin: Vector3,power: int,radius: float = 1.0,destination: Variant = null) -> void:
+	var node = MagicEffect.new()
+	node.world = self
+	node.color = Campaign.COLORS[power]
+	node.radius = radius
+	node.position = origin
+	if destination is Vector3:
+		node.beam = true
+		node.target = to_global(destination)
+	add_child(node)
+func clear_line(from: Vector3,target: Node3D,mask: int = 5) -> bool:
+	var hit = get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(to_global(from),target.global_position,mask))
+	return hit.is_empty() or hit.collider == target
+func nearby_mechanism(power: int,radius: float = 4.5) -> void:
+	var delta = crystal.global_position-player.global_position
+	if delta.length() <= radius and delta.x*player.facing >= -.4:
+		if clear_line(player.position,crystal.get_parent(),17): attune_mechanism(power)
+func attune_mechanism(power: int) -> bool:
+	if Progress.data.crystal: return false
+	if region_index == 6:
+		if power not in [1,2,4,5]:
+			controls.notify_text("Four seals need Flame, Frost, Lightning and Guardian Light.")
+			return false
+		if not Progress.data.seals.has(power): Progress.data.seals.append(power)
+		effect(crystal.global_position,power,.7)
+		if Progress.data.seals.size() < 4:
+			persist()
+			controls.notify_text("Fortress seals: %d / 4" % Progress.data.seals.size())
+			return true
+	elif power != region_index:
+		controls.notify_text(Campaign.PUZZLES[region_index])
+		return false
+	activate_crystal()
+	return true
+func cast_power(power: int) -> bool:
+	if not Progress.data.powers.has(power): return false
+	match power:
+		0: spawn_bolt(player.position+Vector3(player.facing*.7,.1,0),player.facing,true)
+		1,2:
+			effect(player.position+Vector3(player.facing*1.3,0,0),power,1.3)
+			for enemy in enemies:
+				var delta: Vector3 = enemy.position-player.position
+				if enemy.alive and delta.x*player.facing > -.3 and delta.x*player.facing < 3.8 and absf(delta.y) < 2 and clear_line(player.position,enemy):
+					if power == 1: enemy.take_hit(3)
+					else: enemy.frozen_time = .45 if enemy.kind == "boss" else 2.5
+			if power == 2 and region_index == 2 and absf(player.position.x-17.5) < 4: freeze_pool()
+			nearby_mechanism(power)
+		3:
+			if player.dash_used: return false
+			player.dash_time = .20
+			player.dash_used = true
+			effect(player.position,power,.75)
+			nearby_mechanism(power)
+		4:
+			var origin: Vector3 = player.position
+			var hit_targets = []
+			for link in 3:
+				var nearest: Node3D = null
+				var distance = 5.5
+				for enemy in enemies:
+					var delta: Vector3 = enemy.position-origin
+					if enemy.alive and not hit_targets.has(enemy) and delta.length() < distance and (link > 0 or delta.x*player.facing > -.3) and clear_line(origin,enemy):
+						nearest = enemy
+						distance = delta.length()
+				if nearest == null: break
+				effect(origin,power,1,nearest.position)
+				hit_targets.append(nearest)
+				origin = nearest.position
+				nearest.take_hit(2)
+			nearby_mechanism(power,5.5)
+		5:
+			player.shield_hits = 2
+			player.shield_time = 3.5
+			reveal_time = 8
+			apply_progress()
+			effect(player.position,power,1.1)
+			nearby_mechanism(power)
+	return true
+func freeze_pool() -> void:
+	if not is_instance_valid(ice_bridge): ice_bridge = Art.solid(self,Vector3(17.5,-.1,0),Vector3(3.1,.2,2.4),Color("9cd8e5"))
+	ice_bridge.set_meta("temporary_platform",true)
+	ice_time = 8
+	controls.notify_text("Ice bridge • Eight seconds to cross")
+func clear_temporary_magic() -> void:
+	if is_instance_valid(ice_bridge):
+		remove_child(ice_bridge)
+		ice_bridge.queue_free()
+	ice_bridge = null
+	ice_time = 0
+	reveal_time = 0
+func update_spells(delta: float) -> void:
+	hazard_cooldown = maxf(0,hazard_cooldown-delta)
+	if ice_time > 0:
+		ice_time = maxf(0,ice_time-delta)
+		if is_instance_valid(ice_bridge): ice_bridge.get_child(0).visible = ice_time > 2 or fmod(ice_time,.3) > .12
+		if ice_time == 0:
+			if player.position.x > 15.7 and player.position.x < 19.3 and player.position.y < 1.4:
+				player.position = player.safe_position+Vector3(0,.15,0)
+				player.velocity = Vector3.ZERO
+			clear_temporary_magic()
+	if reveal_time > 0:
+		reveal_time = maxf(0,reveal_time-delta)
+		if region_index == 5 and reveal_time == 0: apply_progress()
+	if region_index == 1 and hazard_cooldown == 0 and absf(player.position.x-40) < 1.1 and player.position.y < 1.2:
+		player.damage(1)
+		hazard_cooldown = .8

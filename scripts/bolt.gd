@@ -24,7 +24,7 @@ func _physics_process(delta: float) -> void:
 		if friendly and target.has_method("take_hit"):
 			target.take_hit(1)
 		elif friendly and target.has_meta("crystal"):
-			world.activate_crystal()
+			world.attune_mechanism(0)
 		elif not friendly and target == world.player:
 			world.player.damage(1)
 		queue_free()

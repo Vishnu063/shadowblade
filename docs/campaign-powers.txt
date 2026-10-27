@@ -1,0 +1,26 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PASS: Locked powers cannot be selected
+PASS: Six powers selectable after discovery
+PASS: Flame consumes 20 magic
+PASS: Flame damages visible nearby enemy
+PASS: Frost freezes ordinary enemy
+PASS: Frozen enemy cannot move or attack
+PASS: Frost creates a physical ice bridge
+PASS: Temporary ice cannot become permanent recovery point
+PASS: Ice expiry returns occupant to solid ground
+PASS: Air dash costs 15 magic
+PASS: Second air dash blocked without spending magic
+PASS: Dash cannot tunnel through a solid wall
+PASS: Lightning chains through three targets
+PASS: Lightning cannot cross a solid wall
+PASS: Guardian absorbs exactly two hits
+PASS: Damage resumes after shield charges exhaust
+PASS: Shield cannot cancel pit damage
+PASS: Insufficient magic never casts or spends partial cost
+PASS: Selected power survives disk reload
+PASS: Pause freezes shield duration
+PASS: Respawn clears temporary spells
+POWER RESULTS: 21/21 passed
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)

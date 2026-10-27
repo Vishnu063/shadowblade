@@ -11,12 +11,15 @@ var facing = -1.0
 var hit_cooldown = 0.0
 var model: Node3D
 var anim_time = 0.0
+var frozen_time = 0.0
+var max_health = 3
 var warning: Label3D
 
 func _ready() -> void:
 	collision_layer = 4
 	collision_mask = 1
-	health = 14 if kind == "boss" else 3
+	max_health = (28 if world.region_index == 6 else 14+world.region_index*2) if kind == "boss" else 3+int(world.region_index/3)
+	health = max_health
 	var col = CollisionShape3D.new()
 	var shape = CapsuleShape3D.new()
 	shape.height = 2.4 if kind == "boss" else 1.2
@@ -31,6 +34,11 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not alive or not world.playing:
 		return
+	frozen_time = maxf(0,frozen_time-delta)
+	if frozen_time > 0:
+		warning.text = "RESISTS FROST" if kind == "boss" else "FROZEN"
+		return
+	if warning.text in ["FROZEN","RESISTS FROST"]: warning.text = ""
 	timer -= delta
 	hit_cooldown = maxf(0, hit_cooldown - delta)
 	var dx: float = world.player.position.x - position.x
@@ -49,7 +57,7 @@ func _physics_process(delta: float) -> void:
 			velocity.x = facing * (1.5 if kind != "boss" else 2.2)
 		if timer <= 0:
 			phase = "warn"
-			timer = 0.8 if kind == "boss" else 0.65
+			timer = (.65 if world.region_index == 6 and health < max_health/2 else .8) if kind == "boss" else .65
 			warning.text = "!  SHOCKWAVE" if kind == "boss" else "!"
 	elif phase == "warn" and timer <= 0:
 		phase = "strike"
@@ -57,6 +65,8 @@ func _physics_process(delta: float) -> void:
 		warning.text = ""
 		if kind in ["wisp", "boss"]:
 			world.spawn_bolt(position + Vector3(facing * 0.9, 0, 0), facing, false)
+			if kind == "boss" and world.region_index >= 4 and health < max_health/2:
+				world.spawn_bolt(position+Vector3(-facing*.9,.5,0),-facing,false)
 	elif phase == "strike":
 		if active and dx * facing > -0.2 and absf(dx) < (2.2 if kind == "boss" else 1.4) and absf(world.player.position.y - position.y) < 1.3:
 			world.player.damage(2 if kind == "boss" else 1)
@@ -99,7 +109,7 @@ func take_hit(amount: int) -> void:
 
 func reset_encounter() -> void:
 	alive = not (kind == "boss" and Progress.data.boss)
-	health = 14 if kind == "boss" else 3
+	health = max_health
 	position = home
 	velocity = Vector3.ZERO
 	visible = alive
@@ -107,4 +117,5 @@ func reset_encounter() -> void:
 	timer = 1.0
 	phase = "approach"
 	hit_cooldown = 0
+	frozen_time = 0
 	warning.text = ""

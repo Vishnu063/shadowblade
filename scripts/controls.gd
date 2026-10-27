@@ -17,7 +17,8 @@ var font: Font
 var margin = Vector2(28, 24)
 var wheel_scale = 1.0
 var style_cache: Dictionary = {}
-const POWER_NAMES = ["Arcane Bolt", "Flame Burst", "Frost Bind", "Wind Dash", "Lightning", "Guardian Light"]
+const Campaign = preload("res://scripts/campaign.gd")
+const POWER_NAMES = Campaign.POWERS
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -121,7 +122,10 @@ func finish_magic(point: Vector2, canceled: bool = false) -> void:
 		if not canceled:
 			for i in 6:
 				if point.distance_to(wheel_slots[i]) < 56 * wheel_scale:
-					notify_text("Arcane Bolt selected" if i == 0 else "Locked — discover the next villages")
+					if world.player.select_power(i):
+						notify_text(POWER_NAMES[i]+" selected")
+						world.persist()
+					else: notify_text("Locked — discover the next villages")
 		wheel_open = false
 		# Closing a gesture cannot dismiss a real pause/settings/dialogue menu.
 		world.playing = world.menu_mode.is_empty() and world.started
@@ -130,7 +134,7 @@ func finish_magic(point: Vector2, canceled: bool = false) -> void:
 		key_codes.clear()
 	elif magic_pending and world.playing and not canceled:
 		if not world.player.cast():
-			notify_text("Magic recovering…" if world.player.magic < world.player.bolt_cost else "Spell cooling down")
+			notify_text("Magic recovering…" if world.player.magic < world.player.spell_cost() else "Spell cooling down")
 	magic_owner = ""
 	magic_pending = false
 	magic_timer = 0
@@ -170,6 +174,9 @@ func _input(event: InputEvent) -> void:
 		if event.device != InputEvent.DEVICE_ID_EMULATION:
 			pointer_move(-1, event.position)
 	elif event is InputEventKey and not event.echo:
+		if event.pressed and world.playing and event.physical_keycode >= KEY_1 and event.physical_keycode <= KEY_6:
+			if world.player.select_power(event.physical_keycode-KEY_1): world.persist()
+			return
 		var mapping = {KEY_A: "left", KEY_LEFT: "left", KEY_D: "right", KEY_RIGHT: "right",
 			KEY_SPACE: "jump", KEY_J: "attack", KEY_X: "attack", KEY_K: "magic", KEY_C: "magic",
 			KEY_E: "interact", KEY_ESCAPE: "pause", KEY_TAB: "journal"}
@@ -241,8 +248,8 @@ func _draw() -> void:
 	draw_rect(Rect2(x - 1, y + 50, 182, 12), Color("183340"))
 	draw_rect(Rect2(x, y + 51, 180, 10), Color("233d55"))
 	draw_rect(Rect2(x, y + 51, 180 * world.player.magic / world.player.max_magic, 10), Color("51baf5"))
-	text_at(Vector2(x, y + 90), "KAEL  /  ARCANE BOLT", 16, Color("b5d9e9"))
-	text_at(Vector2(s.x / 2 - 165, y + 12), "WHISPERING FOREST", 21, Color("d2e7dd"))
+	text_at(Vector2(x, y + 90), "KAEL / " + POWER_NAMES[int(Progress.data.selected_power)].to_upper(), 16, Color("b5d9e9"))
+	text_at(Vector2(s.x / 2 - 165, y + 12), Campaign.REGIONS[world.region_index].to_upper(), 21, Color("d2e7dd"))
 	text_at(Vector2(x, y + 142), world.objective(), 18, Color("e8d9a5"))
 	for action in buttons:
 		var rect: Rect2 = buttons[action]
@@ -269,14 +276,14 @@ func _draw() -> void:
 			draw_polyline(PackedVector2Array([center + Vector2(-13, -7), center + Vector2(0, -23), center + Vector2(13, -7)]), Color("dce7d9"), 4, true)
 			draw_line(center + Vector2(0, -22), center + Vector2(0, 1), Color("dce7d9"), 4, true)
 		elif action == "magic":
-			draw_colored_polygon(PackedVector2Array([center + Vector2(3, -28), center + Vector2(-11, -10), center + Vector2(-1, -10), center + Vector2(-4, 6), center + Vector2(12, -15), center + Vector2(3, -15)]), Color("76dbed") if world.player.magic >= world.player.bolt_cost else Color("73858a"))
+			draw_colored_polygon(PackedVector2Array([center + Vector2(3, -28), center + Vector2(-11, -10), center + Vector2(-1, -10), center + Vector2(-4, 6), center + Vector2(12, -15), center + Vector2(3, -15)]), Color("76dbed") if world.player.magic >= world.player.spell_cost() else Color("73858a"))
 		var width = font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
 		text_at(center + Vector2(-width / 2, 24 if action in ["attack", "jump", "magic"] else 6), label, 15)
 	if world.player.position.x > 43 and not Progress.data.boss:
 		var boss = world.enemies[3]
-		text_at(Vector2(s.x / 2 - 105, y + 53), "THE HOLLOW WARDEN", 17, Color("e5c7a5"))
+		text_at(Vector2(s.x / 2 - 105, y + 53), Campaign.BOSSES[world.region_index].to_upper(), 17, Color("e5c7a5"))
 		draw_rect(Rect2(s.x / 2 - 135, y + 65, 270, 6), Color("263a3b"))
-		draw_rect(Rect2(s.x / 2 - 135, y + 65, 270 * maxf(boss.health, 0) / 14, 6), Color("d3ae77"))
+		draw_rect(Rect2(s.x / 2 - 135, y + 65, 270 * maxf(boss.health, 0) / boss.max_health, 6), Color("d3ae77"))
 	if status_time > 0:
 		var width = font.get_string_size(status, HORIZONTAL_ALIGNMENT_LEFT, -1, 22).x
 		draw_rect(Rect2(s.x / 2 - width / 2 - 20, s.y * 0.24 - 30, width + 40, 52), Color(0.02, 0.05, 0.08, 0.9))
@@ -289,10 +296,10 @@ func _draw() -> void:
 		text_at(s / 2 + Vector2(-142, 260 * wheel_scale), "Slide and release • Outside to cancel", 18)
 		for i in 6:
 			var point = wheel_slots[i]
-			draw_circle(point, 54 * wheel_scale, Color("245d7d") if i == 0 else Color("26313b"))
+			draw_circle(point, 54 * wheel_scale, Color("245d7d") if Progress.data.powers.has(i) else Color("26313b"))
 			if point.distance_to(wheel_pointer) < 56 * wheel_scale:
 				draw_arc(point, 56 * wheel_scale, 0, TAU, 40, Color("c0e5eb"), 3)
-			text_at(point + Vector2(-43, 0), "BOLT" if i == 0 else "LOCKED", 16)
+			text_at(point + Vector2(-43, 0), ("ACTIVE" if i == int(Progress.data.selected_power) else str(int(Campaign.COSTS[i]))+" MP") if Progress.data.powers.has(i) else "LOCKED", 16)
 			text_at(point + Vector2(-46, 22), POWER_NAMES[i], 12)
 
 func panel_style(color: Color) -> StyleBoxFlat:

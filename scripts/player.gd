@@ -1,5 +1,6 @@
 extends CharacterBody3D
 const Art = preload("res://scripts/shapes.gd")
+const Campaign = preload("res://scripts/campaign.gd")
 @export var move_speed = 6.0
 @export var jump_speed = 10.2
 @export var gravity = 25.0
@@ -34,6 +35,11 @@ var sword: Node3D
 var left_arm: Node3D
 var right_arm: Node3D
 var cape: Node3D
+var dash_time = 0.0
+var dash_used = false
+var shield_time = 0.0
+var shield_hits = 0
+var shield_visual: MeshInstance3D
 var last_grounded = true
 var landing_bounce = 0.0
 
@@ -52,6 +58,19 @@ func _ready() -> void:
 	left_arm = body_art.find_child("LeftArm")
 	right_arm = body_art.find_child("SwordArm")
 	sword = body_art.find_child("Sword")
+	shield_visual = MeshInstance3D.new()
+	var shield_mesh = SphereMesh.new()
+	shield_mesh.radius = .92
+	shield_mesh.height = 2.1
+	shield_mesh.radial_segments = 20
+	shield_mesh.rings = 10
+	shield_visual.mesh = shield_mesh
+	var material = Art.material(Color(1,.77,.3,.16),.5)
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	shield_visual.material_override = material
+	shield_visual.visible = false
+	add_child(shield_visual)
 
 func request_jump() -> void:
 	jump_buffer = jump_buffer_time
@@ -59,6 +78,9 @@ func request_jump() -> void:
 func _physics_process(delta: float) -> void:
 	if world == null or not world.playing:
 		return
+	shield_time = maxf(0,shield_time-delta)
+	shield_visual.visible = shield_time > 0 and shield_hits > 0
+	dash_time = maxf(0,dash_time-delta)
 	invulnerable = maxf(0, invulnerable - delta)
 	regen_wait = maxf(0, regen_wait - delta)
 	cast_cooldown = maxf(0, cast_cooldown - delta)
@@ -73,6 +95,7 @@ func _physics_process(delta: float) -> void:
 	velocity.z = 0
 	position.z = 0
 	if is_on_floor():
+		dash_used = false
 		coyote = coyote_time
 		if position.y > 0.7 and stable_ground():
 			safe_position = position
@@ -86,7 +109,11 @@ func _physics_process(delta: float) -> void:
 	if not world.controls.held("jump") and velocity.y > jump_speed * 0.45:
 		velocity.y = jump_speed * 0.45
 	jump_buffer = maxf(0, jump_buffer - delta)
+	if dash_time > 0:
+		velocity.x = facing*19
+		velocity.y = 0
 	move_and_slide()
+	if dash_time > 0 and is_on_wall(): dash_time = 0
 	if is_on_floor() and not last_grounded:
 		landing_bounce = 0.12
 	landing_bounce = maxf(0, landing_bounce - delta)
@@ -130,7 +157,7 @@ func stable_ground() -> bool:
 		var from = global_position + Vector3(offset, -0.6, 0)
 		var to = global_position + Vector3(offset, -1.1, 0)
 		var hit = get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(from, to, 1))
-		if hit.is_empty():
+		if hit.is_empty() or hit.collider.has_meta("temporary_platform"):
 			return false
 	return true
 
@@ -145,18 +172,31 @@ func attack() -> bool:
 	world.tone(260 + combo * 80, 0.07)
 	return true
 
+func spell_cost() -> float:
+	return Campaign.COSTS[int(Progress.data.selected_power)]
+func select_power(index: int) -> bool:
+	if not Progress.data.powers.has(index): return false
+	Progress.data.selected_power = index
+	return true
 func cast() -> bool:
-	if cast_cooldown > 0 or magic < bolt_cost or not world.playing:
-		return false
-	magic -= bolt_cost
+	var index = int(Progress.data.selected_power)
+	var cost = spell_cost()
+	if cast_cooldown > 0 or magic < cost or not world.playing: return false
+	if index == 3 and dash_used: return false
+	if not world.cast_power(index): return false
+	magic -= cost
 	regen_wait = regen_delay
-	cast_cooldown = 0.28
-	world.spawn_bolt(position + Vector3(facing * 0.7, 0.1, 0), facing, true)
-	world.tone(620, 0.1)
+	cast_cooldown = Campaign.COOLDOWNS[index]
+	world.tone(620+index*80,.1)
 	return true
 
-func damage(amount: int) -> bool:
+func damage(amount: int, bypass_shield: bool = false) -> bool:
 	if invulnerable > 0 or not world.playing:
+		return false
+	if not bypass_shield and shield_time > 0 and shield_hits > 0:
+		shield_hits -= 1
+		invulnerable = .35
+		world.tone(900,.08)
 		return false
 	health = maxi(0, health - amount)
 	invulnerable = invulnerability_time
@@ -167,7 +207,7 @@ func damage(amount: int) -> bool:
 	return true
 
 func fall() -> void:
-	if damage(1) and health > 0:
+	if damage(1,true) and health > 0:
 		position = safe_position + Vector3(0, 0.15, 0)
 		velocity = Vector3.ZERO
 	elif invulnerable > 0:
@@ -186,4 +226,9 @@ func restore_at(pos: Vector3) -> void:
 	combo_wait = 0
 	combo = 0
 	cast_cooldown = 0
+	dash_time = 0
+	dash_used = false
+	shield_time = 0
+	shield_hits = 0
+	shield_visual.visible = false
 	jump_buffer = 0
