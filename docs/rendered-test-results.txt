@@ -1,0 +1,43 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+PASS: Title opens without starting combat
+PASS: Player settles on physical village terrain
+PASS: Three full hearts and shared 100 magic at start
+PASS: Three simultaneous touch events move, jump and attack
+PASS: Sliding finger off movement releases it
+PASS: All touch ownership clears on release
+PASS: Magic hold pauses and cancels pending tap
+PASS: Locked wheel slot cannot cast or spend magic
+PASS: Magic tap casts once on release
+PASS: Empty magic blocks spells while sword remains available
+PASS: Magic recovers while alive and stationary
+PASS: Normal damage is half a heart
+PASS: Invulnerability blocks repeated damage
+PASS: Sword active window applies exactly one hit to a target
+PASS: Projectile strikes crystal and opens physical seal
+PASS: Lethal damage respawns at stable checkpoint
+PASS: Death preserves puzzle progress and powers
+PASS: Pit costs half a heart and returns to safe ground
+PASS: Physical projectile defeats mini-boss and completes quest
+PASS: Boss progression and reward happen once
+PASS: Current progress saves successfully
+PASS: Local save reload preserves quest, inventory and boss
+PASS: Repeated save retains valid backup
+PASS: Corrupt primary save recovers previous valid backup
+PASS: Invalid checkpoint data is rejected
+PASS: Unsafe saved control sizes are rejected
+PASS: Focus interruption pauses and clears held input
+PASS: Resume requires fresh movement input
+PASS: Journal pauses encounters
+PASS: Spell rays stop at solid barriers
+PASS: Sword cannot damage an enemy through a solid seal
+PASS: Coyote time permits a jump just beyond the ledge
+PASS: Buffered jump fires on landing
+PASS: Settings buttons toggle sound and camera shake
+PASS: Control size button updates layout scale
+PASS: Frame limit and quality buttons apply renderer settings
+PASS: Changed settings persist through disk reload
+GAMEPLAY RESULTS: 37/37 passed
