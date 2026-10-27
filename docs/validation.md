@@ -1,31 +1,34 @@
-# Validation evidence — Willowbrook prototype
+# Willowbrook evidence — 27 October 2026
 
-Validated on 27 October 2026 using Godot **4.6.3.stable.official.7d41c59c4**, Linux x86_64. This records automated correctness checks and rendered captures, not human playtesting or a phone benchmark.
+Godot 4.6.3.stable.official.7d41c59c4, Linux x86_64. The approved reference was fetched and inspected at `1381f09`. These results validate a playable candidate, not full visual parity or Android readiness.
 
-| Operation | Result |
+| Evidence | Result and actual scope |
 | --- | --- |
-| Headless editor import | Completed without script/import errors |
-| `./tools/check.sh` | Exit 0; **56/56 checks passed** across three sequential suites |
-| Gameplay regression | **37/37**, including three simultaneous synthetic screen touches, slide-off, hold/tap magic, depletion/regen, half-heart damage, hit immunity, actual sword/bolt collision, crystal seal, lethal damage, pit recovery, mini-boss death, single reward, save/load/backup, invalid saves, focus pause/resume, journal, wall obstruction, coyote/buffer jumps and settings persistence |
-| Continuous journey | **15/15**: start at Lyra, walk and jump the authored route, attune both checkpoints, cast from the actual crystal ledge, pass the seal, defeat the Warden with normal combat, reach completion and reconstruct the scene from disk; no forced respawn |
-| Optional exploration | **4/4**: jump both upper ledges, collect the shard through player proximity and claim merchant restoration |
-| Rendered gameplay regression | **37/37**, exit 0 with OpenGL Compatibility on Mesa llvmpipe, Xvfb 1280×720 |
-| Actual rendered captures | Title, village, forest and power wheel PNGs produced successfully and visually inspected |
-| Android export / install | **Unrun**: SDK, export templates, adb and device/emulator unavailable |
-| Physical phone touch / background-resume / performance | **Unverified**: no named Android device available |
+| Baseline at 6031a4c | Original 56 checks rerun successfully: 37 regression, 15 journey, 4 exploration. See `baseline-6031a4c.txt`. |
+| Current automated simulation | **86/86**: original 56 plus 30 safety assertions. Real Godot physics, synthetic events, injected notifications and direct method calls. |
+| Rendered regression | **37/37** on OpenGL Compatibility, Mesa llvmpipe / LLVM 19.1.7, Xvfb 1280×720. |
+| Rendered safety | **30/30** on the same desktop renderer. These repeat automated assertions, not new independent phone tests. |
+| Visual captures | Title, village, forest and wheel captured from the current scene and inspected; positions are staged by the capture script. |
+| Normal application interaction | Agent sent X11 mouse/keyboard events to the normal game, in a separate local-save profile; observed menu navigation and the hold-to-select power wheel. This was not a human playtest or complete interactive route/boss run. |
+| Android export | Debug APK built; v2/v3 signatures and 16 KiB zip alignment verified. Manifest inspected: API minimum 24, target 36; arm64-v8a and x86_64. No app permissions requested. |
+| Android runtime and performance | **Unverified**. ADB device list empty; no emulator installed and `/dev/kvm` absent. No Android version/device/renderer/frame-rate measurement exists. |
 
-The headless result log is [test-results.txt](test-results.txt); the rendered gameplay log is [rendered-test-results.txt](rendered-test-results.txt). Reproduce the headless checks with `./tools/check.sh` from the repository root. Test saves are isolated from the player slot. Do not run multiple instances of the same suite simultaneously because they use the same isolated slot name.
+## What the checks do and do not establish
 
-The rendered run reports that Xvfb cannot change V-Sync mode. This is a virtual display limitation, not a measured phone result. Mesa llvmpipe is a CPU renderer; no Android FPS, device compatibility, power or thermal claims follow from these checks. Fixed simulation timing is used for test repeatability and must not be used to infer real-time performance.
+The original regression suite checks title state, initial health/magic, three simultaneous synthetic touches, slide-off/release, tap versus hold, locked wheel selection, empty magic and regeneration, damage/invulnerability, sword active windows, a real bolt hitting the crystal, death/checkpoint/pit recovery, a projectile killing the mini-boss (with reduced health for that assertion), idempotent rewards, saves/backups/corruption, schema rejection, focus cleanup, journal pause, wall occlusion, coyote/buffer jumps and settings persistence. Some assertions call methods directly: they are not proof of complete input-to-behavior coverage.
 
-The first integrated route run found and led to a correction of a low platform that blocked walking. Save tests found and led to JSON number validation/type normalization fixes. The final checks above run against the corrected implementation.
+The scripted journey traverses the authored gap and ledge, opens the seal, fights the boss with normal sword/bolt actions, reaches completion and reconstructs the scene from saved progress. It uses bounded scripted controls and asserts no forced death. Exploration traverses both secret ledges and claims the merchant reward. Neither is hands-on gameplay.
 
-## Limits of this milestone
+The added 30 assertions exercise four concurrent touches; releases outside without drag; canceled/duplicate/reused gesture ownership; keyboard aliases and mixed key/touch ownership; focus/background/resume/back notifications; stable empty-magic puzzle recovery; safe resets and refusal on the wrong side; completed quest protection; contradictory save rejection; and safe pit recovery support. Injecting Android-like notifications in Linux does not verify Android OS delivery.
 
-- All 3D art, animation and sounds are temporary primitives/procedural cues. A production visual pass and human gameplay tuning remain required.
-- The approved sample image was not attached, so visual matching is not verified.
-- Touch events and focus interruptions were simulated in Godot on Linux; actual Android dispatch, cutouts, multitouch hardware and OS lifecycle behavior need a device pass.
-- Restart coverage reconstructs the entire scene from disk in a running test process. Actual app termination, power loss and Android filesystem durability need platform tests. The save uses temporary-file replacement and a backup, not a claim of proven crash-proof storage.
-- The ordinary route, boss fight and optional route are short and deterministic; these checks do not replace extended exploratory playtesting.
-- Only Willowbrook and Arcane Bolt are implemented. The five locked powers and their regions, final fortress and Lord Vaelor are pending. Menus and returning to Willowbrook work; multi-region transitions cannot be tested yet.
-- No APK or export preset has been generated, signed or installed. The Android guide contains unexecuted instructions for a machine with the appropriate SDK/tooling.
+## Reproduce
+
+`./tools/check.sh` runs all suites sequentially and preserves failure exit codes. Each uses a dedicated save slot, not `journey.json`. Do not run duplicate copies of a suite concurrently.
+
+`DISPLAY=:99 ./tools/godot.sh --audio-driver Dummy res://tests/gameplay.tscn` and the corresponding `input_safety.tscn` command require an existing X server. Fixed simulation timing in the headless script is not a benchmark. `tests/capture.tscn` regenerates the staged gameplay PNGs.
+
+Logs: `test-results.txt`, `rendered-test-results.txt`, `rendered-safety-results.txt`. Xvfb reports unsupported V-Sync mode. Some fast headless runs report an ObjectDB cleanup warning at shutdown; assertions pass, but this should be revisited if reproduced during real device use. No warnings were hidden to turn a failed test into a pass.
+
+## Remaining validation
+
+Install and play on a named Android phone: physical multitouch, release/cancel, app switching, safe areas, pause/back behavior, full route/boss, save/restart and thermal/frame-time profiling at both quality settings. Crash/power-loss durability and actual process termination are not proven by scene-reload tests. Human combat/camera/animation tuning and visual approval against the richer concept remain pending. The other five regions have not been added.

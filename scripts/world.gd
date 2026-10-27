@@ -4,6 +4,10 @@ const Player = preload("res://scripts/player.gd")
 const Enemy = preload("res://scripts/enemy.gd")
 const Bolt = preload("res://scripts/bolt.gd")
 const Controls = preload("res://scripts/controls.gd")
+const Scenery = preload("res://scripts/scenery.gd")
+var sun: DirectionalLight3D
+var npc_labels: Array[Label3D] = []
+var rune_clock = 0.0
 var player: CharacterBody3D
 var controls: Control
 var camera: Camera3D
@@ -32,9 +36,9 @@ func _ready() -> void:
 	camera = Camera3D.new()
 	add_child(camera)
 	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
-	camera.size = 12
+	camera.size = 10.5
 	camera.position = Vector3(5, 5, 17)
-	camera.rotation_degrees.x = -9
+	camera.rotation_degrees.x = -8
 	camera.current = true
 	var layer = CanvasLayer.new()
 	add_child(layer)
@@ -64,40 +68,28 @@ func build_environment() -> void:
 	var environment = WorldEnvironment.new()
 	var env = Environment.new()
 	env.background_mode = Environment.BG_COLOR
-	env.background_color = Color("203e49")
+	env.background_color = Color("88b7d6")
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.ambient_light_color = Color("b1cfdf")
-	env.ambient_light_energy = 0.7
+	env.ambient_light_color = Color("adcec4")
+	env.ambient_light_energy = 0.42
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	env.fog_enabled = true
+	env.fog_light_color = Color("72958a")
+	env.fog_density = 0.008
 	environment.environment = env
 	add_child(environment)
-	var sun = DirectionalLight3D.new()
-	sun.rotation_degrees = Vector3(-40, -35, 0)
-	sun.light_color = Color("ffe5b5")
-	sun.light_energy = 1.3
-	sun.shadow_enabled = false
+	sun = DirectionalLight3D.new()
+	sun.rotation_degrees = Vector3(-48, -32, 0)
+	sun.light_color = Color("fff1d0")
+	sun.light_energy = 1.0
+	sun.shadow_enabled = true
+	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL
+	sun.directional_shadow_max_distance = 48
 	add_child(sun)
-	for i in 30:
-		var x = i * 3.5 - 14
-		var z = -7.0 - (i % 3) * 3
-		var height = 4.0 + (i % 5) * 0.7
-		Art.box(self, Vector3(x, height / 2, z), Vector3(0.4, height, 0.5), Color("304d48"))
-		Art.orb(self, Vector3(x, height, z), 2.3, Color("315c53") if i % 2 else Color("3a6c5a"))
-	# Distant ruined arches, layered behind the playable foreground.
-	for x in [17, 30, 42, 58]:
-		for offset in [-1.0, 1.0]:
-			Art.box(self, Vector3(x + offset, 2.5, -4), Vector3(0.5, 5, 0.6), Color("647879"))
-		Art.box(self, Vector3(x, 5.2, -4), Vector3(2.6, 0.5, 0.7), Color("647879"))
-	# Stepped waterfall: simple opaque layers, no expensive transparent particles.
-	for i in 9:
-		Art.box(self, Vector3(28.2, 6.5 - i * 0.8, -3.3), Vector3(1.0 + (i % 2) * 0.12, 0.85, 0.14), Color("79c6d2") if i % 2 else Color("b3e1dd"))
-	Art.box(self, Vector3(28, -0.25, -3), Vector3(8, 0.1, 3), Color("418d9d"))
+	Scenery.backdrop(self)
 
 func terrain(x: float, y: float, width: float, height: float = 1.5) -> void:
-	Art.solid(self, Vector3(x, y - height / 2, 0), Vector3(width, height, 3), Color("54655a"))
-	Art.box(self, Vector3(x, y - 0.06, 0), Vector3(width + 0.05, 0.15, 3.05), Color("769b65"))
-	for i in int(width / 1.8):
-		Art.box(self, Vector3(x - width / 2 + 0.8 + i * 1.8, y - 0.6, 1.53), Vector3(1.3, 0.3, 0.06), Color("657269"))
+	Scenery.terrain(self, x, y, width, height)
 
 func build_route() -> void:
 	terrain(3, 0, 26) # Village and first route: -10 to 16.
@@ -110,51 +102,37 @@ func build_route() -> void:
 	Art.solid(self, Vector3(-10, 3, 0), Vector3(1, 9, 3), Color("3d554d"))
 	Art.solid(self, Vector3(62, 3, 0), Vector3(1, 9, 3), Color("3d554d"))
 	for x in [-4, 1, 6]:
-		Art.box(self, Vector3(x, 1.0, -2.5), Vector3(2.4, 2, 1.8), Color("ae9876"))
-		var roof = MeshInstance3D.new()
-		var roof_mesh = PrismMesh.new()
-		roof_mesh.size = Vector3(3.0, 1.1, 2.2)
-		roof.mesh = roof_mesh
-		roof.material_override = Art.material(Color("455c63"))
-		add_child(roof)
-		roof.position = Vector3(x, 2.4, -2.5)
-		Art.box(self, Vector3(x, 0.65, -1.54), Vector3(0.55, 1.3, 0.06), Color("48574d"))
-		Art.box(self, Vector3(x + 0.7, 1.3, -1.52), Vector3(0.35, 0.4, 0.07), Color("e6c984"))
-	Art.box(self, Vector3(1, -0.15, -2.7), Vector3(20, 0.3, 3), Color("68865b"))
-	for spec in [[3.0, "LYRA • GUIDE", "7da3b4"], [-2.0, "MIRA • REST", "e0ae95"], [7.0, "ORIN • MERCHANT", "8ea879"]]:
+		Scenery.model(self, "cottage", Vector3(x, 0, -2.8))
+	Art.box(self, Vector3(1, -0.15, -2.7), Vector3(20, 0.3, 3), Color("718c65"))
+	for spec in [[3.0, "LYRA • GUIDE", "lyra"], [-2.0, "MIRA • REST", "mira"], [7.0, "ORIN • MERCHANT", "orin"]]:
 		var x: float = spec[0]
-		Art.box(self, Vector3(x, 0.65, -0.7), Vector3(0.5, 1.1, 0.4), Color(spec[2]))
-		Art.orb(self, Vector3(x, 1.4, -0.7), 0.25, Color("d8b58e"))
-		Art.label(self, Vector3(x, 2.3, -0.7), spec[1], Color("d4e7d3"))
+		Scenery.model(self, spec[2], Vector3(x, 0.8, -0.7))
+		npc_labels.append(Art.label(self, Vector3(x, 2.1, -0.7), spec[1], Color("e4d6ad")))
 	for x in [24, 44]:
-		Art.box(self, Vector3(x, 0.6, -0.7), Vector3(0.3, 1.2, 0.3), Color("6ca8ad"))
-		Art.orb(self, Vector3(x, 1.4, -0.7), 0.26, Color("6ad9e4"), 1)
-		Art.label(self, Vector3(x, 2.2, 0), "WAYSTONE • USE", Color("9be8e9"))
-	for i in 65:
-		var x = -7.0 + i * 1.03
-		if x > 16 and x < 19:
-			continue
-		Art.box(self, Vector3(x, 0.11, 1.2), Vector3(0.06, 0.22 + (i % 3) * 0.08, 0.05), Color("8aab65"))
-		if i % 4 == 0:
-			Art.orb(self, Vector3(x, 0.31, 1.2), 0.08, Color("e0c393"))
-	Art.label(self, Vector3(9, 3.3, 0), "WHISPERING FOREST →", Color("c8d6b7"))
-	Art.label(self, Vector3(17.5, -1, 0), "GAP", Color("e6b28e"))
+		Scenery.model(self, "waystone", Vector3(x, 0, -0.7))
+		npc_labels.append(Art.label(self, Vector3(x, 2.2, 0), "WAYSTONE • USE", Color("9be8e9")))
+	Art.box(self, Vector3(9, 1.1, -0.8), Vector3(0.14, 2.2, 0.18), Color("695f49"))
+	Art.box(self, Vector3(9, 1.8, -0.8), Vector3(2.1, 0.55, 0.14), Color("7f7959"))
+	npc_labels.append(Art.label(self, Vector3(9, 1.83, -0.68), "FOREST  →", Color("e6ddbb")))
 	var switch_body = Art.solid(self, Vector3(33, 2.2, 0), Vector3(0.6, 0.9, 0.6), Color("579fc9"))
 	switch_body.collision_layer = 16
 	switch_body.set_meta("crystal", true)
 	crystal = switch_body.get_child(0)
-	crystal.rotation_degrees.z = 30
-	Art.label(self, Vector3(32.5, 3.4, 0), "BOLT → CRYSTAL", Color("9de4ff"))
+	var rune = Scenery.rune(self, Vector3.ZERO, Color("78d8ed"))
+	crystal.mesh = rune.mesh
+	rune.queue_free()
+	npc_labels.append(Art.label(self, Vector3(32.5, 3.4, 0), "BOLT → CRYSTAL", Color("9de4ff")))
 	gate = Art.solid(self, Vector3(37, 2.5, 0), Vector3(0.55, 5, 3), Color("54799b"))
-	Art.label(self, Vector3(37, 5.8, 0), "CRYSTAL SEAL", Color("a2d8e6"))
-	secret = Art.orb(self, Vector3(14, 4.4, 0), 0.3, Color("f0d189"), 1)
-	Art.label(self, Vector3(14, 5.1, 0), "HIDDEN SUN SHARD", Color("f0d189"))
+	Scenery.model(self, "ruin_arch", Vector3(37, 0, -0.5), Vector3(0.3, 1.05, 1))
+	gate.get_child(0).material_override = Art.material(Color("559aa9"), 0.2)
+	secret = Scenery.rune(self, Vector3(14, 4.4, 0), Color("f0d189"))
+	secret.scale = Vector3.ONE * 0.6
 	add_enemy(12, "melee")
 	add_enemy(27, "wisp")
 	add_enemy(42, "melee")
 	add_enemy(51, "boss")
-	Art.label(self, Vector3(51, 4, -1), "THE HOLLOW WARDEN", Color("dfb5c3"))
-	Art.label(self, Vector3(59, 2.5, 0), "EMBERHEARTH\nNext chapter • in development", Color("e5c79c"))
+
+	Art.label(self, Vector3(59, 2.5, 0), "WILLOWBROOK\nA light returns", Color("e5c79c"))
 
 func add_enemy(x: float, kind: String) -> void:
 	var enemy = Enemy.new()
@@ -177,11 +155,16 @@ func spawn_bolt(pos: Vector3, direction: float, friendly: bool) -> Node3D:
 func _process(delta: float) -> void:
 	if menu.visible:
 		menu.position = get_viewport().get_visible_rect().size / 2 - menu.size / 2
+	for label in npc_labels:
+		label.visible = started and absf(player.position.x - label.position.x) < 5.5
 	if not playing:
 		return
+	rune_clock += delta
+	secret.rotation.y = rune_clock
+	crystal.rotation.y = rune_clock * 0.6
 	hit_flash = maxf(0, hit_flash - delta)
 	checkpoint_cooldown = maxf(0, checkpoint_cooldown - delta)
-	var target = Vector3(clampf(player.position.x + player.facing * 1.3, 3, 56), clampf(player.position.y * 0.25 + 3.5, 3.5, 5.2), 17)
+	var target = Vector3(clampf(player.position.x + player.facing * 2.7, 3, 56), clampf(player.position.y * 0.18 + 4.3, 4.3, 5.8), 17)
 	camera.position = camera.position.lerp(target, 1 - exp(-5 * delta))
 	if hit_flash > 0 and Progress.data.settings.shake:
 		camera.position.y += sin(Time.get_ticks_msec() * 0.09) * hit_flash * 0.2
@@ -235,6 +218,18 @@ func activate_crystal() -> void:
 	controls.notify_text("Crystal seal opened. The Hollow Warden waits beyond.")
 	tone(850, 0.3)
 
+func reset_crystal() -> bool:
+	# Never close the gate around a player/checkpoint on its far side.
+	if player.position.x > 34.5 or Progress.data.checkpoint == 44.0 or Progress.data.boss:
+		controls.notify_text("The seal is stable here. Continue your journey.")
+		return false
+	Progress.data.crystal = false
+	Progress.data.quest = mini(1, int(Progress.data.quest))
+	apply_progress()
+	persist()
+	controls.notify_text("Crystal reset. Wait for magic to recover, then cast again from the ledge.")
+	return true
+
 func boss_defeated() -> void:
 	if Progress.data.boss:
 		return
@@ -281,6 +276,16 @@ func interact() -> void:
 		show_merchant()
 	elif absf(x - 24) < 2:
 		rest(24.0)
+	elif absf(x - 33) < 1.5:
+		if Progress.data.crystal and not Progress.data.boss and Progress.data.checkpoint != 44.0:
+			clear_menu("The forest crystal", "pause")
+			paragraph("The seal is open. You can reset this puzzle to practice again. Magic always recovers while you wait on the ledge.")
+			button("Reset crystal puzzle", func():
+				reset_crystal()
+				resume())
+			button("Keep it open", resume)
+		else:
+			controls.notify_text("Arcane Bolt opens the seal. Magic recovers here while you wait.")
 	elif absf(x - 44) < 2:
 		rest(44.0)
 	else:
@@ -328,13 +333,13 @@ func button(text: String, callback: Callable) -> Button:
 
 func show_title() -> void:
 	clear_menu("SHADOWBLADE", "title")
-	paragraph("THE LAST GUARDIAN\nWillowbrook • First playable prototype\n\nA forest in shadow. A blacksmith’s apprentice. A light that refuses to fade.")
+	paragraph("THE LAST GUARDIAN\nWillowbrook • Guardian of the Silverfall\n\nA forest in shadow. A blacksmith’s apprentice. A light that refuses to fade.")
 	var has_save = not Progress.read_valid(Progress.save_path).is_empty() or not Progress.read_valid(Progress.save_path + ".bak").is_empty()
 	if has_save:
 		button("Continue journey", func(): start_game(false))
 	button("New journey", confirm_new if has_save else func(): start_game(true))
 	button("Settings", show_settings)
-	paragraph("Move A/D • Jump Space • Sword J • Magic K\nTouch: separate movement and action buttons\nOriginal temporary 3D art • Offline • No login")
+	paragraph("Move A/D • Jump Space • Sword J • Magic K\nTouch: separate movement and action buttons\nOriginal Willowbrook art • Offline • No login")
 
 func confirm_new() -> void:
 	clear_menu("Begin again?", "title")
@@ -417,13 +422,26 @@ func settings_changed() -> void:
 func apply_settings() -> void:
 	Engine.max_fps = int(Progress.data.settings.fps)
 	get_viewport().scaling_3d_scale = 1.0 if Progress.data.settings.quality else 0.7
+	if sun != null:
+		sun.shadow_enabled = bool(Progress.data.settings.quality)
+	get_viewport().msaa_3d = Viewport.MSAA_2X if Progress.data.settings.quality else Viewport.MSAA_DISABLED
 
 func _notification(what: int) -> void:
+	if controls == null:
+		return
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_APPLICATION_PAUSED:
-		if controls != null:
-			controls.reset_input()
+		var was_in_game = playing or controls.wheel_open
+		controls.reset_input()
+		if started and was_in_game:
+			open_pause()
+	elif what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		if playing or controls.wheel_open:
+			open_pause()
+		elif menu_mode == "settings":
 			if started:
 				open_pause()
+			else:
+				show_title()
 
 func tone(hz: float, duration: float) -> void:
 	if audio == null or not Progress.data.settings.sound or not playing:

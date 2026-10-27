@@ -27,9 +27,14 @@ var jump_buffer = 0.0
 var hit_targets: Array = []
 var safe_position = Vector3(2, 1, 0)
 var body_art: Node3D
-var legs: Array[MeshInstance3D] = []
+var legs: Array[Node3D] = []
 var stride = 0.0
-var sword: MeshInstance3D
+var sword: Node3D
+var left_arm: Node3D
+var right_arm: Node3D
+var cape: Node3D
+var last_grounded = true
+var landing_bounce = 0.0
 
 func _ready() -> void:
 	collision_layer = 2
@@ -40,15 +45,12 @@ func _ready() -> void:
 	shape.height = 1.6
 	col.shape = shape
 	add_child(col)
-	body_art = Node3D.new()
+	body_art = preload("res://assets/models/kael.tscn").instantiate()
 	add_child(body_art)
-	Art.box(body_art, Vector3(0, -0.05, 0), Vector3(0.55, 0.65, 0.4), Color("326e90"))
-	Art.orb(body_art, Vector3(0, 0.5, 0), 0.25, Color("dcae83"))
-	Art.box(body_art, Vector3(0, 0.7, 0), Vector3(0.47, 0.14, 0.42), Color("29303f"))
-	for x in [-0.16, 0.16]:
-		legs.append(Art.box(body_art, Vector3(x, -0.57, 0), Vector3(0.2, 0.5, 0.27), Color("25354b")))
-	Art.box(body_art, Vector3(-0.1, -0.08, -0.25), Vector3(0.5, 0.72, 0.06), Color("793e56"))
-	sword = Art.box(body_art, Vector3(0.62, 0, 0), Vector3(0.8, 0.1, 0.1), Color("c1e6ed"))
+	legs = [body_art.get_node("LeftLeg"), body_art.get_node("RightLeg")]
+	left_arm = body_art.get_node("LeftArm")
+	right_arm = body_art.get_node("SwordArm")
+	sword = body_art.get_node("Sword")
 
 func request_jump() -> void:
 	jump_buffer = jump_buffer_time
@@ -71,7 +73,7 @@ func _physics_process(delta: float) -> void:
 	position.z = 0
 	if is_on_floor():
 		coyote = coyote_time
-		if position.y > 0.7:
+		if position.y > 0.7 and stable_ground():
 			safe_position = position
 	else:
 		coyote = maxf(0, coyote - delta)
@@ -84,9 +86,18 @@ func _physics_process(delta: float) -> void:
 		velocity.y = jump_speed * 0.45
 	jump_buffer = maxf(0, jump_buffer - delta)
 	move_and_slide()
+	if is_on_floor() and not last_grounded:
+		landing_bounce = 0.12
+	landing_bounce = maxf(0, landing_bounce - delta)
+	last_grounded = is_on_floor()
+	body_art.position.y = -sin(landing_bounce / 0.12 * PI) * 0.08
 	stride += delta * absf(velocity.x) * 2.5
 	for i in legs.size():
 		legs[i].rotation.z = sin(stride + i * PI) * minf(absf(velocity.x) * 0.08, 0.5) if is_on_floor() else (0.35 if i == 0 else -0.35)
+	left_arm.rotation.z = -sin(stride) * minf(absf(velocity.x) * 0.07, 0.45)
+	right_arm.rotation.z = sword.rotation.z * 0.45 if attack_time > 0 else sin(stride) * 0.1
+	body_art.get_node("Scarf").rotation.z = sin(stride * 0.4) * 0.12
+	body_art.rotation.z = -velocity.x * 0.008
 	body_art.scale.x = facing
 	body_art.visible = invulnerable == 0 or fmod(invulnerable, 0.12) > 0.04
 	if attack_time > 0:
@@ -106,6 +117,16 @@ func _physics_process(delta: float) -> void:
 		sword.rotation.z = -0.5
 	if position.y < -5:
 		fall()
+
+func stable_ground() -> bool:
+	# Both sides of the capsule need support before replacing the pit recovery point.
+	for offset in [-0.35, 0.35]:
+		var from = global_position + Vector3(offset, -0.6, 0)
+		var to = global_position + Vector3(offset, -1.1, 0)
+		var hit = get_world_3d().direct_space_state.intersect_ray(PhysicsRayQueryParameters3D.create(from, to, 1))
+		if hit.is_empty():
+			return false
+	return true
 
 func attack() -> bool:
 	if attack_cooldown > 0 or not world.playing:

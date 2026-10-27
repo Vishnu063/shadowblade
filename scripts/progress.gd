@@ -28,6 +28,15 @@ func valid(value: Variant) -> bool:
 		return false
 	if value.villages != ["Willowbrook"] or not value.settings is Dictionary:
 		return false
+	# Reject internally contradictory saves instead of silently skipping encounters.
+	if value.boss and (not value.crystal or int(value.quest) != 3):
+		return false
+	if not value.boss and int(value.quest) == 3:
+		return false
+	if value.crystal and int(value.quest) < 2 or not value.crystal and int(value.quest) > 1:
+		return false
+	if float(value.checkpoint) == 44.0 and not value.crystal:
+		return false
 	var settings: Dictionary = value.settings
 	for key in DEFAULTS.settings:
 		if not settings.has(key):

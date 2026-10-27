@@ -1,5 +1,5 @@
 extends RefCounted
-## Original temporary art, authored from engine primitives. No downloaded assets.
+## Shared geometry/material helpers; original authored models are in assets/models/.
 static func material(color: Color, glow: float = 0.0) -> StandardMaterial3D:
 	var mat = StandardMaterial3D.new()
 	mat.albedo_color = color

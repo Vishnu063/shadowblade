@@ -1,22 +1,19 @@
-# Android export and device validation
+# Android test APK
 
-No APK has been generated or tested. This cloud instance provides Godot 4.6.3 and Java, but no Android SDK, adb, export templates, device or emulator. Desktop scene correctness does not establish Android readiness.
+Built file: `build/Shadowblade-Willowbrook-debug.apk` (57,226,274 bytes, about 55 MiB). SHA-256: `1a35d51aec44165b6318bcf7c0063949286781a8d001c4269fe43d1eec43809c`.
 
-On a development machine:
+Built with Godot 4.6.3, OpenJDK 21.0.12.1 and Android build-tools 36.0.0. Signature schemes v2/v3 verify; zip alignment passes including 16 KiB native-library alignment. Manifest: `com.shadowblade.lastguardian`, version `0.2.0-willowbrook` / code 2, minimum API 24 (Android 7.0), target API 36 (Android 16), arm64-v8a and x86_64. Compatibility/OpenGL ES is configured; its actual Android renderer has not been observed. No permissions are requested. Concept, docs, test scenes and signing files are excluded.
 
-1. Install Godot **4.6.3** standard and its matching export templates through Editor → Manage Export Templates. Keep downloads and checksum/TLS verification enabled. Use the corresponding engine and template versions.
-2. Follow the official [Godot 4.6 Android export prerequisites](https://docs.godotengine.org/en/4.6/tutorials/export/exporting_for_android.html): OpenJDK 17 and the documented Android SDK platform/build tools, command-line tools and platform tools. Set the Java SDK and Android SDK paths in Editor Settings → Export → Android. Accept the SDK licenses normally.
-3. In Project → Export add an **Android** preset. Use an original package identifier such as `com.shadowblade.lastguardian`, enable arm64, and export a **debug APK** to `build/shadowblade-debug.apk`. The project uses Compatibility rendering and landscape orientation. The initial scene has no external addons or C# dependencies.
-4. Use Godot's locally generated debug keystore for local testing. Never commit keystores/passwords or add them to setup instructions. Release signing and store submission need separate configuration.
-5. With a connected, authorized test phone, install using `adb install -r build/shadowblade-debug.apk`. Record the phone model, chipset, Android version, game commit, resolution, quality and 30/60 frame-limit setting.
-6. Test a complete journey: simultaneous move/jump/sword; slide-off input; magic tap versus hold; locked power cancellation; ledge/coyote/buffer jumps; pit damage; puzzle; boss telegraph/hitboxes/rewards; repeated death; checkpoint/save/restart; corrupt-save recovery; background/resume; audio interruption; safe areas; both control sizes and quality settings. Confirm the app never resumes with movement stuck.
-7. Use Godot's profiler and Android tools for frame-time, memory and thermal measurements during sustained play. Report named hardware and measured results before describing any performance target as met.
+**Not installed or run on Android.** ADB 37.0.1 reported no attached device. No emulator is installed. Device name, Android version, actual renderer and measured performance are unavailable. APK verification does not establish runtime compatibility.
 
-After saving a reviewed Android preset, CLI exports can use:
+## Install on a test phone
 
-```bash
-mkdir -p build
-godot --headless --path . --export-debug Android build/shadowblade-debug.apk
-```
+1. Copy the APK to a compatible 64-bit phone and open it. Allow installation from that file source when Android asks, then open Shadowblade. Alternatively, enable USB debugging, authorize the computer and run `adb install -r build/Shadowblade-Willowbrook-debug.apk`.
+2. Use landscape orientation. Start a journey, talk to Lyra, cross the forest, open the crystal seal and defeat the Warden. Try simultaneous movement, jump, sword and magic; slide/release fingers; switch apps; resume; reload a save.
+3. Record phone model/chipset, Android version, renderer and measured frame times/memory/temperature under both quality settings. No FPS promise has been made.
 
-This command is an instruction for a machine with the prerequisites above; it was not run in this environment. The Android preset is intentionally left for the export machine, where SDK paths and debug signing can be configured and validated.
+If an older test app was signed with a different key, Android may reject the update. Uninstalling removes local progress; preserve saves before choosing that action. The generated private test key stays outside Git and should be retained privately for future updates.
+
+## Rebuild
+
+See [environment prerequisites](environment.md), then run `python tools/export_android.py`. The committed Android preset has no signing credentials. The tool uses matching installed templates and local SDK/JDK settings, with a private test key outside the repository. Build output is ignored by Git; the APK is an artifact in this workspace, not a binary claimed to be committed or uploaded to GitHub. It is not a store release.

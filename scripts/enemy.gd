@@ -9,7 +9,8 @@ var timer = 1.0
 var phase = "approach"
 var facing = -1.0
 var hit_cooldown = 0.0
-var model: MeshInstance3D
+var model: Node3D
+var anim_time = 0.0
 var warning: Label3D
 
 func _ready() -> void:
@@ -22,13 +23,10 @@ func _ready() -> void:
 	shape.radius = 0.5 if kind == "boss" else 0.35
 	col.shape = shape
 	add_child(col)
-	var color = Color("9264ac") if kind == "wisp" else Color("8a534b")
-	model = Art.orb(self, Vector3.ZERO, 0.8 if kind == "boss" else 0.45, color)
-	Art.orb(self, Vector3(-0.18, 0.16, 0.38), 0.08, Color("ffb67c"), 1)
-	Art.orb(self, Vector3(0.18, 0.16, 0.38), 0.08, Color("ffb67c"), 1)
-	if kind == "boss":
-		Art.box(self, Vector3(0, 0.9, 0), Vector3(1.5, 0.25, 0.5), Color("464d65"))
-	warning = Art.label(self, Vector3(0, 1.5, 0), "")
+	var model_path = "res://assets/models/" + {"melee": "thornling", "wisp": "veil_moth", "boss": "hollow_warden"}[kind] + ".tscn"
+	model = load(model_path).instantiate()
+	add_child(model)
+	warning = Art.label(self, Vector3(0, 1.9 if kind == "boss" else 1.2, 0), "")
 
 func _physics_process(delta: float) -> void:
 	if not alive or not world.playing:
@@ -36,7 +34,8 @@ func _physics_process(delta: float) -> void:
 	timer -= delta
 	hit_cooldown = maxf(0, hit_cooldown - delta)
 	var dx: float = world.player.position.x - position.x
-	facing = signf(dx)
+	if phase == "approach" and absf(dx) > 0.1:
+		facing = signf(dx)
 	velocity.x = 0
 	velocity.z = 0
 	position.z = 0
@@ -59,7 +58,7 @@ func _physics_process(delta: float) -> void:
 		if kind in ["wisp", "boss"]:
 			world.spawn_bolt(position + Vector3(facing * 0.9, 0, 0), facing, false)
 	elif phase == "strike":
-		if active and absf(dx) < (2.2 if kind == "boss" else 1.4) and absf(world.player.position.y - position.y) < 1.3:
+		if active and dx * facing > -0.2 and absf(dx) < (2.2 if kind == "boss" else 1.4) and absf(world.player.position.y - position.y) < 1.3:
 			world.player.damage(2 if kind == "boss" else 1)
 		if timer <= 0:
 			phase = "recover"
@@ -67,7 +66,20 @@ func _physics_process(delta: float) -> void:
 	elif phase == "recover" and timer <= 0:
 		phase = "approach"
 		timer = 0.5
-	model.scale = Vector3.ONE * (1.12 if phase == "warn" else 1.0)
+	anim_time += delta
+	model.scale = Vector3(facing, 1, 1) * (1.07 if phase == "warn" else 1.0)
+	model.rotation.z = sin(anim_time * 15) * 0.12 if hit_cooldown > 0 else 0.0
+	if kind == "wisp":
+		model.get_node("LeftWing").rotation.y = sin(anim_time * 10) * 0.5
+		model.get_node("RightWing").rotation.y = -sin(anim_time * 10) * 0.5
+	elif kind == "boss":
+		var lift = -0.7 if phase == "warn" else (0.6 if phase == "strike" else 0.0)
+		model.get_node("LeftArm").rotation.z = lift
+		model.get_node("RightArm").rotation.z = -lift
+	else:
+		for i in 4:
+			var side = -1 if i < 2 else 1
+			model.get_node("Leg%d%d" % [side, i % 2]).rotation.z = sin(anim_time * 9 + i * PI / 2) * minf(absf(velocity.x) * 0.2, 0.3)
 	move_and_slide()
 	# Encounters stay in their authored route rather than pursuing into the village.
 	position.x = clampf(position.x, maxf(10.0, home.x - 4), home.x + 4)

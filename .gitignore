@@ -1,3 +1,9 @@
 .godot/
 build/
 *.tmp
+*.keystore
+*.jks
+*.p12
+*.pem
+.env
+.env.*

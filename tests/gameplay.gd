@@ -184,6 +184,8 @@ func _ready() -> void:
 	await frames(8)
 	check(p.velocity.y > 0, "Buffered jump fires on landing")
 	c.reset_input()
+	Progress.data.crystal = true
+	world.apply_progress()
 	world.show_settings()
 	menu_press("Sound:")
 	menu_press("Screen shake:")

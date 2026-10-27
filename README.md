@@ -2,7 +2,9 @@
 
 A Godot 4.6.3 / GDScript prototype of **Willowbrook**, the first region of an original offline, landscape action adventure. Kael moves along a fixed side-scrolling plane inside a real 3D scene.
 
-This is an initial playable foundation, not a finished visual slice or the complete six-region game. All models, effects and sounds are temporary originals. The reference image mentioned in the brief was not included; matching that image has not been verified.
+Willowbrook now uses original reusable low-poly 3D models, a blue scarf and luminous sword for Kael, procedural animation, mossy ledges, timber cottages, ruins, layered trees, flowing water and a distant castle. The approved [concept](docs/art/README.md) guides composition and controls; it is not used as a game background. This is a lower-detail interpretation, not a claim of visual parity or final art approval.
+
+**Android test APK:** `build/Shadowblade-Willowbrook-debug.apk` (about 55 MiB), generated and signature/alignment verified. It has **not been installed or run on Android**. [Installation, checksum and export instructions](docs/android.md).
 
 ## Play
 
@@ -39,7 +41,7 @@ Talk to **Lyra** near the spawn to receive the quest. Head east, jump the forest
 - Death resets encounters at the saved checkpoint and preserves unlocks, inventory and quest progress. Pits cost half a heart and return to recent safe ground.
 - Title, continue/new-game confirmation, pause, journal, travel back to the discovered village, sound/shake/control-size/quality/frame-limit settings.
 - One validated local JSON slot; write to a temporary file, retain a valid backup, and replace the primary save. Recover from the backup if the primary is invalid. Save errors are displayed.
-- Original generated geometry and simple synthesized combat sounds. No accounts, network calls or paid services.
+- Original authored low-poly models and simple synthesized combat sounds (audio remains temporary). No accounts, network calls or paid services.
 
 Progress lives in Godot's `user://journey.json`; the previous valid save is `journey.json.bak`. In this cloud machine these are under `/workspace/.local/share/godot/app_userdata/Shadowblade- The Last Guardian/`. Tests use separate slots and do not touch the player's save. Restarting loads the saved checkpoint, not an unfinished combat state.
 
@@ -61,6 +63,7 @@ Runs the real Godot scene with physics and synthetic input at fixed simulation t
 
 - `tests/gameplay.tscn`: 37 combat, input, movement, save and lifecycle regression checks.
 - `tests/journey.tscn`: 15 checks covering travel from Lyra to the boss, completion and scene reconstruction from saved data, without forced respawns.
+- `tests/input_safety.tscn`: 30 gesture ownership, cancellation, lifecycle, reset and save-consistency checks.
 - `tests/exploration.tscn`: 4 checks for the optional platform route, shard and merchant reward.
 
 See [validation evidence and limits](docs/validation.md). Fixed simulation timing is a correctness aid, not a performance benchmark. To regenerate captures with a working graphical display:
@@ -69,13 +72,16 @@ See [validation evidence and limits](docs/validation.md). Fixed simulation timin
 ./tools/godot.sh --rendering-method gl_compatibility --audio-driver Dummy res://tests/capture.tscn
 ```
 
-## Remaining work
+## Reference, evidence and remaining work
 
-- Replace primitive art and synthesized tones with finished original/licensed models, animations, UI, lighting, music and ambience. The current readable blockout does not match a polished concept image.
-- Tune combat, camera, platforming and mobile ergonomics through human playtesting. NPCs are stationary; the merchant offers a quest reward, not a full shop/economy.
-- Test physical multitouch, cutouts, interruption/resume and save persistence on named Android phones; profile memory, frame times and battery use. Neither stable 60 FPS nor Android compatibility has been measured.
-- Android SDK/export templates/signing and an APK: see [Android instructions](docs/android.md). No device, emulator or SDK is available in the current cloud instance.
-- Five remaining villages/powers, their dungeons and bosses, final fortress, and Lord Vaelor. No locked ability is falsely presented as playable. Travel currently returns to the only discovered village.
-- Broader scene transitions, localization, accessibility review and production save migrations.
+The original **56 checks** were 37 regressions, 15 scripted journey assertions, and 4 exploration assertions. They used Godot physics, direct gameplay methods, synthetic touch events and injected lifecycle notifications. The rendered 37-check run repeated those simulations under OpenGL; it was not a phone or human playtest. The expanded suite now passes **86 checks**. Separate rendered runs pass 37 regression and 30 safety checks. See [the evidence and limits](docs/validation.md).
 
-The source briefs are retained in [design-brief.md](docs/design-brief.md) and [design-notes.md](docs/design-notes.md). Finish the Willowbrook visual and device validation milestone before expanding to the next region.
+- Actual Android installation, hardware multitouch, app background/resume, cutouts, memory/thermal behavior and performance remain **unverified**. No device or emulator is available. No 60 FPS claim is made.
+- Agent-driven OS mouse/keyboard interaction in the normal Linux application exercised menus and the power wheel. A complete hands-on route/boss playtest remains pending; the complete journey evidence is automated.
+- The original model set and procedural animations are the first art pass. NPCs share the humanoid rig; bespoke NPC designs, refined animation and denser foliage/detail remain visual work. Synthesized cues are temporary; music/voice are absent.
+- Reset the crystal by interacting near it after solving, before activating the far-side checkpoint. The game refuses resets that could close a gate around the player or remove a completed quest. Magic regenerates on the stable ledge.
+- Only Willowbrook and Arcane Bolt are playable. The other five regions, powers and final fortress remain pending until Willowbrook has device and visual approval.
+
+[Asset sources and credits](docs/ATTRIBUTION.md) · [Environment prerequisites](docs/environment.md) · [Design brief](docs/design-brief.md)
+
+History preserves prototype `6031a4c` and the separate reference history through `1381f09`. They are joined with a normal merge, without rewriting either history. The prepared changes are delivered to `main`; the delivery commit is reported in the task result.
