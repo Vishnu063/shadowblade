@@ -36,3 +36,7 @@ Install and play on a named Android phone: physical multitouch, release/cancel, 
 ## Blender forest visual-review revision
 
 The same 86 gameplay assertions pass after swapping the forest assets and adding limb posing; terrain colliders, AI, combat timings, quest/save rules and controls are preserved. Current rendered logs are replaced with the revision's actual runs. Visual review is documented separately in `forest-revision.md` and `visual-review.html`; assertions are not proof of artistic quality. Current captures include an explicitly labeled close-up in addition to the gameplay camera. No full human interactive playtest or Android measurement was performed for this art revision. A fresh `adb devices -l` returned an empty device list.
+
+## Scenery refinement — 27 October 2026
+
+Reran all four headless suites on the final scenery code: 37 regression, 15 journey, 4 exploration, and 30 input/safety assertions passed (86 total). See `scenery-pass-checks.txt`. Regenerated and visually inspected the gameplay captures with Godot 4.6.3 Compatibility / Mesa llvmpipe; see `scenery-pass-render.txt`. The 67 rendered assertions from the previous Blender revision were not rerun for this pass. A headless shutdown reported an ObjectDB cleanup warning; the full warning is retained in the log. The APK was not rebuilt and no Android or human playtest was performed.

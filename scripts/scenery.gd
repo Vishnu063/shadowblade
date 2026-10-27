@@ -1,6 +1,7 @@
 extends RefCounted
 ## Presentation-only scenery. Gameplay colliders remain in world.gd.
 const Art = preload("res://scripts/shapes.gd")
+const Detail = preload("res://scripts/forest_detail.gd")
 static var stone_material: StandardMaterial3D
 
 static func model(parent: Node3D, id: String, pos: Vector3, scale_value: Vector3 = Vector3.ONE) -> Node3D:
@@ -19,13 +20,11 @@ static func model(parent: Node3D, id: String, pos: Vector3, scale_value: Vector3
 				child.visible = false
 		visual.get_node("Pool").material_override = visual.get_node("Pool").material_override.duplicate()
 		visual.get_node("Pool").material_override.set_shader_parameter("horizontal", true)
-		for side in [-1, 1]:
-			for i in 7:
-				var rock = load("res://assets/forest/stone.glb").instantiate()
-				visual.add_child(rock)
-				rock.position = Vector3(side * (2.8 + sin(i * 3.2 + side) * .16), i * .72, -.35)
-				rock.scale = Vector3(3.4 + sin(i * 2.3) * .2, 3.0, 2.3)
-				rock.rotation = Vector3(.12 * sin(i), i * 1.17, sin(i * 1.9 + side) * .22)
+		# Broad, unequal cliff faces avoid the former stacked-stone columns.
+		Detail.stone(visual,Vector3(-3.1,2.8,-1.1),Vector3(4.1,7.4,4.1),.24)
+		Detail.stone(visual,Vector3(3.5,1.9,-1.4),Vector3(4.7,7.8,4.0),-.34)
+		Detail.stone(visual,Vector3(-4.4,.25,-.5),Vector3(3.0,3.0,3.5),1.3)
+		Detail.stone(visual,Vector3(4.7,.1,-.5),Vector3(3.8,2.5,3.7),2.4)
 		var particles = CPUParticles3D.new()
 		particles.amount = 16
 		particles.lifetime = 2.2
@@ -81,28 +80,11 @@ static func surface(parent: Node3D, st: SurfaceTool, pos: Vector3 = Vector3.ZERO
 	return visual
 
 static func backdrop(parent: Node3D) -> void:
-	Art.box(parent, Vector3(25, -2.6, -11), Vector3(105, 3.2, 17), Color("3c5c50"))
-	for layer in 3:
-		var st = SurfaceTool.new()
-		st.begin(Mesh.PRIMITIVE_TRIANGLES)
-		var z = -32.0 + layer * 7
-		var color = Color(["a0bac4", "86a6b0", "668d94"][layer])
-		for i in 30:
-			var x = -55.0 + i * 7
-			var y1 = -3.5 - layer * 1.5 + sin(i * 1.71 + layer) * (3.3 - layer * 0.7)
-			var y2 = -3.5 - layer * 1.5 + sin((i + 1) * 1.71 + layer) * (3.3 - layer * 0.7)
-			triangle(st, Vector3(x, -9, z), Vector3(x + 7, -9, z), Vector3(x + 7, y2, z), color)
-			triangle(st, Vector3(x, -9, z), Vector3(x + 7, y2, z), Vector3(x, y1, z), color)
-		var visual = surface(parent, st)
-		visual.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	Detail.layers(parent)
 	for i in 8:
-		if i in [6, 7, 8, 9]:
-			continue
 		var tree = model(parent, "alder", Vector3(-14 + i * 10.2, -0.6, -12 - (i % 3)), Vector3.ONE * (1.3 + (i % 3) * 0.18))
 		tree.rotation_degrees.y = i * 47
 	for i in 9:
-		if i in [5, 6, 7, 8]:
-			continue
 		var tree = model(parent, "alder", Vector3(-12 + i * 9.0, -0.2, -5.8 - (i % 2) * 1.6), Vector3.ONE * (0.78 + (i % 3) * 0.13))
 		tree.rotation_degrees.y = i * 31
 	for x in [17, 34, 49, 59]:
@@ -115,32 +97,37 @@ static func backdrop(parent: Node3D) -> void:
 			geometry.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 	for i in 32:
 		model(parent, "fern", Vector3(-5 + i * 2.1, 0, -.9), Vector3.ONE * (.8 + (i % 3) * .15))
-	model(parent, "castle", Vector3(35, -3.5, -24), Vector3.ONE * 0.65)
+	model(parent, "castle", Vector3(35, 1.8, -24), Vector3.ONE * 0.65)
 	model(parent, "waterfall", Vector3(28.5, 0, -3.2))
+	Detail.undergrowth(parent)
 
 static func terrain(parent: Node3D, x: float, y: float, width: float, height: float) -> void:
 	var body = Art.solid(parent, Vector3(x, y - height / 2, 0), Vector3(width, height, 3), Color("465b56"))
 	body.get_child(0).visible = false
+	if y == 0:
+		var bedrock = Art.box(parent,Vector3(x,-2.0,.45),Vector3(width,3.9,2.0),Color("283b3a"))
+		bedrock.material_override = Detail.stone_material()
 	var source = load("res://assets/forest/stone.glb").instantiate()
 	var rock_mesh: Mesh = source.find_children("*", "MeshInstance3D", true, false)[0].mesh
 	var rocks = MultiMesh.new()
 	rocks.transform_format = MultiMesh.TRANSFORM_3D
 	rocks.mesh = rock_mesh
 	rocks.use_colors = true
-	var count = maxi(2, int(ceil(width / 0.7)))
-	var layers = 2 if y == 0 else 1
+	var count = maxi(2, int(ceil(width / 1.1)))
+	var layers = 4 if y == 0 else 1
 	rocks.instance_count = count * layers
 	var step = width / count
 	for row in layers:
 		for i in count:
-			var scale_value = Vector3(step * (1.55 + .16 * sin(i * 5.1)), (1.0 + .08 * sin(i * 2.3)) if y == 0 else height / .72, 0.9)
+			var scale_value = Vector3(step * (1.65 + .24 * sin(i * 5.1 + row)), (1.7 + .5 * sin(i * 2.3 + row * 1.8)) if y == 0 else height / .72, 1.8)
 			var basis = Basis(Vector3.UP, sin(i * 2.7 + row) * 0.12).scaled(scale_value)
-			var pos = Vector3(x - width / 2 + (i + .5 + sin(i * 4.7 + row) * .12) * step, y - (.34 if y == 0 else height / 2) - row * .43 + sin(i * 3.3) * .015, 1.0)
+			var pos = Vector3(x - width / 2 + (i + .5 + (row % 2) * .25 + sin(i * 4.7 + row) * .12) * step, y - (.58 if y == 0 else height / 2) - row * .8 + sin(i * 3.3 + row * 2.1) * .12, 1.0)
 			rocks.set_instance_transform(row * count + i, Transform3D(basis, pos))
 			var shade = .86 + sin(i * 3.4 + row) * .12
 			rocks.set_instance_color(row * count + i, Color(shade,shade,shade,1))
 	var rock_instances = MultiMeshInstance3D.new()
 	rock_instances.multimesh = rocks
+	rock_instances.material_override = Detail.stone_material()
 	parent.add_child(rock_instances)
 	source.free()
 	var st = SurfaceTool.new()
@@ -149,13 +136,13 @@ static func terrain(parent: Node3D, x: float, y: float, width: float, height: fl
 	for i in count:
 		var left = x - width / 2 + i * step
 		var right = left + step
-		triangle(st, Vector3(left,y,1.5),Vector3(right,y,-1.5),Vector3(left,y,-1.5),Color("72825a"))
-		triangle(st, Vector3(left,y,1.5),Vector3(right,y,1.5),Vector3(right,y,-1.5),Color("72825a"))
+		triangle(st, Vector3(left,y,1.5),Vector3(right,y,-1.5),Vector3(left,y,-1.5),Color("667148"))
+		triangle(st, Vector3(left,y,1.5),Vector3(right,y,1.5),Vector3(right,y,-1.5),Color("667148"))
 		for j in 12:
 			var gx = left + step * (j + 0.5) / 12
 			var h = 0.06 + absf(sin(i * 27.3 + j * 9.2)) * 0.12
 			var z = 1.15 + sin(j * 7.1) * 0.15
-			triangle(st,Vector3(gx-.025,y,z),Vector3(gx+.025,y,z),Vector3(gx-.04,y+h,z),Color("4c722e"))
+			triangle(st,Vector3(gx-.025,y,z),Vector3(gx+.025,y,z),Vector3(gx-.04,y+h,z),Color("638534"))
 		if i % 2 == 0:
 			for leaf in 9:
 				var vx = left + 0.17 + sin(leaf * 1.4) * 0.06

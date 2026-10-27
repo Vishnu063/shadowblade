@@ -49,6 +49,12 @@ Talk to **Lyra** near the spawn to receive the quest. Head east, jump the forest
 
 Progress lives in Godot's `user://journey.json`; the previous valid save is `journey.json.bak`. In this cloud machine these are under `/workspace/.local/share/godot/app_userdata/Shadowblade- The Last Guardian/`. Tests use separate slots and do not touch the player's save. Restarting loads the saved checkpoint, not an unfinished combat state.
 
+## Scenery refinement pass
+
+The current screenshots include a further presentation-only pass: layered mountain and forest silhouettes, batched undergrowth and flowers, deeper irregular terrain faces, a world-space moss/stone shader, and unequal waterfall cliff masses. Collision surfaces, player controls, combat, quests, and saves are unchanged. [Review the changes and limits](docs/scenery-pass.md).
+
+This remains below the approved concept. Kael, legacy NPCs, animation, waterfall shaping, canopy richness, and material painting still need substantial art work. The existing Android APK predates this scenery pass; it has **not** been rebuilt or device-tested in this checkout.
+
 ## Actual gameplay captures
 
 These are engine-rendered screenshots of this prototype using Mesa llvmpipe on Linux. They are **not concept art** or images of the absent reference sample. The capture script stages positions in the real scene.
