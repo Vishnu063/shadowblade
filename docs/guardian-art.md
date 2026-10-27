@@ -37,3 +37,9 @@ Use case: stylized-concept. A premium original fantasy RPG production board for 
 6. Void Herald / Shadow Rift: hovering hooded violet mage, star-filled faceless mask, crescent staff and purple rift; ruined twilight sanctuary. Behind it, a carved final teleport arch with six colored rune sockets and a gold-blue swirling interior.
 
 The hero reference defines swept dark hair, navy split tunic, cream sleeves, silver/brass armor, cobalt scarf, blue chest gem and luminous sword on white. The movement and power sheets preserve that identity in twelve movement/combat poses and six spell poses respectively.
+
+## Six villain power moves in the game
+
+[Watch all six power moves](https://chatgpt.com/library?file_id=libfile_c80d612c68708191af7faa70e88c6f28&account_id=personal). The 18-second video records six staged encounters with the shipped boss AI and power logic. Each chapter shows approach, warning, active power and recovery; Kael is held still to make the effect and damage readable. No attack assets or gameplay behavior were changed for this capture. Current animation and non-forest environments remain basic.
+
+Reproduce with Godot Compatibility at fixed 20 FPS using `tests/villain_preview.tscn`; encode the 360 PNG frames from `build/villain-power-frames` at 20 FPS. [Capture evidence](villain-power-render.txt) verifies warning, active effect and target damage for all six bosses, with zero frame-save errors. This is a renderer demonstration, not a phone performance test or human playthrough.
